@@ -33,3 +33,7 @@ tasks.withType(Checkstyle) {
         html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
     }
 }
+checkstyle {
+    toolVersion = '8.1'
+    checkstyleTest.enabled = false
+}
