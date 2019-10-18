@@ -60,14 +60,12 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.delete(currentUser.get());
         currentUser.get().setName(user.getName());
-        currentUser.get().setAge(user.getAge());
-        currentUser.get().setSalary(user.getSalary());
         userRepository.save(currentUser.get());
         return new ResponseEntity<>(currentUser.get(), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<User> deleteAllUsers() {
+    public ResponseEntity<Void> deleteAllUsers() {
         System.out.println("Deleting All Users");
         userRepository.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
