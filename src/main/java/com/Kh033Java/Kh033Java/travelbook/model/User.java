@@ -1,4 +1,4 @@
-package Kh033Java.travelbook.model;
+package com.Kh033Java.Kh033Java.travelbook.model;
 
 
 public class User {

@@ -1,7 +1,7 @@
-package Kh033Java.travelbook.service;
+package com.Kh033Java.Kh033Java.travelbook.service;
 
-import Kh033Java.travelbook.model.User;
-import Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.Kh033Java.travelbook.model.User;
+import com.Kh033Java.Kh033Java.travelbook.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

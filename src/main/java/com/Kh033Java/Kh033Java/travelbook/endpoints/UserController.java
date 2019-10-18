@@ -1,7 +1,7 @@
-package Kh033Java.travelbook.endpoints;
+package com.Kh033Java.Kh033Java.travelbook.endpoints;
 
-import Kh033Java.travelbook.model.User;
-import Kh033Java.travelbook.service.UserService;
+import com.Kh033Java.Kh033Java.travelbook.model.User;
+import com.Kh033Java.Kh033Java.travelbook.service.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

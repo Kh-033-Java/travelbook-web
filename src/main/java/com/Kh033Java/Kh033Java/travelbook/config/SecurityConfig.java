@@ -1,4 +1,4 @@
-package Kh033Java.travelbook.config;
+package com.Kh033Java.Kh033Java.travelbook.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

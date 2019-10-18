@@ -1,6 +1,6 @@
-package Kh033Java.travelbook.service;
+package com.Kh033Java.Kh033Java.travelbook.service;
 
-import Kh033Java.travelbook.model.User;
+import com.Kh033Java.Kh033Java.travelbook.model.User;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {

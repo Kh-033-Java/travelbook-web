@@ -1,4 +1,4 @@
-package com.Kh033Java.travelbook.config.swagger;
+package com.Kh033Java.Kh033Java.travelbook.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ public class SwaggerConfig {
     public Docket travelBookApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.Kh033Java.travelbook.endpoints"))
+                .apis(RequestHandlerSelectors.basePackage("com.com.Kh033Java.Kh033Java.travelbook.endpoints"))
                 .paths(PathSelectors.ant("/**"))
                 .build()
                 .groupName("travelbook endpoints")

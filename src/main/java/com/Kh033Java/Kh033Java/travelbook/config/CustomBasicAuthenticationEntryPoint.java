@@ -1,9 +1,8 @@
-package Kh033Java.travelbook.config;
+package com.Kh033Java.Kh033Java.travelbook.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
