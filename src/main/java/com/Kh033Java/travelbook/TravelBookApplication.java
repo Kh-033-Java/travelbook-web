@@ -1,4 +1,4 @@
-package com.Kh033Java.Kh033Java.travelbook;
+package com.Kh033Java.travelbook;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
  * Main application.
  */
 @SpringBootApplication
-@ComponentScan({"com.Kh033Java.travelbook.*"})
 public class TravelBookApplication {
     /**
      * Main method.

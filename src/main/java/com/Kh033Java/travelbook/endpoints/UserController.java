@@ -1,7 +1,7 @@
-package com.Kh033Java.Kh033Java.travelbook.endpoints;
+package com.Kh033Java.travelbook.endpoints;
 
-import com.Kh033Java.Kh033Java.travelbook.model.User;
-import com.Kh033Java.Kh033Java.travelbook.service.UserService;
+import com.Kh033Java.travelbook.model.User;
+import com.Kh033Java.travelbook.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -9,11 +9,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-
+/**
+ * Controller that contains user-related endpoints.
+ */
 @RestController
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     /**
@@ -32,7 +42,7 @@ public class UserController {
      *
      * @param userService user service.
      */
-    public UserController(UserService userService) {
+    public UserController(final UserService userService) {
         this.userService = userService;
     }
 
@@ -40,12 +50,12 @@ public class UserController {
     /**
      * Endpoint for getting all users.
      *
-     * @return ResponseEntity Iterator users
+     * @return Iterator users
      */
-    @GetMapping(value = "/user/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "get all users", consumes = "application/json")
-    public ResponseEntity<Iterable<User>> getAllUsers() {
+    public Iterable<User> getAllUsers() {
         LOG.info("get all users");
         return userService.getAllUsers();
     }
@@ -55,17 +65,17 @@ public class UserController {
      * Endpoint for getting user by id.
      *
      * @param id user id
-     * @return ResponseEntity retrieved user
+     * @return retrieved user
      */
-    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "get user by id", consumes = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
     })
-    public ResponseEntity<User> getUser(@PathVariable("id") String id) {
+    public User getUser(@PathVariable("id") final String id) {
         LOG.info("get use by id {}", id);
-        return userService.getUser(id);
+        return userService.getUser(Long.valueOf(id));
     }
 
 
@@ -73,16 +83,18 @@ public class UserController {
      * Endpoint for creation user.
      *
      * @param user user entity
-     * @return ResponseEntity created user
+     * @return created user
      */
-    @PostMapping(value = "/user/", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "create user", consumes = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user", required = true, value = "user entity"),
     })
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        LOG.info("create user {}", user);
+    public User createUser(@RequestBody final User user) {
+        LOG.info("Create user {}", user);
+        System.out.println("create user " + user);
         return userService.saveUser(user);
     }
 
@@ -92,48 +104,33 @@ public class UserController {
      *
      * @param id   user id
      * @param user user entity
-     * @return ResponseEntity updated user
+     * @return updated user
      */
-    @PutMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "update user by id", consumes = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
             @ApiImplicitParam(name = "user", required = true, value = "user entity"),
     })
-    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user) {
+    public User updateUser(@PathVariable("id") final String id, @RequestBody final User user) {
         LOG.info("update user by id {}, with user {} params", id, user);
-        return userService.updateUser(id, user);
+        return userService.updateUser(Long.valueOf(id), user);
     }
 
     /**
      * Endpoint for delete user.
      *
      * @param id user id
-     * @return ResponseEntity deleted user
      */
-    @DeleteMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "remove user", consumes = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
     })
-    public ResponseEntity<User> deleteUser(@PathVariable("id") String id) {
+    public void deleteUser(@PathVariable("id") final String id) {
         LOG.info("Removing user id {}", id);
-        return userService.deleteUser(id);
-    }
-
-
-    /**
-     * Endpoint for delete all users.
-     *
-     * @return void ResponseEntity
-     */
-    @DeleteMapping(value = "/user/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "remove all users", consumes = "application/json")
-    public ResponseEntity<Void> deleteAllUsers() {
-        LOG.info("Removing all users");
-        return userService.deleteAllUsers();
+        userService.deleteUser(Long.valueOf(id));
     }
 }

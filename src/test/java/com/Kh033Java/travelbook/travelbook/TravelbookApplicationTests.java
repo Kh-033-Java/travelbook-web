@@ -1,4 +1,4 @@
-package com.Kh033Java.Kh033Java.travelbook.travelbook;
+package com.Kh033Java.travelbook.travelbook;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

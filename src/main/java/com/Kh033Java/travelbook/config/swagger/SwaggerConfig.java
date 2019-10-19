@@ -1,4 +1,4 @@
-package com.Kh033Java.Kh033Java.travelbook.config.swagger;
+package com.Kh033Java.travelbook.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,13 +23,12 @@ public class SwaggerConfig {
      * @return Docket configured bean.
      */
     @Bean
-    public Docket travelBookApi() {
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.com.Kh033Java.Kh033Java.travelbook.endpoints"))
-                .paths(PathSelectors.ant("/**"))
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
                 .build()
-                .groupName("travelbook endpoints")
                 .apiInfo(apiInfo());
     }
 
@@ -43,7 +42,6 @@ public class SwaggerConfig {
                 .title("TravelBook Service")
                 .description("TravelBook Rest API Documentation")
                 .license("TravelBook Platform License")
-                .version("1.0")
                 .build();
     }
 }
