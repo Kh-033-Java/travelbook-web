@@ -7,7 +7,7 @@ plugins {
 
 group = 'Kh-033-Java'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 configurations {
     developmentOnly
@@ -20,6 +20,9 @@ repositories {
 }
 
 dependencies {
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+    compile group: 'net.sf.jsog', name: 'jsog', version: '0.33'
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -30,13 +33,6 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-tasks.withType(Checkstyle) {
-    reports {
-        xml.enabled false
-        html.enabled true
-        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
-    }
-}
 checkstyle {
     toolVersion = '8.1'
     checkstyleTest.enabled = false
