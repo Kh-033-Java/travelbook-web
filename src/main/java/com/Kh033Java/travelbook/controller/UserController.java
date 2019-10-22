@@ -2,7 +2,10 @@ package com.Kh033Java.travelbook.controller;
 
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.exception.NotFoundException;
+import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.service.UserService;
+import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -20,10 +23,12 @@ public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
+    private final UserRepository userRepository;
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserRepository userRepository, UserService userService) {
+        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -35,15 +40,21 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "get user by id", consumes = "application/json")
+    @ApiOperation(value = "get user by login", consumes = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
+            @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
     })
-    public User getUser(@PathVariable("id") final String id) {
-        LOG.info("get use by id {}", id);
-        return userService.getUser(Long.valueOf(id));
+    public User getUser(@PathVariable("login") final String login) {
+
+        LOG.info("get use by login {}", login);
+
+        User user = userService.getUser(login);
+        if(user==null){
+            throw new NotFoundException("user with this login not found");
+        }
+        return user;
     }
 
 
@@ -61,38 +72,38 @@ public class UserController {
 
 
 
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "update user by id", consumes = "application/json")
+    @ApiOperation(value = "update user by login", consumes = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
+            @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
             @ApiImplicitParam(name = "user", required = true, value = "user entity"),
     })
-    public User updateUser(@PathVariable("id") final String id, @RequestBody final User user) {
-        LOG.info("update user by id {}, with user {} params", id, user);
-        return userService.updateUser(Long.valueOf(id), user);
+    public User updateUser(@PathVariable("login") final String login, @RequestBody final RequestDetail user) {
+        LOG.info("update user by login {}, with user {} params", login, user);
+        return userService.updateUser(login, user);
     }
 
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "remove user", consumes = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
+            @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
     })
-    public void deleteUser(@PathVariable("id") final String id) {
-        LOG.info("Removing user id {}", id);
-        userService.deleteUser(Long.valueOf(id));
+    public void deleteUser(@PathVariable("login") final String login) {
+        LOG.info("Removing user with login {}", login);
+        userService.deleteUser(login);
     }
 
-    @PutMapping(value = "/admin/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/admin/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "update role of user", consumes = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
+            @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
             @ApiImplicitParam(name = "role", required = true, value = "user unique role")
     })
-    public void setRole(@PathVariable final String id,@RequestBody final Role role){
-        userService.setRole(Long.valueOf(id), role);
+    public void setRole(@PathVariable final String login,@RequestBody final Role role){
+        userService.setRole(login, role);
     }
 }

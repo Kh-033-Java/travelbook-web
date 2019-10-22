@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends Neo4jRepository<User, Long> {
 
     User getUserByLogin(@Param("login") String login);
+
+    Long deleteUserByLogin(@Param("login") String login);
 }

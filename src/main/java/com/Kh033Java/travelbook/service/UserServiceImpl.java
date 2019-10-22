@@ -2,8 +2,11 @@ package com.Kh033Java.travelbook.service;
 
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.exception.NotFoundException;
 import com.Kh033Java.travelbook.repository.RoleRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;
+import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.Kh033Java.travelbook.validation.ValidationUtil.checkBeforeGet;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -46,21 +47,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User setRole(Long id, Role role) {
+    public User setRole(String login, Role role) {
         List<Role> roleList = new ArrayList<>();
         Role roleResult = roleRepository.findByType(role.getType());
         roleList.add(roleResult);
-        User user = checkBeforeGet(userRepository.findById(id),id, User.class);
+        User user = userRepository.getUserByLogin(login);
         user.setRoles(roleList);
         return userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public User getUser(final Long id) {
-        List<Role> userRoleNames = roleRepository.findRolesByUsersId(id);
-        User result = checkBeforeGet(userRepository.findById(id), id, User.class);
-        result.setRoles(userRoleNames);
+    public User getUser(final String login) {
+        User result = userRepository.getUserByLogin(login);
         return result;
     }
 
@@ -78,17 +77,44 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public User updateUser(final Long id, final User user) {
-        User currentUser = checkBeforeGet(userRepository.findById(id), id, User.class);
+    public User updateUser(final String login, final RequestDetail user) {
+        User currentUser = userRepository.getUserByLogin(login);
+        User result = new User();
+
+        if(!user.getPassword().equals("null")){
+            result.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
+        if(user.getLastName() != null){
+            result.setLastName(user.getLastName());
+        }
+
+        if(user.getFirstName() != null){
+            result.setFirstName(user.getFirstName());
+        }
+
+        if(user.getEmail() != null){
+            result.setEmail(user.getEmail());
+        }
+
+        if(user.getDescription() != null){
+            result.setDescription(user.getDescription());
+        }
+
+        if(user.getLogin() != null){
+            result.setLogin(user.getLogin());
+        }
+
+        result.setRoles(currentUser.getRoles());
+        result.setLogin(login);
         userRepository.delete(currentUser);
-        currentUser.setLogin(user.getLogin());
-        return userRepository.save(currentUser);
+
+        return userRepository.save(result);
     }
 
     @Override
     @Transactional
-    public void deleteUser(final Long id) {
-        checkBeforeGet(userRepository.findById(id), id, User.class);
-        userRepository.deleteById(id);
+    public void deleteUser(final String login) {
+        userRepository.deleteUserByLogin(login);
     }
 }

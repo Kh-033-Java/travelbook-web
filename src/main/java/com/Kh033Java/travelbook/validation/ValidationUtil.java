@@ -8,9 +8,9 @@ public class ValidationUtil {
 
     private static String template = "%s with such id [%s] not found";
 
-    public static <T> T checkBeforeGet(final Optional<T> obj, final Long id, final Class clazz) {
-        if (obj.isEmpty()) {
-            throw new NotFoundException(String.format(template, clazz.getSimpleName(), id));
+    public static <T> T checkBeforeGet(final Optional<T> obj, final String login, final Class clazz) {
+        if (obj.isPresent()) {
+            throw new NotFoundException(String.format(template, clazz.getSimpleName(), login));
         }
         return obj.get();
     }

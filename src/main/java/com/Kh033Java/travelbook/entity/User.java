@@ -15,6 +15,7 @@ public class User  {
     @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("login")
     @Index(unique = true)
     private String login;
 
