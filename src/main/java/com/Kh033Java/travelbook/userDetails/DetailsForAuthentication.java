@@ -1,6 +1,6 @@
 package com.Kh033Java.travelbook.userDetails;
 
-import com.Kh033Java.travelbook.model.User;
+import com.Kh033Java.travelbook.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

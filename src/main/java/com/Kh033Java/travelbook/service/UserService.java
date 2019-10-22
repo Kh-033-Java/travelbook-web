@@ -1,8 +1,8 @@
 package com.Kh033Java.travelbook.service;
 
 import com.Kh033Java.travelbook.exception.NotFoundException;
-import com.Kh033Java.travelbook.model.Role;
-import com.Kh033Java.travelbook.model.User;
+import com.Kh033Java.travelbook.entity.Role;
+import com.Kh033Java.travelbook.entity.User;
 
 import java.util.List;
 

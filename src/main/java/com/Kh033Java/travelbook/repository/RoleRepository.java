@@ -1,6 +1,6 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.model.Role;
+import com.Kh033Java.travelbook.entity.Role;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;

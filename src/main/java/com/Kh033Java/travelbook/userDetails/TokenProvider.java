@@ -1,7 +1,7 @@
 package com.Kh033Java.travelbook.userDetails;
 
 import com.Kh033Java.travelbook.exception.AuthenticationException;
-import com.Kh033Java.travelbook.model.Role;
+import com.Kh033Java.travelbook.entity.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;

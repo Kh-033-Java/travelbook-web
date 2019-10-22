@@ -1,7 +1,7 @@
 package com.Kh033Java.travelbook.controller;
 
-import com.Kh033Java.travelbook.model.Role;
-import com.Kh033Java.travelbook.model.User;
+import com.Kh033Java.travelbook.entity.Role;
+import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

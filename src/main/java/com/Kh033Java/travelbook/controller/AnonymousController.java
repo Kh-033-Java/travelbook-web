@@ -1,7 +1,7 @@
 package com.Kh033Java.travelbook.controller;
 
 import com.Kh033Java.travelbook.exception.NotFoundException;
-import com.Kh033Java.travelbook.model.User;
+import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.userDetails.TokenProvider;
 import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;

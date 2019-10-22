@@ -1,6 +1,6 @@
 package com.Kh033Java.travelbook.userDetails;
 
-import com.Kh033Java.travelbook.model.User;
+import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

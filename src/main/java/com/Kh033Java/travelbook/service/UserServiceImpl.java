@@ -1,14 +1,10 @@
 package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.model.Role;
-import com.Kh033Java.travelbook.model.User;
+import com.Kh033Java.travelbook.entity.Role;
+import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.RoleRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
-import com.Kh033Java.travelbook.userDetails.DetailsForAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
