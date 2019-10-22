@@ -2,11 +2,14 @@ package com.Kh033Java.travelbook.service;
 
 import com.Kh033Java.travelbook.model.User;
 import com.Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.travelbook.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static com.Kh033Java.travelbook.util.ValidationUtil.checkBeforeGet;
 
@@ -69,7 +72,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public AuthorizedUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByName(username);
-        return new AuthorizedUser(user);
+        Optional<User> user = userRepository.findUserByName(username);
+        if (user.isEmpty()) {
+            throw new NotFoundException(String.format("user by name [%s] not found", username));
+        }
+        return new AuthorizedUser(user.get());
     }
 }
