@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final String ADMIN = "ADMIN_ROLE";
-    private final String USER = "USER_ROLE";
+    private final String ADMIN = "Admin";
+    private final String USER = "User";
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User saveUser(final User user) {
-        Role roleUser = roleRepository.findByType("User");
+        Role roleUser = roleRepository.findByType(USER);
         List<Role> userRoles = new ArrayList<>();
         userRoles.add(roleUser);
 

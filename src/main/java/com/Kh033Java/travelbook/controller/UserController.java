@@ -2,7 +2,6 @@ package com.Kh033Java.travelbook.controller;
 
 import com.Kh033Java.travelbook.model.Role;
 import com.Kh033Java.travelbook.model.User;
-import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,11 +21,9 @@ public class UserController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
