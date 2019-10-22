@@ -3,6 +3,8 @@ package com.Kh033Java.travelbook.service;
 import com.Kh033Java.travelbook.model.User;
 import com.Kh033Java.travelbook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +14,7 @@ import static com.Kh033Java.travelbook.util.ValidationUtil.checkBeforeGet;
  * Default implementation of UserService interface.
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     /**
      * User repository.
@@ -64,4 +66,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    @Transactional
+    public AuthorizedUser loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByName(username);
+        return new AuthorizedUser(user);
+    }
 }

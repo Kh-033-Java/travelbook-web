@@ -1,6 +1,7 @@
 package com.Kh033Java.travelbook.endpoints;
 
 import com.Kh033Java.travelbook.model.User;
+import com.Kh033Java.travelbook.service.AuthorizedUser;
 import com.Kh033Java.travelbook.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -73,9 +75,9 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
     })
-    public User getUser(@PathVariable("id") final String id) {
+    public User getUser(@PathVariable("id") final Long id) {
         LOG.info("get use by id {}", id);
-        return userService.getUser(Long.valueOf(id));
+        return userService.getUser(id);
     }
 
 
@@ -94,7 +96,6 @@ public class UserController {
     })
     public User createUser(@RequestBody final User user) {
         LOG.info("Create user {}", user);
-        System.out.println("create user " + user);
         return userService.saveUser(user);
     }
 
@@ -113,9 +114,9 @@ public class UserController {
             @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
             @ApiImplicitParam(name = "user", required = true, value = "user entity"),
     })
-    public User updateUser(@PathVariable("id") final String id, @RequestBody final User user) {
+    public User updateUser(@PathVariable("id") final Long id, @RequestBody final User user) {
         LOG.info("update user by id {}, with user {} params", id, user);
-        return userService.updateUser(Long.valueOf(id), user);
+        return userService.updateUser(id, user);
     }
 
     /**
@@ -129,8 +130,25 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", required = true, value = "user unique identifier"),
     })
-    public void deleteUser(@PathVariable("id") final String id) {
+    public void deleteUser(@PathVariable("id") final Long id) {
         LOG.info("Removing user id {}", id);
-        userService.deleteUser(Long.valueOf(id));
+        userService.deleteUser(id);
+    }
+
+    /**
+     * Endpoint for login user.
+     *
+     * @param name user name
+     * @return auth user
+     */
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "login user", consumes = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", required = true, value = "user name"),
+    })
+    public AuthorizedUser login(@RequestParam final String name) {
+        LOG.info("login user name {}", name);
+        return userService.loadUserByUsername(name);
     }
 }

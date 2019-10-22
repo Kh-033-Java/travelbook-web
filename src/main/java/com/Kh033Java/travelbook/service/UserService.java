@@ -2,6 +2,7 @@ package com.Kh033Java.travelbook.service;
 
 import com.Kh033Java.travelbook.model.User;
 import com.Kh033Java.travelbook.util.exception.NotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * User service.
@@ -49,4 +50,12 @@ public interface UserService {
      * @throws NotFoundException if user not found in db
      */
     void deleteUser(Long id) throws NotFoundException;
+
+    /**
+     * Auth user by user name.
+     *
+     * @param username user name
+     * @throws UsernameNotFoundException if user not found in db
+     */
+    AuthorizedUser loadUserByUsername(String username) throws UsernameNotFoundException;
 }
