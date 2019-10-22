@@ -1,6 +1,6 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.DateOfCreationNote;
+import com.Kh033Java.travelbook.model.DateOfCreationNote;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 
 import java.util.List;

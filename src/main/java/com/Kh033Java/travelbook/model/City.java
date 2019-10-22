@@ -1,4 +1,4 @@
-package com.Kh033Java.travelbook.entity;
+package com.Kh033Java.travelbook.model;
 
 import org.neo4j.ogm.annotation.*;
 
