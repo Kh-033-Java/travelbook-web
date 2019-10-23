@@ -1,32 +1,35 @@
 package com.Kh033Java.travelbook.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.neo4j.ogm.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @NodeEntity
-public class User {
+public class User  {
+
     @Id
     @GeneratedValue
+    @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("login")
     @Index(unique = true)
     private String login;
 
     @Index(unique = true)
-    private String email;
-
-    @Index(unique = true)
     private String password;
-
-    private String firstName;
 
     private String lastName;
 
-    private String description;
+    private String firstName;
 
-    private String role;
+    @Index(unique = true)
+    private String email;
+
+    private String description;
 
     @Relationship(type = "VISITED")
     private Set<Country> visitedCountries;
@@ -43,34 +46,41 @@ public class User {
     @Relationship(type = "CREATED_PLAN")
     private Set<Plan> createdPlans;
 
+    @Relationship(type = "HAS_ROLE", direction = Relationship.OUTGOING)
+    private List<Role> roles;
+
     public User() {
     }
 
-    public User(String login, String email, String password, String firstName, String lastName, String description, String role, Photo avatar) {
+    public User(final String login, final String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(String login, String password, String lastName, String firstName, String email, String description, Photo avatar) {
         this.login = login;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
-        this.role = role;
         this.avatar = avatar;
     }
 
     public User(String login, String email, String password, String firstName, String lastName, String description, String role, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans) {
-        this(login, email, password, firstName, lastName, description, role, avatar);
+        this(login, password, lastName, firstName, email, description, avatar);
         this.visitedCountries = visitedCountries;
         this.likedNotes = likedNotes;
         this.createdNotes = createdNotes;
         this.createdPlans = createdPlans;
     }
 
-    public String getLogin() {
-        return login;
+    public Long getId() {
+        return id;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -81,20 +91,28 @@ public class User {
         this.email = email;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -105,20 +123,20 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public Set<Country> getVisitedCountries() {
