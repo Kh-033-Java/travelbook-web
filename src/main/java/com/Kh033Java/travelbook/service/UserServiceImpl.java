@@ -1,5 +1,6 @@
 package com.Kh033Java.travelbook.service;
 
+import com.Kh033Java.travelbook.entity.Map;
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.RoleRepository;
@@ -110,5 +111,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(final String login) {
         userRepository.deleteUserByLogin(login);
+    }
+
+    @Override
+    public Map getMapByUser(String login) {
+        return userRepository.getUserByLogin(login).getMap();
+    }
+
+    @Override
+    public User getUserProfile(String login) {
+        return userRepository.getUserByLogin(login);
     }
 }

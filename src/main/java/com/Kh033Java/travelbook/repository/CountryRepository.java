@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CountryRepository extends Neo4jRepository<Country, Long> {
     List<Country> findAll();
+    Country findByName(String name);
 }

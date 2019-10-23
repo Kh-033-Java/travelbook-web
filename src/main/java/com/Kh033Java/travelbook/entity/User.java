@@ -1,14 +1,18 @@
 package com.Kh033Java.travelbook.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.neo4j.ogm.annotation.*;
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.Index;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @NodeEntity
-public class User  {
+public class User {
 
     @Id
     @GeneratedValue
@@ -49,6 +53,8 @@ public class User  {
     @Relationship(type = "HAS_ROLE", direction = Relationship.OUTGOING)
     private List<Role> roles;
 
+    private Map map;
+
     public User() {
     }
 
@@ -67,12 +73,13 @@ public class User  {
         this.avatar = avatar;
     }
 
-    public User(String login, String email, String password, String firstName, String lastName, String description, String role, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans) {
+    public User(String login, String email, String password, String firstName, String lastName, String description, String role, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans, Map map) {
         this(login, password, lastName, firstName, email, description, avatar);
         this.visitedCountries = visitedCountries;
         this.likedNotes = likedNotes;
         this.createdNotes = createdNotes;
         this.createdPlans = createdPlans;
+        this.map = map;
     }
 
     public Long getId() {
@@ -175,6 +182,14 @@ public class User  {
         return createdPlans;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
     public void setCreatedPlans(Set<Plan> createdPlans) {
         this.createdPlans = createdPlans;
     }
@@ -213,4 +228,6 @@ public class User  {
         }
         createdPlans.add(plan);
     }
+
+
 }

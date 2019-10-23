@@ -1,5 +1,6 @@
 package com.Kh033Java.travelbook.service;
 
+import com.Kh033Java.travelbook.entity.Map;
 import com.Kh033Java.travelbook.exception.NotFoundException;
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
@@ -20,4 +21,8 @@ public interface UserService {
     User updateUser(String login, RequestDetail user) throws NotFoundException;
 
     void deleteUser(String login) throws NotFoundException;
+
+    Map getMapByUser(String login);
+
+    User getUserProfile(String login);
 }
