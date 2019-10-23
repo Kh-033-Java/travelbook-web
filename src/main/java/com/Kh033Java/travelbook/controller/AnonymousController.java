@@ -32,7 +32,7 @@ public class AnonymousController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/authentication")
     public ResponseEntity login(@RequestBody final RequestDetail requestDetail) {
         String username = requestDetail.getLogin();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDetail.getLogin(), requestDetail.getPassword()));

@@ -10,5 +10,5 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     User getUserByLogin(@Param("login") String login);
 
-    void deleteUserByLogin(@Param("login") String login);
+    Long deleteUserByLogin(@Param("login") String login);
 }

@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.tokenProvider = tokenProvider;
     }
 
-    private final String LOGIN_END_POINT = "/anonymous/login";
+    private final String LOGIN_END_POINT = "/anonymous/authentication";
     private final String SIMPLE_USER_END_POINT = "/api/v1/users";
     private final String ADMIN_END_POINT = "/api/v1/users/admin/**";
     private final String ANONYMOUS_END_POINT = "/anonymous";
