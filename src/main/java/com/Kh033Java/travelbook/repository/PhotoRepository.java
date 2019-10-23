@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface PhotoRepository extends Neo4jRepository<Photo, Long> {
     @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where n.isPublic=true  and c.name={countryName} return ph")
-    List<Photo> findAllPublicPhotosForUnauthorized(@Param("countryName")String countryName);
+    List<Photo> findAllPublicPhotosForUnauthorized(@Param("countryName") String countryName);
+
     @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where n.isPublic=true or (p.login ={userLogin} and c.name={countryName} and n.isPublic=false ) return ph")
-    List<Photo> findAllPublicPhotosForAuthorized(@Param("countryName")String countryName,@Param("userLogin")String userLogin);
+    List<Photo> findAllPublicPhotosForAuthorized(@Param("countryName") String countryName, @Param("userLogin") String userLogin);
+
     @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where p.login ={userLogin}  and c.name={countryName} return ph")
-    List<Photo> findAllUsersPhotosInCountry(@Param("countryName")String countryName,@Param("userLogin")String userLogin);
+    List<Photo> findAllUsersPhotosInCountry(@Param("countryName") String countryName, @Param("userLogin") String userLogin);
 }
