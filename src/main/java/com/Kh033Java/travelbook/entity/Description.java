@@ -29,6 +29,7 @@ public class Description {
     private Set<Photo> descriptionPhotos;
 
     public Description() {
+    	
     }
 
     public Description(String commonInformation, String capital, String cuisine, String climate) {
