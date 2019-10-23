@@ -33,12 +33,12 @@ public class AnonymousController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody final RequestDetail requestDetail){
+    public ResponseEntity login(@RequestBody final RequestDetail requestDetail) {
         String username = requestDetail.getLogin();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDetail.getLogin(), requestDetail.getPassword()));
         User user = userRepository.getUserByLogin(requestDetail.getLogin());
 
-        if(user ==null){
+        if (user == null) {
             throw new NotFoundException("User not found");
         }
 

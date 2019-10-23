@@ -2,11 +2,9 @@ package com.Kh033Java.travelbook.service;
 
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
-import com.Kh033Java.travelbook.exception.NotFoundException;
 import com.Kh033Java.travelbook.repository.RoleRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;
-import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
-
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -26,14 +23,12 @@ public class UserServiceImpl implements UserService{
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository
-                           , BCryptPasswordEncoder passwordEncoder
-    ) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+                           BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
 
     @Override
     @Transactional
@@ -59,8 +54,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User getUser(final String login) {
-        User result = userRepository.getUserByLogin(login);
-        return result;
+        return userRepository.getUserByLogin(login);
     }
 
     @Override
@@ -81,27 +75,27 @@ public class UserServiceImpl implements UserService{
         User currentUser = userRepository.getUserByLogin(login);
         User result = new User();
 
-        if(!user.getPassword().equals("null")){
+        if (!user.getPassword().equals("null")) {
             result.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        if(user.getLastName() != null){
+        if (user.getLastName() != null) {
             result.setLastName(user.getLastName());
         }
 
-        if(user.getFirstName() != null){
+        if (user.getFirstName() != null) {
             result.setFirstName(user.getFirstName());
         }
 
-        if(user.getEmail() != null){
+        if (user.getEmail() != null) {
             result.setEmail(user.getEmail());
         }
 
-        if(user.getDescription() != null){
+        if (user.getDescription() != null) {
             result.setDescription(user.getDescription());
         }
 
-        if(user.getLogin() != null){
+        if (user.getLogin() != null) {
             result.setLogin(user.getLogin());
         }
 

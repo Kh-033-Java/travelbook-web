@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
-    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     compile group: 'net.sf.jsog', name: 'jsog', version: '0.33'
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
@@ -30,7 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation group: 'org.neo4j', name: 'neo4j-ogm-test', version: '3.1.3'
 

@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -51,7 +50,7 @@ public class UserController {
         LOG.info("get use by login {}", login);
 
         User user = userService.getUser(login);
-        if(user==null){
+        if (user == null) {
             throw new NotFoundException("user with this login not found");
         }
         return user;
@@ -69,7 +68,6 @@ public class UserController {
         System.out.println("create user " + user);
         return userService.saveUser(user);
     }
-
 
 
     @PutMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,7 +101,7 @@ public class UserController {
             @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
             @ApiImplicitParam(name = "role", required = true, value = "user unique role")
     })
-    public void setRole(@PathVariable final String login,@RequestBody final Role role){
+    public void setRole(@PathVariable final String login, @RequestBody final Role role) {
         userService.setRole(login, role);
     }
 }

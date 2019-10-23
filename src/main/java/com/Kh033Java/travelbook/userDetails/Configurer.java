@@ -13,7 +13,7 @@ public class Configurer extends SecurityConfigurerAdapter<DefaultSecurityFilterC
         this.tokenProvider = tokenProvider;
     }
 
-    public void  configurer(HttpSecurity httpSecurity) throws Exception{
+    public void  configurer(HttpSecurity httpSecurity) {
         TokenFilter tokenFilter = new TokenFilter(tokenProvider);
         httpSecurity.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

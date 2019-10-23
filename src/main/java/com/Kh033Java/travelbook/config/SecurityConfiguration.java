@@ -2,6 +2,7 @@ package com.Kh033Java.travelbook.config;
 
 import com.Kh033Java.travelbook.userDetails.Configurer;
 import com.Kh033Java.travelbook.userDetails.TokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     private final TokenProvider tokenProvider;
 
+    @Autowired
     public SecurityConfiguration(UserDetailsService userDetailsService, TokenProvider tokenProvider) {
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
@@ -36,21 +38,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .authorizeRequests()
-                    .antMatchers(ANONYMOUS_END_POINT , LOGIN_END_POINT).permitAll()
-                    .antMatchers(SIMPLE_USER_END_POINT).hasAnyRole("Admin", "User")
-                    .antMatchers(ADMIN_END_POINT).hasRole("Admin")
+                .authorizeRequests()
+                .antMatchers(ANONYMOUS_END_POINT, LOGIN_END_POINT).permitAll()
+                .antMatchers(SIMPLE_USER_END_POINT).hasAnyRole("Admin", "User")
+                .antMatchers(ADMIN_END_POINT).hasRole("Admin")
                 .and()
                 .apply(new Configurer(tokenProvider))
                 .and()
-                    .logout()
-                    .logoutSuccessUrl(ANONYMOUS_END_POINT)
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID");
+                .logout()
+                .logoutSuccessUrl(ANONYMOUS_END_POINT)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
     }
 
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception{
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 

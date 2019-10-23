@@ -1,8 +1,8 @@
 package com.Kh033Java.travelbook.dbtest;
 
-import com.Kh033Java.travelbook.model.City;
-import com.Kh033Java.travelbook.model.Country;
-import com.Kh033Java.travelbook.model.Description;
+import com.Kh033Java.travelbook.entity.City;
+import com.Kh033Java.travelbook.entity.Country;
+import com.Kh033Java.travelbook.entity.Description;
 import com.Kh033Java.travelbook.repository.CityRepository;
 import com.Kh033Java.travelbook.repository.CountryRepository;
 import org.junit.After;
