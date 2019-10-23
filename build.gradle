@@ -17,7 +17,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    // implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
