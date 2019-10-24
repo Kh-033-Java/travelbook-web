@@ -59,9 +59,4 @@ public class GeneralInfoController {
 		
 	}
 
-	@RequestMapping(value = "/greeting")
-	public String getGreeting() {
-		return "Hello Traveller!";
-	}
-
 }
