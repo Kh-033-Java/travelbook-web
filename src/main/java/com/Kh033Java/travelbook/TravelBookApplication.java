@@ -2,19 +2,11 @@ package com.Kh033Java.travelbook;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-/**
- * Main application.
- */
-@SpringBootApplication
-@ComponentScan({"com.Kh033Java.travelbook.*"})
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class TravelBookApplication {
-    /**
-     * Main method.
-     *
-     * @param args - some args
-     */
+
     public static void main(final String[] args) {
         SpringApplication.run(TravelBookApplication.class, args);
     }

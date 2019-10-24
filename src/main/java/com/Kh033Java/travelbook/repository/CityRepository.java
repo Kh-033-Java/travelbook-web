@@ -17,3 +17,4 @@ public interface CityRepository extends Neo4jRepository<City, Long> {
     List<City> findAllByCountryName(@Param("countryName") String countryName); 
     
 }
+
