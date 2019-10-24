@@ -8,6 +8,6 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 public class TravelBookApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(TravelBookApplication.class, args);
+        SpringApplication.run(TravelBookApplication.class, args); 
     }
 }
