@@ -15,6 +15,13 @@ public class ValidationUtil {
         return obj.get();
     }
 
+    public static <T> T checkBeforeGet(final Optional<T> obj, final Long id, final Class clazz) {
+        if (obj.isEmpty()) {
+            throw new NotFoundException(String.format(template, clazz.getSimpleName(), id));
+        }
+        return obj.get();
+    }
+
 
     public static void checkIfValid(final boolean isValid, final Long id, final Class clazz) {
         if (!isValid) {

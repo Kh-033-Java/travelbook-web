@@ -17,11 +17,11 @@ public class City {
     @Relationship(type = "DESCRIBES", direction = Relationship.INCOMING)
     private Note note;
 
-    @Relationship(type = "GO_TO", direction = Relationship.INCOMING)
-    private Plan planTo;
+//    @Relationship(type = "GO_TO", direction = Relationship.INCOMING)
+//    private Plan planTo;
 
-    @Relationship(type = "GO_FROM", direction = Relationship.INCOMING)
-    private Plan planFrom;
+//    @Relationship(type = "GO_FROM", direction = Relationship.INCOMING)
+//    private Plan planFrom;
 
     public City() {
     }
@@ -62,19 +62,19 @@ public class City {
         this.note = note;
     }
 
-    public Plan getPlanTo() {
-        return planTo;
-    }
+//    public Plan getPlanTo() {
+//        return planTo;
+//    }
+//
+//    public void setPlanTo(Plan planTo) {
+//        this.planTo = planTo;
+//    }
 
-    public void setPlanTo(Plan planTo) {
-        this.planTo = planTo;
-    }
-
-    public Plan getPlanFrom() {
-        return planFrom;
-    }
-
-    public void setPlanFrom(Plan planFrom) {
-        this.planFrom = planFrom;
-    }
+//    public Plan getPlanFrom() {
+//        return planFrom;
+//    }
+//
+//    public void setPlanFrom(Plan planFrom) {
+//        this.planFrom = planFrom;
+//    }
 }

@@ -3,6 +3,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.typeconversion.DateString;
 
 import java.util.Date;
 
@@ -11,21 +12,14 @@ public class Plan {
     @Id
     @GeneratedValue
     private Long id;
-
     private String title;
-
     private String description;
-
+    private boolean isPublic;
+    @DateString("yy-MM-dd")
     private Date date;
-
     private int budgetMin;
-
     private int budgetMax;
-
     private int amountOfPeople;
-
-    @Relationship(type = "CREATED_PLAN", direction = Relationship.INCOMING)
-    private User creatorUser;
 
     @Relationship(type = "GO_TO")
     private City cityToGo;
@@ -39,9 +33,20 @@ public class Plan {
     public Plan() {
     }
 
-    public Plan(String title, String description, Date date, int budgetMin, int budgetMax, int amountOfPeople, City cityToGo, City cityFrom, Transport transport) {
+    public Plan(String title, String description, boolean isPublic, Date date, int budgetMin, int budgetMax, int amountOfPeople) {
         this.title = title;
         this.description = description;
+        this.isPublic = isPublic;
+        this.date = date;
+        this.budgetMin = budgetMin;
+        this.budgetMax = budgetMax;
+        this.amountOfPeople = amountOfPeople;
+    }
+
+    public Plan(String title, String description, boolean isPublic, Date date, int budgetMin, int budgetMax, int amountOfPeople, City cityToGo, City cityFrom, Transport transport) {
+        this.title = title;
+        this.description = description;
+        this.isPublic = isPublic;
         this.date = date;
         this.budgetMin = budgetMin;
         this.budgetMax = budgetMax;
@@ -121,6 +126,22 @@ public class Plan {
 
     public void setTransport(Transport transport) {
         this.transport = transport;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 
     public void goToCity(City city) {
