@@ -6,21 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Kh033Java.travelbook.entity.Country;
+import com.Kh033Java.travelbook.entity.Transport;
 import com.Kh033Java.travelbook.repository.CountryRepository;
+import com.Kh033Java.travelbook.repository.TransportRepository;
 
 @Service
-public class CountryService {
+public class TransportService {
 	
     @Autowired
-    CountryRepository countryRepository;
+    TransportRepository transportRepository;
 
-    public Country getByName(String name) {
-        return countryRepository.getCountryByName(name);
-    }
-    
-    public List<Country> getVisitedCountries(String userLogin) {
-		return countryRepository.getCountriesWhereNotesPublic(userLogin);
-    	
+    public List<Transport> getAllTransport() {
+        return transportRepository.findAll();
     }
 
 }

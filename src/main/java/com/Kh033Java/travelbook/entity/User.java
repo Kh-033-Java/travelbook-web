@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 @NodeEntity
-public class User  {
+public class User {
 
     @Id
     @GeneratedValue
@@ -50,6 +50,7 @@ public class User  {
     private List<Role> roles;
 
     public User() {
+    	
     }
 
     public User(final String login, final String password) {
