@@ -32,4 +32,5 @@ out/
 .vscode/
 
 ### Eclipse ###
+*.class
 bin/
