@@ -1,6 +1,6 @@
 package com.Kh033Java.travelbook.controller;
 
-import com.Kh033Java.travelbook.entity.Map;
+import com.Kh033Java.travelbook.dto.Map;
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.exception.NotFoundException;

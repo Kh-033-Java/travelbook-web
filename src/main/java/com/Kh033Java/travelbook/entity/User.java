@@ -1,5 +1,6 @@
 package com.Kh033Java.travelbook.entity;
 
+import com.Kh033Java.travelbook.dto.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
@@ -53,7 +54,6 @@ public class User {
     @Relationship(type = "HAS_ROLE", direction = Relationship.OUTGOING)
     private List<Role> roles;
 
-    private Map map;
 
     public User() {
     }
@@ -73,13 +73,12 @@ public class User {
         this.avatar = avatar;
     }
 
-    public User(String login, String email, String password, String firstName, String lastName, String description, String role, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans, Map map) {
+    public User(String login, String email, String password, String firstName, String lastName, String description, String role, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans) {
         this(login, password, lastName, firstName, email, description, avatar);
         this.visitedCountries = visitedCountries;
         this.likedNotes = likedNotes;
         this.createdNotes = createdNotes;
         this.createdPlans = createdPlans;
-        this.map = map;
     }
 
     public Long getId() {
@@ -180,14 +179,6 @@ public class User {
 
     public Set<Plan> getCreatedPlans() {
         return createdPlans;
-    }
-
-    public Map getMap() {
-        return map;
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
     }
 
     public void setCreatedPlans(Set<Plan> createdPlans) {
