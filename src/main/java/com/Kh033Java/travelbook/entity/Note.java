@@ -4,6 +4,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.typeconversion.DateString;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class Note {
     private String title;
     private boolean isPublic;
     private String description;
+    @DateString("yyyy-MM-dd")
     private Date dateOfVisiting;
     private Integer peopleEstimate;
     private Integer pricesEstimate;
@@ -34,6 +36,7 @@ public class Note {
     private Set<Photo> photos;
 
     public Note() {
+    	
     }
 
     public Note(String title, boolean isPublic, String description, Date dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, City describedCity, Set<Photo> photos) {

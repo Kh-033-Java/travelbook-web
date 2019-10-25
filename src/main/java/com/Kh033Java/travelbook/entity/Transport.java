@@ -15,6 +15,7 @@ public class Transport {
     private Plan chooser;
 
     public Transport() {
+    	
     }
 
     public Transport(String type) {

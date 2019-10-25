@@ -15,7 +15,7 @@ public interface CountryRepository extends Neo4jRepository<Country, Long> {
     @Query("MATCH (n) WHERE n.name={countryName} RETURN n")
     Country getCountryByName(@Param("countryName") String countryName);
 
-    @Query("match (c:Country)<-[v:VISITED]-(u:User)-[cr:CREATED]->(n:Note) where u.login={userLogin} and n.isPublic=true return c")
-	List<Country> getCountriesWhereNotesPublic(@Param(value = "userLogin") String userLogin);
+    @Query("match (c:Country)<-[v:VISITED]-(u:User)-[cr:CREATED_NOTE]->(n:Note) where u.login={userLogin} return c")
+	List<Country> getCountriesVisitedByUser(@Param(value = "userLogin") String userLogin);
     
 }

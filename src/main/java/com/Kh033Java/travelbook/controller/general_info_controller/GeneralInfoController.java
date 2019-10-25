@@ -33,7 +33,7 @@ public class GeneralInfoController {
 	@Autowired
 	DescriptionService descriptioService;
 
-	@RequestMapping(value = "/country/{location}/weather", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/country/{location}/description/weather", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Weather getWeather(@PathVariable String location) {
 		final WeatherProvider weatherProvider = new WeatherProvider(location);
 		return new Weather(weatherProvider.getTemperature(), weatherProvider.getWeatherDescription());

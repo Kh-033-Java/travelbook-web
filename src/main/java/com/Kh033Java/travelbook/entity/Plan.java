@@ -3,6 +3,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.typeconversion.DateString;
 
 import java.util.Date;
 
@@ -16,6 +17,7 @@ public class Plan {
 
     private String description;
 
+    @DateString("yyyy-MM-dd")
     private Date date;
 
     private int budgetMin;
@@ -37,6 +39,7 @@ public class Plan {
     private Transport transport;
 
     public Plan() {
+    	
     }
 
     public Plan(String title, String description, Date date, int budgetMin, int budgetMax, int amountOfPeople, City cityToGo, City cityFrom, Transport transport) {
