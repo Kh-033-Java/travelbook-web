@@ -1,4 +1,5 @@
 package com.Kh033Java.travelbook.entity;
+
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -12,13 +13,20 @@ public class Plan {
     @Id
     @GeneratedValue
     private Long id;
+
     private String title;
+
     private String description;
+
     private boolean isPublic;
+
     @DateString("yy-MM-dd")
     private Date date;
+
     private int budgetMin;
+
     private int budgetMax;
+
     private int amountOfPeople;
 
     @Relationship(type = "GO_TO")

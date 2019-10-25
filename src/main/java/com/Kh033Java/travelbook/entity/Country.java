@@ -4,7 +4,6 @@ import org.neo4j.ogm.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @NodeEntity
 public class Country {
@@ -17,9 +16,6 @@ public class Country {
 
     @Relationship(type = "CONTAINS")
     private List<City> cities;
-
-    @Relationship(type = "VISITED", direction = Relationship.INCOMING)
-    private Set<User> usersVisited;
 
     @Relationship(type = "HAS_DESCRIPTION")
     private Description description;
@@ -51,14 +47,6 @@ public class Country {
 
     public void setCities(List<City> cities) {
         this.cities = cities;
-    }
-
-    public Set<User> getUsersVisited() {
-        return usersVisited;
-    }
-
-    public void setUsersVisited(Set<User> usersVisited) {
-        this.usersVisited = usersVisited;
     }
 
     public Description getDescription() {

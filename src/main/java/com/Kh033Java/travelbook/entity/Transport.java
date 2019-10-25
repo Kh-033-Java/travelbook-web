@@ -11,9 +11,6 @@ public class Transport {
     @Index(unique = true)
     private String type;
 
-//    @Relationship(type = "CHOSEN", direction = Relationship.INCOMING)
-//    private Plan chooser;
-
     public Transport() {
     }
 
