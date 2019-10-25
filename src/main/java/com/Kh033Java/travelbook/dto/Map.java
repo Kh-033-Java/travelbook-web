@@ -12,11 +12,12 @@ public class Map {
 
     private Set<Country> visitedCountry;
 
-    private Set<Plan> createdPlans;
+    private Set<Country> plannedCountry;
 
-    public Map(Set<Country> visitedCountry, Set<Plan> createdPlans) {
+
+    public Map(Set<Country> visitedCountry, Set<Country> plannedCountry) {
         this.visitedCountry = visitedCountry;
-        this.createdPlans = createdPlans;
+        this.plannedCountry = plannedCountry;
     }
 
     public Set<Country> getVisitedCountry() {
@@ -27,19 +28,11 @@ public class Map {
         this.visitedCountry = visitedCountry;
     }
 
-    public Set<Plan> getCreatedPlans() {
-        return createdPlans;
+    public Set<Country> getPlannedCountry() {
+        return plannedCountry;
     }
 
-    public void setCreatedPlans(Set<Plan> createdPlans) {
-        this.createdPlans = createdPlans;
-    }
-
-    @Override
-    public String toString() {
-        return "Map{" +
-                "visitedCountry=" + visitedCountry +
-                ", createdPlans=" + createdPlans +
-                '}';
+    public void setPlannedCountry(Set<Country> plannedCountry) {
+        this.plannedCountry = plannedCountry;
     }
 }
