@@ -10,26 +10,13 @@ public class PlanDTO {
     private int budgetMin;
     private int budgetMax;
     private int amountOfPeople;
+    private boolean isPublic;
     private String userLoginCreator;
     private String nameCityToGo;
     private String nameCityFrom;
     private String transportType;
 
     public PlanDTO() {
-    }
-
-    public PlanDTO(Long id, String title, String description, Date date, int budgetMin, int budgetMax, int amountOfPeople, String userLoginCreator, String nameCityToGo, String nameCityFrom, String transportType) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.budgetMin = budgetMin;
-        this.budgetMax = budgetMax;
-        this.amountOfPeople = amountOfPeople;
-        this.userLoginCreator = userLoginCreator;
-        this.nameCityToGo = nameCityToGo;
-        this.nameCityFrom = nameCityFrom;
-        this.transportType = transportType;
     }
 
     public Long getId() {
@@ -118,5 +105,13 @@ public class PlanDTO {
 
     public void setTransportType(String transportType) {
         this.transportType = transportType;
+    }
+
+    public boolean getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 }
