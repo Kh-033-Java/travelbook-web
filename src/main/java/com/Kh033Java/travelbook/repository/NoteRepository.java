@@ -14,3 +14,4 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
     @Query("match (n:Note) where n.isPublic=true  return n")
 	List<Note> getPublicNotes();
 }
+

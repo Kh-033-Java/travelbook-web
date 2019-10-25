@@ -2,12 +2,8 @@ package com.Kh033Java.travelbook.controller.general_info_controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.runner.ReactiveWebApplicationContextRunner;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.Kh033Java.travelbook.entity.City;
 import com.Kh033Java.travelbook.entity.Country;
 import com.Kh033Java.travelbook.entity.Description;
-import com.Kh033Java.travelbook.repository.CountryRepository;
 import com.Kh033Java.travelbook.service.CityService;
 import com.Kh033Java.travelbook.service.CountryService;
 import com.Kh033Java.travelbook.service.DescriptionService;
@@ -33,9 +28,9 @@ public class GeneralInfoController {
 	@Autowired
 	DescriptionService descriptioService;
 
-	@RequestMapping(value = "/country/{location}/description/weather", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Weather getWeather(@PathVariable String location) {
-		final WeatherProvider weatherProvider = new WeatherProvider(location);
+	@RequestMapping(value = "/country/{countryName}/description/weather", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Weather getWeather(@PathVariable String countryName) {
+		final WeatherProvider weatherProvider = new WeatherProvider(countryName);
 		return new Weather(weatherProvider.getTemperature(), weatherProvider.getWeatherDescription());
 	}
 

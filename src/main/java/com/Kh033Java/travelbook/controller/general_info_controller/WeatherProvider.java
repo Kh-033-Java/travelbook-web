@@ -3,14 +3,10 @@ package com.Kh033Java.travelbook.controller.general_info_controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.*;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
