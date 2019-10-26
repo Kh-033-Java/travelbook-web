@@ -2,7 +2,7 @@ package com.Kh033Java.travelbook.controller;
 
 import com.Kh033Java.travelbook.dto.PlanDTO;
 import com.Kh033Java.travelbook.entity.Plan;
-import com.Kh033Java.travelbook.service.PlanServiceImpl;
+import com.Kh033Java.travelbook.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.Set;
 @RestController
 public class PlansController {
 
-    private final PlanServiceImpl planService;
+    private final PlanService planService;
 
     @Autowired
-    public PlansController(PlanServiceImpl planService) {
+    public PlansController(PlanService planService) {
         this.planService = planService;
     }
 
