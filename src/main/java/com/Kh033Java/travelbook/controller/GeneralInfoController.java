@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Kh033Java.travelbook.dto.CountryGeneralInfoDTO;
 import com.Kh033Java.travelbook.dto.Weather;
-import com.Kh033Java.travelbook.entity.Country;
 import com.Kh033Java.travelbook.entity.Description;
 import com.Kh033Java.travelbook.service.CountryService;
 import com.Kh033Java.travelbook.service.DescriptionService;
@@ -27,10 +26,9 @@ public class GeneralInfoController {
 
 	@RequestMapping(value = "/country/{countryName}/description", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getGeneralInfo(@PathVariable String countryName) {
-		final Country country = countryService.getByName(countryName);
-		final Description description = descriptionService.getDesccriptionByCountryName(country.getName());
+		final Description description = descriptionService.getDesccriptionByCountryName(countryName);
 		final Weather weather = getWeatherInCapital(description);
-		final CountryGeneralInfoDTO countryGeneralInfoDTO = new CountryGeneralInfoDTO(country.getName(), description, weather);
+		final CountryGeneralInfoDTO countryGeneralInfoDTO = new CountryGeneralInfoDTO(countryName, description, weather);
 		return JsonConverter.convertToJson(countryGeneralInfoDTO);
 	}
 	

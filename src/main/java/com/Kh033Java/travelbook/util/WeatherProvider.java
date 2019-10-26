@@ -5,17 +5,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import org.slf4j.*;
 
 public class WeatherProvider {
 	
 	private static final String API_KEY = "3939f49317f69e576a49d2c1ef25356b";
 	private final Map<String, Object> weatherData;
+	 private static final Logger LOGGER = LoggerFactory.getLogger(WeatherProvider.class);
 
 	public WeatherProvider(String location) {
 		super();
@@ -50,15 +48,14 @@ public class WeatherProvider {
 			}
 			reader.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Could not parse result info from weather API");
 		}
 		return JsonConverter.convertJsonToMap(result.toString());
 	}	
 
 	private static String convertToCelcium(Object object) {
-		double value = (Double) object - 273;
-		DecimalFormat f = new DecimalFormat("##.0");
-		return f.format(value);
+		Integer value = (int) Math.round(((Double) object - 273));
+		return value.toString();
 	}
 
 	private static String convertToUTC(Object object) {
