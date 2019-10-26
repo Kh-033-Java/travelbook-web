@@ -10,4 +10,5 @@ public class TravelBookApplication {
     public static void main(final String[] args) {
         SpringApplication.run(TravelBookApplication.class, args);
     }
+
 }
