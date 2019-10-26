@@ -26,6 +26,8 @@ public class Plan {
 
     private int amountOfPeople;
 
+    private boolean isPublic;
+
     @Relationship(type = "GO_TO")
     private City cityToGo;
 
@@ -128,6 +130,14 @@ public class Plan {
 
     public void setTransport(Transport transport) {
         this.transport = transport;
+    }
+
+    public boolean getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     public void goToCity(City city) {

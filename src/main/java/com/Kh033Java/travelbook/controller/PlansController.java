@@ -45,19 +45,16 @@ public class PlansController {
     }
 
     @PostMapping(value = "plans")
-    @ResponseStatus(HttpStatus.CREATED)
     public Plan savePlan(@RequestBody PlanDTO planDTO) {
         return planService.save(planDTO);
     }
 
     @DeleteMapping(value = "plans/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void deletePlan(@PathVariable Long id) {
         planService.deletePlan(id);
     }
 
     @PutMapping(value = "plans/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public Plan editPlan(@RequestBody PlanDTO planDTO, @PathVariable Long id) {
         return planService.updatePlan(planDTO, id);
     }
