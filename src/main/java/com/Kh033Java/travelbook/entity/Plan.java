@@ -3,6 +3,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.typeconversion.DateString;
 
 import java.util.Date;
 
@@ -16,6 +17,7 @@ public class Plan {
 
     private String description;
 
+    @DateString("yyyy-MM-dd")
     private Date date;
 
     private int budgetMin;
@@ -23,9 +25,6 @@ public class Plan {
     private int budgetMax;
 
     private int amountOfPeople;
-
-    @Relationship(type = "CREATED_PLAN", direction = Relationship.INCOMING)
-    private User creatorUser;
 
     @Relationship(type = "GO_TO")
     private City cityToGo;
@@ -49,6 +48,14 @@ public class Plan {
         this.cityToGo = cityToGo;
         this.cityFrom = cityFrom;
         this.transport = transport;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
