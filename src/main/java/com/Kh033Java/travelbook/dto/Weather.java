@@ -1,8 +1,6 @@
-package com.Kh033Java.travelbook.controller.general_info_controller;
+package com.Kh033Java.travelbook.dto;
 
-import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan
 public class Weather {
 	
 	private final String temperature;

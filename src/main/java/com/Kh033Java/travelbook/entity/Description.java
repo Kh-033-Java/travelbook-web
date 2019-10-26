@@ -22,8 +22,6 @@ public class Description {
 
     private String climate;
 
-    @Relationship(type = "HAS_DESCRIPTION", direction = Relationship.INCOMING)
-    private Country country;
 
     @Relationship(type = "DEPICTED")
     private Set<Photo> descriptionPhotos;
@@ -77,14 +75,6 @@ public class Description {
 
     public void setClimate(String climate) {
         this.climate = climate;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
     }
 
     public Set<Photo> getDescriptionPhotos() {

@@ -16,10 +16,6 @@ public class CityService {
     @Autowired
     CityRepository cityRepository;
 
-    public List<City> getAllCities(String name) {
-        return cityRepository.findAll();
-    }
-    
     public List<City> getAllCitiesByCountryName(String name) {
         return cityRepository.findAllByCountryName(name);
     }

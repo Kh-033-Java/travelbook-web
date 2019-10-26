@@ -23,4 +23,8 @@ public class CountryService {
     	
     }
 
+	public List<Country> getPlannedCountries(String userLogin) {
+		return countryRepository.getCountriesThatUserPlansToVisit(userLogin);
+	}
+
 }

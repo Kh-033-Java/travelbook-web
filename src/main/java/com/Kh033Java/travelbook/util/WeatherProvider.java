@@ -1,4 +1,4 @@
-package com.Kh033Java.travelbook.controller.general_info_controller;
+package com.Kh033Java.travelbook.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,19 +28,10 @@ public class WeatherProvider {
 	}
 	
 	public String getTemperature() {
-		Map<String, Object> weatherMain = jsonToMap(weatherData.get("main").toString());
+		Map<String, Object> weatherMain = JsonConverter.convertJsonToMap(weatherData.get("main").toString());
 		return (convertToCelcium(weatherMain.get("temp")) + " \u00b0" + "C");
 	}
 	
-	public String getHumidity() {
-		Map<String, Object> weatherMain = jsonToMap(weatherData.get("main").toString());
-		return (Math.round((double) weatherMain.get("humidity")) + "%");
-	}
-	
-	public String getWindSpeed() {
-		Map<String, Object> weatherWind = jsonToMap(weatherData.get("wind").toString());
-		return (weatherWind.get("speed") + " m/sec");
-	}
 	
 	public String getTimeZone() {
 		return convertToUTC(weatherData.get("timezone"));
@@ -58,30 +49,11 @@ public class WeatherProvider {
 				result.append(line);
 			}
 			reader.close();
-			System.out.println(result + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return jsonToMap(result.toString());
+		return JsonConverter.convertJsonToMap(result.toString());
 	}	
-	
-	
-	
-
-	public static Map<String, Object> jsonToMap(String str) {
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		Map<String, Object> map = gson.fromJson(str, new TypeToken<HashMap<String, Object>>() {
-		}.getType());
-		return map;
-	}
-
-	@Deprecated
-	public static List<Map<String, Object>> jsonToObject(String str) {
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		List<Map<String, Object>> list = gson.fromJson(str, new TypeToken<HashMap<String, Object>[]>() {
-		}.getType());
-		return list;
-	}
 
 	private static String convertToCelcium(Object object) {
 		double value = (Double) object - 273;

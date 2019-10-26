@@ -1,4 +1,4 @@
-package com.Kh033Java.travelbook.controller.properties_of_planned_trip_controller;
+package com.Kh033Java.travelbook.controller;
 
 import java.util.List;
 
