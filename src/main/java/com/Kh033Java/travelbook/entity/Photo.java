@@ -11,16 +11,15 @@ public class Photo {
     @Index(unique = true)
     private String link;
 
-    @Relationship(type = "HAS_AVATAR", direction = Relationship.INCOMING)
-    private User user;
-
-    @Relationship(type = "DEPICTED", direction = Relationship.INCOMING)
-    private Description description;
-
-    @Relationship(type = "HAS_PHOTO", direction = Relationship.INCOMING)
-    private Note note;
-
     public Photo() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Photo(String link) {
