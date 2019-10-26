@@ -6,9 +6,6 @@ import com.Kh033Java.travelbook.exception.NotFoundException;
 import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.service.UserService;
 import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +30,6 @@ public class UserController {
 
     @GetMapping(value = "/allUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "get all users", consumes = "application/json")
     public Iterable<User> getAllUsers() {
         LOG.info("get all users");
         return userService.getAllUsers();
@@ -41,10 +37,6 @@ public class UserController {
 
     @GetMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "get user by login", consumes = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
-    })
     public User getUser(@PathVariable("login") final String login) {
 
         LOG.info("get use by login {}", login);
@@ -59,10 +51,6 @@ public class UserController {
 
     @PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "create user", consumes = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "user", required = true, value = "user entity"),
-    })
     public User createUser(@RequestBody final User user) {
         LOG.info("Create user {}", user);
         System.out.println("create user " + user);
@@ -72,11 +60,6 @@ public class UserController {
 
     @PutMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "update user by login", consumes = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
-            @ApiImplicitParam(name = "user", required = true, value = "user entity"),
-    })
     public User updateUser(@PathVariable("login") final String login, @RequestBody final RequestDetail user) {
         LOG.info("update user by login {}, with user {} params", login, user);
         return userService.updateUser(login, user);
@@ -85,10 +68,6 @@ public class UserController {
 
     @DeleteMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "remove user", consumes = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
-    })
     public void deleteUser(@PathVariable("login") final String login) {
         LOG.info("Removing user with login {}", login);
         userService.deleteUser(login);
@@ -96,11 +75,6 @@ public class UserController {
 
     @PutMapping(value = "/admin/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "update role of user", consumes = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "login", required = true, value = "user unique identifier"),
-            @ApiImplicitParam(name = "role", required = true, value = "user unique role")
-    })
     public void setRole(@PathVariable final String login, @RequestBody final Role role) {
         userService.setRole(login, role);
     }
