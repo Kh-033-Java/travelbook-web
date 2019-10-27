@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.1.9.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
-    id 'checkstyle'
+//    id 'checkstyle'
 }
 
 group = 'Kh-033-Java'
@@ -35,6 +35,7 @@ dependencies {
     testImplementation group: 'org.neo4j', name: 'neo4j-ogm-test', version: '3.1.3'
 
 }
+/*
 
 tasks.withType(Checkstyle) {
     reports {
@@ -48,3 +49,4 @@ checkstyle {
     toolVersion = '8.1'
     checkstyleTest.enabled = false
 }
+*/

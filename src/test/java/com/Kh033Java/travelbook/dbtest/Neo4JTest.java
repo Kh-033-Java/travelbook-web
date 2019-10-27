@@ -22,6 +22,7 @@ public class Neo4JTest {
 
     @Autowired
     CountryRepository countryRepository;
+
     @Autowired
     CityRepository cityRepository;
 
