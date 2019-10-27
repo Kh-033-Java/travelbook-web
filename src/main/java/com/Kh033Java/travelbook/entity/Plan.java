@@ -38,6 +38,7 @@ public class Plan {
     private Transport transport;
 
     public Plan() {
+    	
     }
 
     public Plan(String title, String description, Date date, int budgetMin, int budgetMax, int amountOfPeople, City cityToGo, City cityFrom, Transport transport) {
