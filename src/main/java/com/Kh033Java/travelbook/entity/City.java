@@ -11,7 +11,6 @@ public class City {
     @Index(unique = true)
     private String name;
 
-
     public City() {
     }
 
@@ -34,5 +33,5 @@ public class City {
     public void setName(String name) {
         this.name = name;
     }
-
 }
+

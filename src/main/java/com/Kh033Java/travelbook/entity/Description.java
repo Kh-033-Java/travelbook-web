@@ -22,12 +22,10 @@ public class Description {
 
     private String climate;
 
-
     @Relationship(type = "DEPICTED")
     private Set<Photo> descriptionPhotos;
 
     public Description() {
-    	
     }
 
     public Description(String commonInformation, String capital, String cuisine, String climate) {
@@ -43,6 +41,14 @@ public class Description {
         this.cuisine = cuisine;
         this.climate = climate;
         this.descriptionPhotos = descriptionPhotos;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCommonInformation() {

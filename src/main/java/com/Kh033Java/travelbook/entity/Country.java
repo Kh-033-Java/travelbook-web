@@ -4,7 +4,6 @@ import org.neo4j.ogm.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @NodeEntity
 public class Country {
@@ -32,6 +31,14 @@ public class Country {
         this.name = name;
         this.cities = cities;
         this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
