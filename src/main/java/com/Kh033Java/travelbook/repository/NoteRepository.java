@@ -17,7 +17,7 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
     List<Note> findAllNotesForAuthorizedUser(@Param("countryName") String countryName, @Param("userLogin") String userLogin);
 
     @Query("MATCH (n:Note) where ID(n)={noteId} AND n.isPublic=true return n")
-    List<Note> findPublicNoteById(@Param("noteId") int noteId);
+    Note findPublicNoteById(@Param("noteId") int noteId);
 
     @Query("MATCH (u:User) where u.login = {login}" +
             "CREATE (c:City {name: {name}})<-[:DESCRIBES]-(n:Note {title: {titleName}, isPublic:{privacyValue}, description:{description}, dateOfVisiting:{dateOfVisiting}," +
@@ -28,11 +28,11 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
                           @Param("pricesEstimate") Integer pricesEstimate, @Param("cuisineEstimate") Integer cuisineEstimate, @Param("commonImpression") Integer commonImpression,
                           @Param("name") String name, @Param("login") String login, @Param("link") String link);
 
-    @Query("MATCH (u:User {login: {login}})-[cr:CREATED_NOTE]->(n:Note) WHERE u.login = {login} AND ID(n)={noteId} AND n.isPublic=false return n")
-    List<Note> findPrivateNoteById(@Param("noteId") int noteId, @Param("login") String login);
+    @Query("MATCH (u:User {login: {login}})-[cr:CREATED_NOTE]->(n:Note) WHERE u.login = {login} AND ID(n)={noteId} AND (n.isPublic=false OR n.isPublic=true) return n")
+    List<Note> findNotesByIdByUser(@Param("noteId") int noteId, @Param("login") String login);
 
     @Query("MATCH (u:User {login: {login}})-[cr:CREATED_NOTE]->(n:Note) WHERE ID(n)={noteId} AND u.login = {login} DETACH DELETE n")
-    List<Note> findNoteForDelete(@Param("noteId") int noteId, @Param("login") String login);
+    void findNoteForDelete(@Param("noteId") int noteId, @Param("login") String login);
 
     @Query("MATCH (n:Note) WHERE ID(n)={noteId} AND n.title = {titleName} OR n.isPublic = {privacyValue} OR n.description = {description} OR n.dateOfVisiting = {dateOfVisiting} " +
             "OR n.peopleEstimate = {peopleEstimate}" +
@@ -45,5 +45,5 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
 
     @Query("MATCH (u:User),(n:Note) WHERE u.login={login} AND ID(n)={noteId} SET n.likes = (n.likes + 1)" +
             "CREATE (u)-[:LIKED]->(n)")
-    List<Note> findNoteForLike(@Param("login") String login, @Param("noteId") int noteId);
+    void findNoteForLike(@Param("login") String login, @Param("noteId") int noteId);
 }

@@ -35,10 +35,6 @@ public class Note {
 
     private Integer commonImpression;
 
-    @Relationship(type = "LIKED")
-    private User userThatLiked;
-    @Relationship(type = "CREATED_NOTE")
-    private User creatorUser;
     @Relationship(type = "DESCRIBES")
     private City describedCity;
     @Relationship(type = "HAS_PHOTO")

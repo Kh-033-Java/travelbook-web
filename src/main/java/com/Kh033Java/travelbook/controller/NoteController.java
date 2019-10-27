@@ -32,14 +32,14 @@ public class NoteController {
 
     @GetMapping("/notes/{id}")
     public @ResponseBody
-    List<Note> getPublicNoteById(@PathVariable int id) {
+    Note getPublicNoteById(@PathVariable int id) {
         return noteRepository.findPublicNoteById(id);
     }
 
     @GetMapping("/notes/{id}/user/{login}")
     public @ResponseBody
     List<Note> getPrivateNoteById(@PathVariable int id, @PathVariable String login) {
-        return noteRepository.findPrivateNoteById(id, login);
+        return noteRepository.findNotesByIdByUser(id, login);
     }
 
     @PostMapping("/country/{name}/notes")
@@ -51,8 +51,8 @@ public class NoteController {
 
     @DeleteMapping("/notes/{id}/user/{login}")
     public @ResponseBody
-    List<Note> getDeleteNoteById(@PathVariable int id, @PathVariable String login) {
-        return noteRepository.findNoteForDelete(id, login);
+    void getDeleteNoteById(@PathVariable int id, @PathVariable String login) {
+         noteRepository.findNoteForDelete(id, login);
     }
 
     @PatchMapping("/notes/{id}")
@@ -64,7 +64,7 @@ public class NoteController {
 
     @PutMapping("/notes/{id}/like")
     public @ResponseBody
-    List<Note> getNoteForLike(@PathVariable int id, @RequestBody NoteDTO noteDTO) {
-        return noteRepository.findNoteForLike(noteDTO.getLogin(), id);
+    void likeNoteByUser(@PathVariable int id, @RequestBody NoteDTO noteDTO) {
+        noteRepository.findNoteForLike(noteDTO.getLogin(), id);
     }
 }
