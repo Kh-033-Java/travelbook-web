@@ -4,9 +4,11 @@ import com.Kh033Java.travelbook.entity.Photo;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface PhotoRepository extends Neo4jRepository<Photo, Long> {
     @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where n.isPublic=true  and c.name={countryName} return ph")
     List<Photo> findAllPublicPhotosForUnauthorized(@Param("countryName") String countryName);
