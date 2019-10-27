@@ -1,5 +1,6 @@
 package com.Kh033Java.travelbook.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -17,20 +18,32 @@ public class Note {
     private Long id;
 
     private String title;
+
+    @JsonProperty
     private boolean isPublic;
+
     private String description;
-    @DateString("yyyy-MM-dd")
-    private Date dateOfVisiting;
+
+    @DateString("yy-MM-dd")
+    private Date date;
+
     private Integer peopleEstimate;
+
     private Integer pricesEstimate;
+
     private Integer cuisineEstimate;
+
     private Integer commonImpression;
 
+    @Relationship(type = "LIKED")
+    private User userThatLiked;
+    @Relationship(type = "CREATED_NOTE")
+    private User creatorUser;
     @Relationship(type = "DESCRIBES")
     private City describedCity;
-
     @Relationship(type = "HAS_PHOTO")
     private Set<Photo> photos;
+
 
     public Note() {
     }
@@ -39,7 +52,7 @@ public class Note {
         this.title = title;
         this.isPublic = isPublic;
         this.description = description;
-        this.dateOfVisiting = dateOfVisiting;
+        this.date = dateOfVisiting;
         this.peopleEstimate = peopleEstimate;
         this.pricesEstimate = pricesEstimate;
         this.cuisineEstimate = cuisineEstimate;
@@ -48,13 +61,6 @@ public class Note {
         this.photos = photos;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -68,8 +74,8 @@ public class Note {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     public String getDescription() {
@@ -80,12 +86,12 @@ public class Note {
         this.description = description;
     }
 
-    public Date getDateOfVisiting() {
-        return dateOfVisiting;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDateOfVisiting(Date dateOfVisiting) {
-        this.dateOfVisiting = dateOfVisiting;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Integer getPeopleEstimate() {
