@@ -9,4 +9,9 @@ public class JenkinsFailTest {
     public void failTest() {
         Assert.assertEquals("true", "false");
     }
+
+    @Test
+    public void failTest2() {
+        Assert.assertEquals("", "10");
+    }
 }
