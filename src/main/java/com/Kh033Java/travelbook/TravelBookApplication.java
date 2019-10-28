@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class TravelBookApplication {
     public static void main(final String[] args) {
-        SpringApplication.run(TravelBookApplication.class, args);
+        SpringApplication.run(TravelBookApplication.class, args); 
     }
+
 }

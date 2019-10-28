@@ -117,7 +117,7 @@ public class PlanServiceImpl implements PlanService {
         plan.goToCity(cityRepository.findByName(planDTO.getNameCityToGo()));
         plan.setDate(planDTO.getDate());
         plan.setDescription(planDTO.getDescription());
-        plan.setPublic(planDTO.getIsPublic());
+        plan.setIsPublic(planDTO.getIsPublic());
         plan.setTitle(planDTO.getTitle());
         plan.chooseTransport(transportRepository.findByType(planDTO.getTransportType()));
     }
@@ -134,7 +134,7 @@ public class PlanServiceImpl implements PlanService {
         planDTO.setNameCityFrom(planToDTO.getCityFrom().getName());
         planDTO.setNameCityToGo(planToDTO.getCityToGo().getName());
         planDTO.setTransportType(planToDTO.getTransport().getType());
-        planDTO.setIsPublic(planToDTO.isPublic());
+        planDTO.setIsPublic(planToDTO.getIsPublic());
         planDTO.setTitle(planToDTO.getTitle());
         planDTO.setUserLoginCreator(userRepository.findUserByPlanId(planToDTO.getId()).getLogin());
 

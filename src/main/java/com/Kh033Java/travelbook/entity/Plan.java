@@ -1,5 +1,4 @@
 package com.Kh033Java.travelbook.entity;
-
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -18,9 +17,7 @@ public class Plan {
 
     private String description;
 
-    private boolean isPublic;
-
-    @DateString("yy-MM-dd")
+    @DateString("yyyy-MM-dd")
     private Date date;
 
     private int budgetMin;
@@ -28,6 +25,8 @@ public class Plan {
     private int budgetMax;
 
     private int amountOfPeople;
+
+    private boolean isPublic;
 
     @Relationship(type = "GO_TO")
     private City cityToGo;
@@ -39,22 +38,12 @@ public class Plan {
     private Transport transport;
 
     public Plan() {
+    	
     }
 
-    public Plan(String title, String description, boolean isPublic, Date date, int budgetMin, int budgetMax, int amountOfPeople) {
+    public Plan(String title, String description, Date date, int budgetMin, int budgetMax, int amountOfPeople, City cityToGo, City cityFrom, Transport transport) {
         this.title = title;
         this.description = description;
-        this.isPublic = isPublic;
-        this.date = date;
-        this.budgetMin = budgetMin;
-        this.budgetMax = budgetMax;
-        this.amountOfPeople = amountOfPeople;
-    }
-
-    public Plan(String title, String description, boolean isPublic, Date date, int budgetMin, int budgetMax, int amountOfPeople, City cityToGo, City cityFrom, Transport transport) {
-        this.title = title;
-        this.description = description;
-        this.isPublic = isPublic;
         this.date = date;
         this.budgetMin = budgetMin;
         this.budgetMax = budgetMax;
@@ -62,6 +51,14 @@ public class Plan {
         this.cityToGo = cityToGo;
         this.cityFrom = cityFrom;
         this.transport = transport;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -136,20 +133,12 @@ public class Plan {
         this.transport = transport;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public boolean isPublic() {
+    public boolean getIsPublic() {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     public void goToCity(City city) {
