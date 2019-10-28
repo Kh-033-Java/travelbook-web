@@ -1,6 +1,6 @@
 package com.Kh033Java.travelbook.controller;
 
-import com.Kh033Java.travelbook.dto.Map;
+import com.Kh033Java.travelbook.dto.CountryDTO;
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.exception.NotFoundException;
@@ -86,7 +86,7 @@ public class UserController {
 
     @PutMapping(value = "/{login}/map/public", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Map getMapByUser(@PathVariable final String login) {
+    public CountryDTO getMapByUser(@PathVariable final String login) {
         return userService.getMapByUser(login);
     }
 

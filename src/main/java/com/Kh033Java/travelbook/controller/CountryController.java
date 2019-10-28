@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/country")
+@RequestMapping("/country")
 public class CountryController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CountryController.class);
@@ -32,21 +32,21 @@ public class CountryController {
 
     @GetMapping(value = "{name}/notes/profile/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Set<Note> getNotesByCountryByUser(@PathVariable("name") final String countryName, @PathVariable("login") String login) {
+    public List<Note> getNotesByCountryByUser(@PathVariable("name") final String countryName, @PathVariable("login") String login) {
         LOG.info("get notes by country {}, by user {}", countryName, login);
         return countryService.getNotesByCountryByUser(countryName, login);
     }
 
     @GetMapping(value = "{name}/plans/profile/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Set<Plan> getPlansByCountryByUser(@PathVariable("name") final String countryName, @PathVariable("login") String login) {
+    public List<Plan> getPlansByCountryByUser(@PathVariable("name") final String countryName, @PathVariable("login") String login) {
         LOG.info("get plans by country {}, by user {}", countryName, login);
         return countryService.getPlansByCountryByUser(countryName, login);
     }
 
     @GetMapping(value = "{name}/photos/profile/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Set<Photo> getPhotosByCountryByUser(@PathVariable("name") final String countryName, @PathVariable("login") String login) {
+    public List<Photo> getPhotosByCountryByUser(@PathVariable("name") final String countryName, @PathVariable("login") String login) {
         LOG.info("get photos by country {}, by user {}", countryName, login);
         return countryService.getPhotosByCountryByUser(countryName, login);
     }

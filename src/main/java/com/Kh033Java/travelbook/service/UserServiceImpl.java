@@ -1,5 +1,7 @@
 package com.Kh033Java.travelbook.service;
 
+import com.Kh033Java.travelbook.dto.CountryDTO;
+import com.Kh033Java.travelbook.entity.Country;
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.RoleRepository;
@@ -18,15 +20,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CountryService countryService;
     private final RoleRepository roleRepository;
     private final String ADMIN = "Admin";
     private final String USER = "User";
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+    public UserServiceImpl(UserRepository userRepository, CountryService countryService, RoleRepository roleRepository,
                            BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.countryService = countryService;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -111,5 +115,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(final String login) {
         userRepository.deleteUserByLogin(login);
+    }
+
+    @Override
+    public CountryDTO getMapByUser(String login) {
+        final List<Country> visited = countryService.getVisitedCountries(login);
+        final List<Country> plannedForVisit = countryService.getPlannedCountries(login);
+        return new CountryDTO(visited, plannedForVisit);
+    }
+
+    @Override
+    public User getUserProfile(String login) {
+        return userRepository.getUserByLogin(login);
     }
 }
