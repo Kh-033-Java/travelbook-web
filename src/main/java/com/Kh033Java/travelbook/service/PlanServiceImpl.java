@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @Transactional
@@ -63,6 +61,17 @@ public class PlanServiceImpl implements PlanService {
             allPlans.add(createPlanDTO(plan));
 
         return allPlans;
+    }
+
+    @Override
+    public List<PlanDTO> getSpecificPlan(int minBudget, int maxBudget, String minDate, String maxDate, int minAmountOfPeople, int maxAmountOfPeople, String transportType, String startCity, String endCity) {
+        List<PlanDTO> plans = new ArrayList<>();
+        for(Plan plan : planRepository.find(minBudget, maxBudget, minDate, maxDate, minAmountOfPeople, maxAmountOfPeople, transportType, startCity, endCity))
+        {
+            PlanDTO planDTO = createPlanDTO(plan);
+            plans.add(planDTO);
+        }
+        return plans;
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 @RestController
 public class PlansController {
@@ -43,6 +44,13 @@ public class PlansController {
     public List<PlanDTO> getAllUsersPlans(@PathVariable String name, @RequestParam String user) {
         return planService.getPublicAndPrivateUserPlansConnectedToCountry(name, user);
     }
+
+    @GetMapping(value = "country/plans/search")
+    @ResponseStatus(HttpStatus.OK)
+    public List<PlanDTO> findSpecificPlans(@RequestParam int budget_min, @RequestParam int budget_max, @RequestParam String date_min, @RequestParam String date_max, @RequestParam int amount_of_people_min, @RequestParam int amount_of_people_max, @RequestParam String transport, @RequestParam String start_city, @RequestParam String end_city){
+        return planService.getSpecificPlan(budget_min,budget_max,date_min,date_max,amount_of_people_min,amount_of_people_max,transport,start_city,end_city);
+    }
+
 
     @PostMapping(value = "plans")
     @ResponseStatus(HttpStatus.CREATED)
