@@ -1,22 +1,18 @@
 package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.dto.Map;
-import com.Kh033Java.travelbook.entity.Country;
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.RoleRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
-import com.Kh033Java.travelbook.userDetails.Configurer;
 import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -115,19 +111,5 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(final String login) {
         userRepository.deleteUserByLogin(login);
-    }
-
-    @Override
-    public Map getMapByUser(String login) {
-        User user = userRepository.getUserByLogin(login);
-        Set<Country> planedCountry = new HashSet<>();
-        user.getCreatedPlans().forEach(plan -> planedCountry.add(
-                plan.getCityToGo().getCountry()));
-        return new Map(user.getVisitedCountries(), planedCountry);
-    }
-
-    @Override
-    public User getUserProfile(String login) {
-        return userRepository.getUserByLogin(login);
     }
 }

@@ -4,6 +4,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.typeconversion.DateString;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -18,18 +19,16 @@ public class Note {
     private String title;
     private boolean isPublic;
     private String description;
+    @DateString("yyyy-MM-dd")
     private Date dateOfVisiting;
     private Integer peopleEstimate;
     private Integer pricesEstimate;
     private Integer cuisineEstimate;
     private Integer commonImpression;
 
-    @Relationship(type = "LIKED", direction = Relationship.INCOMING)
-    private User userThatLiked;
-    @Relationship(type = "CREATED_NOTE", direction = Relationship.INCOMING)
-    private User creatorUser;
     @Relationship(type = "DESCRIBES")
     private City describedCity;
+
     @Relationship(type = "HAS_PHOTO")
     private Set<Photo> photos;
 
@@ -47,6 +46,14 @@ public class Note {
         this.commonImpression = commonImpression;
         this.describedCity = describedCity;
         this.photos = photos;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

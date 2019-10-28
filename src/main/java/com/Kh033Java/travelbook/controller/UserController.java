@@ -28,12 +28,10 @@ public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @Autowired
     public UserController(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -47,7 +45,6 @@ public class UserController {
     @GetMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public User getUser(@PathVariable("login") final String login) {
-
         LOG.info("get use by login {}", login);
 
         User user = userService.getUser(login);
@@ -57,7 +54,6 @@ public class UserController {
         return user;
     }
 
-
     @PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@RequestBody final User user) {
@@ -65,7 +61,6 @@ public class UserController {
         System.out.println("create user " + user);
         return userService.saveUser(user);
     }
-
 
     @PutMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

@@ -1,8 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.9.RELEASE'
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
-    //id 'checkstyle'
+//    id 'checkstyle'
 }
 
 group = 'Kh-033-Java'
@@ -15,8 +15,14 @@ configurations {
         extendsFrom developmentOnly
     }
 }
+
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+    set('springCloudVersion', "Hoxton.M3")
 }
 
 dependencies {
@@ -28,20 +34,36 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage'
+    implementation 'com.google.auth:google-auth-library-appengine:0.18.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation group: 'org.neo4j', name: 'neo4j-ogm-test', version: '3.1.3'
-
 }
 
-tasks.withType(Checkstyle) {
-    reports {
-        xml.enabled false
-        html.enabled true
-        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
 
+bootRun {
+    environment "GOOGLE_APPLICATION_CREDENTIALS", "src/main/resources/Bachelor-bc0312b7b74b.json"
+}
+
+test {
+    environment "GOOGLE_APPLICATION_CREDENTIALS", "src/main/resources/Bachelor-bc0312b7b74b.json"
+}
+
+//tasks.withType(Checkstyle) {
+//    reports {
+//        xml.enabled false
+//        html.enabled true
+//        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
+//    }
+//}
+//
 //checkstyle {
 //    toolVersion = '8.1'
 //    checkstyleTest.enabled = false

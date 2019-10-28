@@ -1,16 +1,30 @@
 package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.entity.Note;
-import com.Kh033Java.travelbook.entity.Photo;
-import com.Kh033Java.travelbook.entity.Plan;
+import java.util.List;
 
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface CountryService {
+import com.Kh033Java.travelbook.entity.Country;
+import com.Kh033Java.travelbook.repository.CountryRepository;
 
-    Set<Note> getNotesByCountryByUser(String countryName, String login);
+@Service
+public class CountryService {
+	
+    @Autowired
+    CountryRepository countryRepository;
 
-    Set<Plan> getPlansByCountryByUser(String countryName, String login);
+    public Country getByName(String name) {
+        return countryRepository.getCountryByName(name);
+    }
+    
+    public List<Country> getVisitedCountries(String userLogin) {
+		return countryRepository.getCountriesVisitedByUser(userLogin);
+    	
+    }
 
-    Set<Photo> getPhotosByCountryByUser(String countryName, String login);
+	public List<Country> getPlannedCountries(String userLogin) {
+		return countryRepository.getCountriesThatUserPlansToVisit(userLogin);
+	}
+
 }

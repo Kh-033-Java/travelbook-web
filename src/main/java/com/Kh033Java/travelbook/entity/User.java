@@ -46,11 +46,12 @@ public class User {
     @Relationship(type = "CREATED_PLAN")
     private Set<Plan> createdPlans;
 
-    @Relationship(type = "HAS_ROLE", direction = Relationship.OUTGOING)
+    @Relationship(type = "HAS_ROLE")
     private List<Role> roles;
 
 
     public User() {
+    	
     }
 
     public User(final String login, final String password) {
