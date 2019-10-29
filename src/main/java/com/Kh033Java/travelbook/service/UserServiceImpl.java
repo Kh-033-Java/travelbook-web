@@ -106,11 +106,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(result);
     }
 
-    public User addVisitedCountryToUser(String countryName, String login) {
-        userRepository.creatRelationshipBetweenUserAndCountry(countryName, login);
-        return null;
-    }
-
     @Override
     @Transactional
     public void deleteUser(final String login) {

@@ -13,6 +13,6 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     Long deleteUserByLogin(@Param("login") String login);
 
-    @Query("MATCH (u:User), (c:Country) WHERE u.login = {login} AND c.name={country} CREATE (u)-[r:VISITED]->(c)")
-    void creatRelationshipBetweenUserAndCountry(@Param("country") String name, @Param("login") String login);
+    @Query("MATCH (u:User),(c:Country) WHERE u.login={login} AND c.name={country} CREATE (u)-[:VISITED]->(c)")
+    void creatRelationshipBetweenUserAndCountry(@Param("login") String login, @Param("country") String name);
 }

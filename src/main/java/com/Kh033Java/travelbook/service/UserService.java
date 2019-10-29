@@ -20,6 +20,4 @@ public interface UserService {
     User updateUser(String login, RequestDetail user) throws NotFoundException;
 
     void deleteUser(String login) throws NotFoundException;
-
-    User addVisitedCountryToUser(String countryName, String login);
 }

@@ -1,25 +1,22 @@
 package com.Kh033Java.travelbook.controller;
 
-import com.Kh033Java.travelbook.entity.User;
-import com.Kh033Java.travelbook.service.UserService;
+import com.Kh033Java.travelbook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController()
 public class FillingCountryController {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public FillingCountryController(UserService userService) {
-        this.userService = userService;
+    public FillingCountryController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    @PutMapping(value = "country/{name}/visits")
-    public User editVisitedCountryForUser(@PathVariable String country, @RequestParam String login){
-        return userService.addVisitedCountryToUser(country, login);
+    @PutMapping(value = "/country/{name}/visits", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void editVisitedCountryForUser(@PathVariable String country, @RequestParam String login){
+        userRepository.creatRelationshipBetweenUserAndCountry(login, country);
     }
 }
