@@ -35,9 +35,10 @@ public class FileUploadServiceImpl implements FileUploadService {
     }
 
     private Storage setCredentials() throws IOException {
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(pathToCredentials))
-                .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
-        return StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+//        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(pathToCredentials))
+//                .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+//        return StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        return StorageOptions.getDefaultInstance().getService();
     }
 
     public String saveFile() throws IOException {
