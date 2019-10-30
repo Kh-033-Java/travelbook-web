@@ -6,6 +6,11 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.Kh033Java.travelbook.entity.Country;
 
+/**
+ * 
+ * @author Anatolii Melchenko
+ *
+ */
 @ComponentScan
 public class CountryDTO {
 	
@@ -13,7 +18,6 @@ public class CountryDTO {
     private final List<Country> countriesPlannedToVisit;
     
 	public CountryDTO(List<Country> visitedCountries, List<Country> countriesPlannedToVisit) {		
-		super();
 		this.visitedCountries = visitedCountries;
 		this.countriesPlannedToVisit = countriesPlannedToVisit;
 	}

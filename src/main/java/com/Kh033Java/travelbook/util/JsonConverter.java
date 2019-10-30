@@ -7,7 +7,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * 
+ * @author Anatolii Melchenko
+ *
+ */
 public class JsonConverter {
+	
+	private JsonConverter() {
+		
+	}
 	
 	public static String convertToJson(Object object) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -14,6 +14,11 @@ import com.Kh033Java.travelbook.entity.Country;
 import com.Kh033Java.travelbook.service.CountryService;
 import com.Kh033Java.travelbook.util.JsonConverter;
 
+/**
+ * 
+ * @author Anatolii Melchenko
+ *
+ */
 @RestController
 public class MapController {
 	
