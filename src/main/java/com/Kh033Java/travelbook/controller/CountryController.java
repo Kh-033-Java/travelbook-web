@@ -24,7 +24,7 @@ public class CountryController {
     private static final Logger LOG = LoggerFactory.getLogger(CountryController.class);
 
 
-    private CountryService countryService;
+    private final CountryService countryService;
 
     public CountryController(CountryService countryService) {
         this.countryService = countryService;
