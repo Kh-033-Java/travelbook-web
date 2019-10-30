@@ -16,6 +16,8 @@ public interface PlanService {
 
     List<PlanDTO> getPublicAndPrivateUserPlansConnectedToCountry(String countryName, String login);
 
+    List<PlanDTO> getPlansWithFilter(int minBudget, int maxBudget, String minDate, String maxDate, int minAmountOfPeople, int maxAmountOfPeople, String transportType, String startCity, String endCity);
+
     Plan updatePlan(PlanDTO plan, long id);
 
     void deletePlan(long id);

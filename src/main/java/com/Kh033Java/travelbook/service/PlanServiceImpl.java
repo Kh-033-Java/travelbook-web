@@ -66,6 +66,16 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    public List<PlanDTO> getPlansWithFilter(int minBudget, int maxBudget, String minDate, String maxDate, int minAmountOfPeople, int maxAmountOfPeople, String transportType, String startCity, String endCity) {
+        List<PlanDTO> planDTOS = new ArrayList<>();
+        for (Plan plan : planRepository.findPlansWithFilter(minBudget, maxBudget, minDate, maxDate, minAmountOfPeople, maxAmountOfPeople, transportType, startCity, endCity)) {
+            planDTOS.add(createPlanDTO(plan));
+        }
+
+        return planDTOS;
+    }
+
+    @Override
     public List<PlanDTO> getPlansConnectedToCountryForUnauthorizedUser(String name) {
         List<PlanDTO> plans = new ArrayList<>();
         for (Plan plan : planRepository.findAllPublicPlansByCountry(name)) {
