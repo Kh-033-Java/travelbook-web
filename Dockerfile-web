@@ -1,0 +1,43 @@
+FROM ubuntu:18.04
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
+
+RUN apt-get update -y && \
+    apt-get install -y openjdk-8-jdk
+	
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+ENV PATH $PATH:$JAVA_HOME/bin
+ENV CLASSPATH $JAVA_HOME/lib/tools.jar
+ENV MANPATH $JAVA_HOME/man	
+	
+RUN apt-get update -y && apt-get install -y wget	
+RUN apt-get update -y && apt-get install -y zip
+RUN apt-get install -y unzip
+
+RUN wget https://services.gradle.org/distributions/gradle-5.2.1-bin.zip -P /tmp
+RUN unzip -d /opt/gradle /tmp/gradle-*.zip
+
+RUN touch /etc/profile.d/gradle.sh
+ENV GRADLE_HOME=/opt/gradle/gradle-5.2.1
+ENV PATH=${GRADLE_HOME}/bin:${PATH}
+RUN chmod +x /etc/profile.d/gradle.sh
+
+RUN git clone -b plan-edpoints --single-branch https://github.com/Kh-033-Java/travelbook-web.git
+WORKDIR travelbook-web
+RUN ls -a
+
+RUN gradle -v
+RUN gradle clean build bootJar
+
+ENV JAVA_OPTS=""
+
+COPY build/resources/main/*.json /Bachelor-bc0312b7b74b.json
+COPY build/libs/*.jar /app.jar
+
+ENV GOOGLE_APPLICATION_CREDENTIALS="/Bachelor-bc0312b7b74b.json"
+
+WORKDIR /var/www
+
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dspring.data.neo4j.uri=\"$DB_URI\" -Dspring.data.neo4j.username=\"$DB_USERNAME\" -Dspring.data.neo4j.password=\"$DB_PASSWORD\" -jar /app.jar" ]

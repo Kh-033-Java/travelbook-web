@@ -1,0 +1,29 @@
+FROM ubuntu:18.04
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
+
+RUN apt-get update -y && apt-get install -y curl	
+
+RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
+
+RUN apt install -y nodejs
+	
+RUN node -v
+RUN npm -v	
+
+WORKDIR /app
+RUN git clone -b dev --single-branch https://github.com/Kh-033-Java/travelbook-site.git
+WORKDIR travelbook-site
+RUN ls -a
+
+RUN npm install
+RUN npm install react-router-dom
+RUN npm install @amcharts/amcharts4
+RUN npm install @amcharts/amcharts4-geodata
+RUN npm install --save styled-components
+
+ENV PATH /app/travelbook-site/node_modules/.bin:$PATH
+
+CMD ["npm", "start"]
