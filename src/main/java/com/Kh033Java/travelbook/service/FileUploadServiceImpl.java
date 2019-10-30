@@ -25,8 +25,8 @@ public class FileUploadServiceImpl implements FileUploadService {
     @Value("${google.cloud.bucket}")
     private String bucket;
 
-    @Value("${google.cloud.credentials}")
-    private String pathToCredentials;
+//    @Value("${google.cloud.credentials}")
+//    private String pathToCredentials;
 
     private MultipartFile file;
 
