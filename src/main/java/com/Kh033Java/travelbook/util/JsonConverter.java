@@ -16,9 +16,8 @@ public class JsonConverter {
 	
 	public static Map<String, Object> convertJsonToMap(String str) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		Map<String, Object> map = gson.fromJson(str, new TypeToken<HashMap<String, Object>>() {
+		return gson.fromJson(str, new TypeToken<HashMap<String, Object>>() {
 		}.getType());
-		return map;
 	}
 
 }

@@ -7,7 +7,6 @@ public class Weather {
     private final String description;
     
 	public Weather(String temperature, String description) {
-		super();
 		this.temperature = temperature;
 		this.description = description;
 	}

@@ -39,6 +39,7 @@ public class UserController {
         LOG.info("get use by login {}", login);
 
         User user = userService.getUser(login);
+        //todo optional
         if (user == null) {
             throw new NotFoundException("user with this login not found");
         }
@@ -49,6 +50,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@RequestBody final User user) {
         LOG.info("Create user {}", user);
+        // todo ?
         System.out.println("create user " + user);
         return userService.saveUser(user);
     }

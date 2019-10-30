@@ -13,7 +13,7 @@ import com.Kh033Java.travelbook.entity.City;
 import com.Kh033Java.travelbook.entity.Transport;
 import com.Kh033Java.travelbook.service.CityService;
 import com.Kh033Java.travelbook.service.TransportService;
-
+//todo wtf?
 @RestController
 public class PropertiesOfPlannedTripController {
 

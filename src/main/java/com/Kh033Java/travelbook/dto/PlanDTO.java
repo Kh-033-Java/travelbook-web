@@ -3,6 +3,7 @@ package com.Kh033Java.travelbook.dto;
 import java.util.Date;
 
 public class PlanDTO {
+    //todo just think
     private Long id;
     private String title;
     private String description;

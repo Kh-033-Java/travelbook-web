@@ -37,13 +37,13 @@ public class AnonymousController {
         String username = requestDetail.getLogin();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDetail.getLogin(), requestDetail.getPassword()));
         User user = userRepository.getUserByLogin(requestDetail.getLogin());
-
+// Rewrite with Optional
         if (user == null) {
             throw new NotFoundException("User not found");
         }
 
         String token = tokenProvider.createToken(username, user.getRoles());
-
+//to method
         Map<Object, Object> response = new HashMap<>();
         response.put("username", username);
         response.put("token", token);

@@ -26,20 +26,16 @@ public class FileUploadServiceImpl implements FileUploadService {
     private String bucket;
 
     @Value("${google.cloud.credentials}")
-    private String PATH_TO_CREDENTIALS;
+    private String pathToCredentials;
 
     private MultipartFile file;
-
-    public MultipartFile getFile() {
-        return file;
-    }
 
     public void setFile(MultipartFile file) {
         this.file = file;
     }
 
     private Storage setCredentials() throws IOException {
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(PATH_TO_CREDENTIALS))
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(pathToCredentials))
                 .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
         return StorageOptions.newBuilder().setCredentials(credentials).build().getService();
     }
@@ -52,7 +48,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         BlobInfo blobInfo = storage.create(BlobInfo.newBuilder(bucket, fileName).setContentType(file.getContentType())
                 .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
                 .build(), outputStream.toByteArray());
-        return "https://storage.googleapis.com/travelbook/" + blobInfo.getName();
+        return "https://storage.googleapis.com/" + bucket + "/" + blobInfo.getName();
     }
 
     private ByteArrayOutputStream getByteArrayOutputStream(InputStream is) throws IOException {
