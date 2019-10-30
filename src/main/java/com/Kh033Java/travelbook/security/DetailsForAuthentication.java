@@ -7,12 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-/**
- * Spring Security wrapper for class {@link User}.
- *
- * @author Eugene Suleimanov
- * @version 1.0
- */
 
 public class DetailsForAuthentication implements UserDetails {
 
