@@ -40,14 +40,15 @@ public class UserController {
 
     @GetMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public User getUser(@PathVariable("login") final String login) {
+    public UserDto getUser(@PathVariable("login") final String login) {
         LOG.info("get use by login {}", login);
 
         Optional<User> user = userService.findByUsername(login);
-
         ValidationUtil.checkBeforeGet(user, User.class);
 
-        return user.get();
+        UserDto result = UserDto.fromUser(user.get());
+
+        return result;
     }
 
     @PutMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)

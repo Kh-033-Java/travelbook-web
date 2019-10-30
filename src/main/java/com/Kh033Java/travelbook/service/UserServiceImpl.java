@@ -84,6 +84,9 @@ public class UserServiceImpl implements UserService {
 
         ValidationUtil.checkBeforeGet(currentUser, User.class);
 
+        if(user.getPassword() != null){
+            result.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
 
         result.setLogin(user.getLogin());
         result.setVisitedCountries(currentUser.get().getVisitedCountries());
