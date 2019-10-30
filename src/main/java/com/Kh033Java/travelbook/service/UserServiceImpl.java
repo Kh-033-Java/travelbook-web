@@ -2,10 +2,11 @@ package com.Kh033Java.travelbook.service;
 
 import com.Kh033Java.travelbook.dto.UserDto;
 import com.Kh033Java.travelbook.entity.Role;
-import com.Kh033Java.travelbook.exception.NotFoundException;
 import com.Kh033Java.travelbook.repository.RoleRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.responseForm.UserResponseForm;
+import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 
 @Service
@@ -36,77 +37,62 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
-        List<User> result = (List<User>) userRepository.findAll();
-        log.info("IN getAll - {} users found", result.size());
-        return result;
+    public List<UserResponseForm> getAll() {
+        List<User> listUsers = (List<User>) userRepository.findAll();
+        List<UserResponseForm> resultList = new ArrayList<>();
+        for(User user: listUsers){
+            UserResponseForm result = new UserResponseForm();
+            result.setLogin(user.getLogin());
+            result.setAvatar(user.getAvatar());
+            resultList.add(result);
+        }
+        log.info("IN getAll - {} users found", listUsers.size());
+        return resultList;
     }
 
     @Override
-    public User findByUsername(String username) {
-        User result = userRepository.findByLogin(username);
+    public Optional<User> findByUsername(String username) {
+        Optional<User> result = userRepository.findByLogin(username);
+        ValidationUtil.checkBeforeGet(result, User.class);
         log.info("IN findByUsername - user: {} found by username: {}", result, username);
         return result;
     }
 
     @Override
-    public User findById(Long id) {
-        User result = userRepository.findById(id).orElse(null);
+    public Optional<User> findById(Long id) {
+        Optional<User>result = userRepository.findById(id);
 
-        if (result == null) {
-            log.warn("IN findById - no user found by id: {}", id);
-            return null;
-        }
+        ValidationUtil.checkBeforeGet(result,  User.class);
 
-        log.info("IN findById - user: {} found by id: {}", result);
+        log.info("IN findById - user: {} found by id: {}", result, id);
         return result;
     }
 
     @Override
     public void delete(String login) {
-        User user = userRepository.findByLogin(login);
-        userRepository.delete(user);
+        Optional<User> user = userRepository.findByLogin(login);
+        ValidationUtil.checkBeforeGet(user, User.class);
+        userRepository.delete(user.get());
         log.info("IN delete - user with login: {} successfully deleted", login);
     }
 
     @Override
     @Transactional
     public User updateUser(final String login, final UserDto user) {
-        User currentUser = userRepository.findByLogin(login);
-        User result = new User();
+        Optional<User> currentUser = userRepository.findByLogin(login);
+        User result = user.toUser();
 
-        if (!user.getLogin().equals("null")) {
-            result.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
+        ValidationUtil.checkBeforeGet(currentUser, User.class);
 
-        if (user.getLastName() != null) {
-            result.setLastName(user.getLastName());
-        }
-
-        if (user.getFirstName() != null) {
-            result.setFirstName(user.getFirstName());
-        }
-
-        if (user.getEmail() != null) {
-            result.setEmail(user.getEmail());
-        }
-
-        if (user.getDescription() != null) {
-            result.setDescription(user.getDescription());
-        }
-
-        if (user.getLogin() != null) {
-            result.setLogin(user.getLogin());
-        }
 
         result.setLogin(user.getLogin());
-        result.setVisitedCountries(currentUser.getVisitedCountries());
-        result.setLikedNotes(currentUser.getLikedNotes());
-        result.setCreatedNotes(currentUser.getCreatedNotes());
-        result.setCreatedPlans(currentUser.getCreatedPlans());
-        result.setRoles(currentUser.getRoles());
+        result.setVisitedCountries(currentUser.get().getVisitedCountries());
+        result.setLikedNotes(currentUser.get().getLikedNotes());
+        result.setCreatedNotes(currentUser.get().getCreatedNotes());
+        result.setCreatedPlans(currentUser.get().getCreatedPlans());
+        result.setRoles(currentUser.get().getRoles());
 
-        userRepository.delete(currentUser);
+        userRepository.delete(currentUser.get());
 
         return userRepository.save(result);
     }

@@ -2,18 +2,19 @@ package com.Kh033Java.travelbook.service;
 
 import com.Kh033Java.travelbook.dto.UserDto;
 import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.responseForm.UserResponseForm;
 
 import java.util.List;
-
+import java.util.Optional;
 
 
 public interface UserService {
 
-    List<User> getAll();
+    List<UserResponseForm> getAll();
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
-    User findById(Long id);
+    Optional<User> findById(Long id);
 
     void delete(String login);
 

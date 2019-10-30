@@ -4,6 +4,7 @@ import com.Kh033Java.travelbook.security.TokenProvider;
 import com.Kh033Java.travelbook.dto.AuthenticationRequestDto;
 import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.service.UserService;
+import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Optional;
 
 
 @RestController
@@ -47,13 +48,11 @@ public class AnonymousController {
         try {
             String username = requestDto.getLogin();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
-            User user = userService.findByUsername(username);
+            Optional<User> user = userService.findByUsername(username);
 
-            if (user == null) {
-                throw new UsernameNotFoundException("User with login: " + username + " not found");
-            }
+            ValidationUtil.checkBeforeGet(user, User.class);
 
-            String token = tokenProvider.createToken(username, user.getRoles());
+            String token = tokenProvider.createToken(username, user.get().getRoles());
 
             Map<Object, Object> response = new HashMap<>();
             response.put("login", username);

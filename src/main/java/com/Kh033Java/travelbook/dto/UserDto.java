@@ -1,5 +1,6 @@
 package com.Kh033Java.travelbook.dto;
 
+import com.Kh033Java.travelbook.entity.Photo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.Kh033Java.travelbook.entity.User;
 
@@ -13,6 +14,7 @@ public class UserDto {
     private String email;
     private String password;
     private String description;
+    private Photo avatar;
 
     public User toUser(){
         User user = new User();
@@ -23,6 +25,7 @@ public class UserDto {
         user.setEmail(email);
         user.setPassword(password);
         user.setDescription(description);
+        user.setAvatar(avatar);
 
         return user;
     }
@@ -36,6 +39,7 @@ public class UserDto {
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
         userDto.setDescription(user.getDescription());
+        userDto.setAvatar(user.getAvatar());
 
         return userDto;
     }
@@ -46,6 +50,14 @@ public class UserDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Photo getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Photo avatar) {
+        this.avatar = avatar;
     }
 
     public String getPassword() {

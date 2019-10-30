@@ -4,7 +4,9 @@ import com.Kh033Java.travelbook.dto.UserDto;
 import com.Kh033Java.travelbook.entity.Role;
 import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.exception.NotFoundException;
+import com.Kh033Java.travelbook.responseForm.UserResponseForm;
 import com.Kh033Java.travelbook.service.UserService;
+import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -27,22 +31,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id){
-        User user = userService.findById(id);
-
-        if(user == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        UserDto result = UserDto.fromUser(user);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/allUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<User> getAllUsers() {
+    public Iterable<UserResponseForm> getAllUsers() {
         LOG.info("get all users");
         return userService.getAll();
     }
@@ -52,11 +43,11 @@ public class UserController {
     public User getUser(@PathVariable("login") final String login) {
         LOG.info("get use by login {}", login);
 
-        User user = userService.findByUsername(login);
-        if (user == null) {
-            throw new NotFoundException("user with this login not found");
-        }
-        return user;
+        Optional<User> user = userService.findByUsername(login);
+
+        ValidationUtil.checkBeforeGet(user, User.class);
+
+        return user.get();
     }
 
     @PutMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
