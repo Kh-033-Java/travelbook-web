@@ -48,13 +48,17 @@ dependencyManagement {
     }
 }
 
-bootRun {
-    environment "GOOGLE_APPLICATION_CREDENTIALS", "src/main/resources/Bachelor-bc0312b7b74b.json"
-}
-
-test {
-    environment "GOOGLE_APPLICATION_CREDENTIALS", "src/main/resources/Bachelor-bc0312b7b74b.json"
-}
+//bootRun {
+//    String s = System.getProperty("file.separator")
+//    String path =  System.getProperty("user.dir") + s + "src" + s + "main" + s + "resources" + s +"Bachelor-bc0312b7b74b.json"
+//    environment "GOOGLE_APPLICATION_CREDENTIALS", path
+//}
+//
+//test {
+//    String s = System.getProperty("file.separator")
+//    String path =  System.getProperty("user.dir") + s + "src" + s + "main" + s + "resources" + s +"Bachelor-bc0312b7b74b.json"
+//    environment "GOOGLE_APPLICATION_CREDENTIALS", path
+//}
 
 //tasks.withType(Checkstyle) {
 //    reports {
