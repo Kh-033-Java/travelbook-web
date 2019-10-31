@@ -109,6 +109,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public void addVisitedCountry(String login, String countryName){
+        userRepository.creatRelationshipBetweenUserAndCountry(login, countryName);
+    }
+
+    @Override
+    @Transactional
     public void deleteUser(final String login) {
         userRepository.deleteUserByLogin(login);
     }
