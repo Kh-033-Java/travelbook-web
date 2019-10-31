@@ -5,10 +5,7 @@ import com.Kh033Java.travelbook.entity.Country;
 import com.Kh033Java.travelbook.entity.Description;
 import com.Kh033Java.travelbook.repository.CityRepository;
 import com.Kh033Java.travelbook.repository.CountryRepository;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,6 +15,7 @@ import java.util.List;
 
 @ContextConfiguration(classes = {PersistenceContext.class})
 @RunWith(SpringRunner.class)
+@Ignore
 public class Neo4JTest {
 
     @Autowired
