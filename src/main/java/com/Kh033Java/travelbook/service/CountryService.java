@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 
 public interface CountryService {
 
-    public List<Country> getVisitedCountries(String userLogin);
+    Country getByName(String name);
+
+    List<Country> getVisitedCountries(String userLogin);
 
     List<Country> getPlannedCountries(String userLogin);
 
