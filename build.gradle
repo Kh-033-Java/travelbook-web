@@ -2,7 +2,6 @@ plugins {
     id 'org.springframework.boot' version '2.2.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
-//    id 'checkstyle'
 }
 
 group = 'Kh-033-Java'
@@ -36,6 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage'
+    implementation 'com.google.cloud:google-cloud-storage:1.99.0'
     implementation 'com.google.auth:google-auth-library-appengine:0.18.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -47,28 +47,3 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
-
-//bootRun {
-//    String s = System.getProperty("file.separator")
-//    String path =  System.getProperty("user.dir") + s + "src" + s + "main" + s + "resources" + s +"Bachelor-bc0312b7b74b.json"
-//    environment "GOOGLE_APPLICATION_CREDENTIALS", path
-//}
-//
-//test {
-//    String s = System.getProperty("file.separator")
-//    String path =  System.getProperty("user.dir") + s + "src" + s + "main" + s + "resources" + s +"Bachelor-bc0312b7b74b.json"
-//    environment "GOOGLE_APPLICATION_CREDENTIALS", path
-//}
-
-//tasks.withType(Checkstyle) {
-//    reports {
-//        xml.enabled false
-//        html.enabled true
-//        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
-//    }
-//}
-//
-//checkstyle {
-//    toolVersion = '8.1'
-//    checkstyleTest.enabled = false
-//}
