@@ -12,13 +12,8 @@ import com.Kh033Java.travelbook.repository.CountryRepository;
 import com.Kh033Java.travelbook.repository.NoteRepository;
 
 @Service
-public class NoteService {
-	
-    @Autowired
-    NoteRepository noteRepository;
+public interface NoteService {
 
-	public List<Note> getNotes() {
-		return noteRepository.getPublicNotes();
-	}
+	public List<Note> getNotes();
 
 }
