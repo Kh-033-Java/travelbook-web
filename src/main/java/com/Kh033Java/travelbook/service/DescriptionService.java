@@ -9,10 +9,14 @@ import com.Kh033Java.travelbook.repository.DescriptionRepository;
 @Service
 public class DescriptionService {
 	
-    @Autowired
-    DescriptionRepository descriptionRepository;
+    private final DescriptionRepository descriptionRepository;
 
-    public Description getDesccriptionByCountryName(String name) {
+    @Autowired
+    public DescriptionService(DescriptionRepository descriptionRepository) {
+		this.descriptionRepository = descriptionRepository;
+	}
+
+	public Description getDescriptionByCountryName(String name) {
         return descriptionRepository.getDesccriptionByCountryName(name);
     }
 

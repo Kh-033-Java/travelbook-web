@@ -11,10 +11,14 @@ import com.Kh033Java.travelbook.repository.CountryRepository;
 @Service
 public class CountryService {
 	
-    @Autowired
-    CountryRepository countryRepository;
+    private CountryRepository countryRepository;
 
-    public Country getByName(String name) {
+    @Autowired
+    public CountryService(CountryRepository countryRepository) {
+		this.countryRepository = countryRepository;
+	}
+
+	public Country getByName(String name) {
         return countryRepository.getCountryByName(name);
     }
     
