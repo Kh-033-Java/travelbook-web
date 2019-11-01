@@ -1,133 +1,116 @@
-package com.Kh033Java.travelbook.service.impl;
+package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.dto.CountryDTO;
-import com.Kh033Java.travelbook.entity.Country;
+import com.Kh033Java.travelbook.dto.UserDto;
 import com.Kh033Java.travelbook.entity.Role;
-import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.RoleRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
-import com.Kh033Java.travelbook.service.CountryService;
-import com.Kh033Java.travelbook.service.UserService;
-import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.responseForm.UserResponseForm;
+import com.Kh033Java.travelbook.validation.ValidationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+
 @Service
+
 public class UserServiceImpl implements UserService {
 
+    Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
     private final UserRepository userRepository;
-    private final CountryService countryService;
     private final RoleRepository roleRepository;
-    private final String ADMIN = "Admin";
-    private final String USER = "User";
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CountryService countryService, RoleRepository roleRepository,
-                           BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.countryService = countryService;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    @Transactional
-    public List<User> getAllUsers() {
-        List<User> result = (List<User>) userRepository.findAll();
-        for (User user : result) {
-            List<Role> roleNames = roleRepository.findRolesByUsersId(user.getId());
-            user.setRoles(roleNames);
+    public List<UserResponseForm> getAll() {
+        List<User> listUsers = (List<User>) userRepository.findAll();
+        List<UserResponseForm> resultList = new ArrayList<>();
+        for(User user: listUsers){
+            UserResponseForm result = new UserResponseForm();
+            result.setLogin(user.getLogin());
+            result.setAvatar(user.getAvatar());
+            resultList.add(result);
         }
+        log.info("IN getAll - {} users found", listUsers.size());
+        return resultList;
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        Optional<User> result = userRepository.findByLogin(username);
+        ValidationUtil.checkBeforeGet(result, User.class);
+        log.info("IN findByUsername - user: {} found by username: {}", result, username);
         return result;
     }
 
     @Override
-    public User setRole(String login, Role role) {
-        List<Role> roleList = new ArrayList<>();
-        Role roleResult = roleRepository.findByType(role.getType());
-        roleList.add(roleResult);
-        User user = userRepository.getUserByLogin(login);
-        user.setRoles(roleList);
-        return userRepository.save(user);
+    public Optional<User> findById(Long id) {
+        Optional<User>result = userRepository.findById(id);
+
+        ValidationUtil.checkBeforeGet(result,  User.class);
+
+        log.info("IN findById - user: {} found by id: {}", result, id);
+        return result;
+    }
+
+    @Override
+    public void delete(String login) {
+        Optional<User> user = userRepository.findByLogin(login);
+        ValidationUtil.checkBeforeGet(user, User.class);
+        userRepository.delete(user.get());
+        log.info("IN delete - user with login: {} successfully deleted", login);
     }
 
     @Override
     @Transactional
-    public User getUser(final String login) {
-        return userRepository.getUserByLogin(login);
-    }
+    public User updateUser(final String login, final UserDto user) {
+        Optional<User> currentUser = userRepository.findByLogin(login);
+        User result = user.toUser();
 
-    @Override
-    @Transactional
-    public User saveUser(final User user) {
-        Role roleUser = roleRepository.findByType(USER);
-        List<Role> userRoles = new ArrayList<>();
-        userRoles.add(roleUser);
+        ValidationUtil.checkBeforeGet(currentUser, User.class);
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(userRoles);
-        return userRepository.save(user);
-    }
-
-    @Override
-    @Transactional
-    public User updateUser(final String login, final RequestDetail user) {
-        User currentUser = userRepository.getUserByLogin(login);
-        User result = new User();
-
-        if (!user.getPassword().equals("null")) {
+        if(user.getPassword() != null){
             result.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        if (user.getLastName() != null) {
-            result.setLastName(user.getLastName());
-        }
+        result.setLogin(user.getLogin());
+        result.setVisitedCountries(currentUser.get().getVisitedCountries());
+        result.setLikedNotes(currentUser.get().getLikedNotes());
+        result.setCreatedNotes(currentUser.get().getCreatedNotes());
+        result.setCreatedPlans(currentUser.get().getCreatedPlans());
+        result.setRoles(currentUser.get().getRoles());
 
-        if (user.getFirstName() != null) {
-            result.setFirstName(user.getFirstName());
-        }
-
-        if (user.getEmail() != null) {
-            result.setEmail(user.getEmail());
-        }
-
-        if (user.getDescription() != null) {
-            result.setDescription(user.getDescription());
-        }
-
-        if (user.getLogin() != null) {
-            result.setLogin(user.getLogin());
-        }
-
-        result.setRoles(currentUser.getRoles());
-        result.setLogin(login);
-        userRepository.delete(currentUser);
+        userRepository.delete(currentUser.get());
 
         return userRepository.save(result);
     }
 
     @Override
     @Transactional
-    public void deleteUser(final String login) {
-        userRepository.deleteUserByLogin(login);
-    }
+    public User saveUser(final User user) {
+        Role roleUser = roleRepository.findByType("USER");
+        List<Role> userRoles = new ArrayList<>();
+        userRoles.add(roleUser);
 
-    @Override
-    public CountryDTO getMapByUser(String login) {
-        final List<Country> visited = countryService.getVisitedCountries(login);
-        final List<Country> plannedForVisit = countryService.getPlannedCountries(login);
-        return new CountryDTO(visited, plannedForVisit);
-    }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(userRoles);
 
-    @Override
-    public User getUserProfile(String login) {
-        return userRepository.getUserByLogin(login);
+        log.info("IN register - user: {} successfully registered", user);
+        return userRepository.save(user);
     }
 }

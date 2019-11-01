@@ -1,10 +1,23 @@
 package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.entity.Transport;
-
 import java.util.List;
 
-public interface TransportService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-    List<Transport> getAllTransport();
+import com.Kh033Java.travelbook.entity.Country;
+import com.Kh033Java.travelbook.entity.Transport;
+import com.Kh033Java.travelbook.repository.CountryRepository;
+import com.Kh033Java.travelbook.repository.TransportRepository;
+
+@Service
+public class TransportService {
+	
+    @Autowired
+    TransportRepository transportRepository;
+
+    public List<Transport> getAllTransport() {
+        return transportRepository.findAll();
+    }
+
 }
