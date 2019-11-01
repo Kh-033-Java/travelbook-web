@@ -1,6 +1,7 @@
 package com.Kh033Java.travelbook.service.impl;
 
 import com.Kh033Java.travelbook.dto.PlanDTO;
+import com.Kh033Java.travelbook.dto.PlanSearchDTO;
 import com.Kh033Java.travelbook.entity.Plan;
 import com.Kh033Java.travelbook.repository.CityRepository;
 import com.Kh033Java.travelbook.repository.PlanRepository;
@@ -65,6 +66,26 @@ public class PlanServiceImpl implements PlanService {
 
         return allPlans;
     }
+
+    @Override
+    public List<PlanDTO> getPlansWithFilter(PlanSearchDTO planSearchDTO) {
+        List<PlanDTO> planDTOS = new ArrayList<>();
+        for (Plan plan : planRepository.findPlansWithFilter(planSearchDTO.getBudgetMin(), planSearchDTO.getBudgetMax(), planSearchDTO.getMinDate(), planSearchDTO.getMaxDate(), planSearchDTO.getAmountOfPeopleMin(), planSearchDTO.getAmountOfPeopleMax(), planSearchDTO.getTransportType(), planSearchDTO.getCityFrom(), planSearchDTO.getCityGoTo())) {
+            planDTOS.add(createPlanDTO(plan));
+        }
+
+        return planDTOS;
+    }
+
+    @Override
+    public List<PlanDTO> getPlansByBudget(int minBudget, int maxBudget) {
+        List<PlanDTO> planDTOS = new ArrayList<>();
+        for (Plan plan : planRepository.findPlansByBudget(minBudget, maxBudget)) {
+            planDTOS.add(createPlanDTO(plan));
+        }
+        return planDTOS;
+    }
+
 
     @Override
     public List<PlanDTO> getPlansConnectedToCountryForUnauthorizedUser(String name) {
