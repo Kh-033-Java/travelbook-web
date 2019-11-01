@@ -1,4 +1,4 @@
-package com.Kh033Java.travelbook.service;
+package com.Kh033Java.travelbook.service.impl;
 
 import com.Kh033Java.travelbook.dto.PlanDTO;
 import com.Kh033Java.travelbook.dto.PlanSearchDTO;
@@ -7,6 +7,7 @@ import com.Kh033Java.travelbook.repository.CityRepository;
 import com.Kh033Java.travelbook.repository.PlanRepository;
 import com.Kh033Java.travelbook.repository.TransportRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.travelbook.service.PlanService;
 import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
