@@ -21,9 +21,13 @@ import com.Kh033Java.travelbook.util.JsonConverter;
  */
 @RestController
 public class MapController {
-	
+		
+	private final CountryService countryService;
+
 	@Autowired
-	CountryService countryService;
+	public MapController(CountryService countryService) {
+		this.countryService = countryService;
+	}
 
 	@RequestMapping(value = "users/{login}/map", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getUserMap(@PathVariable String login) {

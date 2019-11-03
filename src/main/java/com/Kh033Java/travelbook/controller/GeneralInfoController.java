@@ -22,13 +22,14 @@ import com.Kh033Java.travelbook.util.WeatherProvider;
  */
 @RestController
 public class GeneralInfoController {
+	
+	private final DescriptionService descriptionService;
+	
+	@Autowired
+	public GeneralInfoController(CountryService countryService, DescriptionService descriptionService) {
+		this.descriptionService = descriptionService;
+	}
 
-	@Autowired
-	CountryService countryService;
-	
-	@Autowired
-	DescriptionService descriptionService;
-	
 	@RequestMapping(value = "/country/{countryName}/description", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getGeneralInfo(@PathVariable String countryName) {
 		final Description description = descriptionService.getDescriptionByCountryName(countryName);

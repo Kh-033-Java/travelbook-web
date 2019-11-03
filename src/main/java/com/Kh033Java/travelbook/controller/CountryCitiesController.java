@@ -20,8 +20,12 @@ import com.Kh033Java.travelbook.service.CityService;;
 @RestController
 public class CountryCitiesController {
 
+	private final CityService cityService;
+
 	@Autowired
-	CityService cityService;
+	public CountryCitiesController(CityService cityService) {
+		this.cityService = cityService;
+	}
 
 	@RequestMapping(value = "/country/{countryName}/cities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<City> getCountryCities(@PathVariable String countryName) {

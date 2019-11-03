@@ -19,9 +19,13 @@ import com.Kh033Java.travelbook.service.TransportService;
 @RestController
 public class TransportController {
 	
-	@Autowired
-	TransportService transportService;
+	private final TransportService transportService;
 	
+	@Autowired
+	public TransportController(TransportService transportService) {
+		this.transportService = transportService;
+	}
+
 	@RequestMapping(value = "/transport", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Transport> getTransport() {
 		return transportService.getAllTransport();
