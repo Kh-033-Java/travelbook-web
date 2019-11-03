@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 public class WeatherProvider {
 
-
 	private static final String API_KEY = "3939f49317f69e576a49d2c1ef25356b";
 	private static final String API_VERSION = "2.5";
 	private Map<String, Object> weatherData;
