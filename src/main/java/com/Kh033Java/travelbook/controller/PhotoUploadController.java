@@ -1,19 +1,20 @@
 package com.Kh033Java.travelbook.controller;
 
-import com.Kh033Java.travelbook.service.FileUploadServiceImpl;
+import java.io.IOException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import com.Kh033Java.travelbook.service.FileUploadService;
 
 @RestController
 public class PhotoUploadController {
 
-    private final FileUploadServiceImpl fileUploadService;
+    private final FileUploadService fileUploadService;
 
-    public PhotoUploadController(FileUploadServiceImpl fileUploadService) {
+    public PhotoUploadController(FileUploadService fileUploadService) {
         this.fileUploadService = fileUploadService;
     }
 

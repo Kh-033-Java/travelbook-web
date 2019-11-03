@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.Kh033Java.travelbook.repository;
 
 import com.Kh033Java.travelbook.entity.Role;
@@ -18,3 +19,15 @@ public interface RoleRepository extends Neo4jRepository<Role, Long> {
      List<Role> findRolesByUsersId(Long id);
 
 }
+=======
+package com.Kh033Java.travelbook.repository;
+
+import com.Kh033Java.travelbook.entity.Role;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
+
+
+
+public interface RoleRepository extends Neo4jRepository<Role, Long> {
+    Role findByType(String name);
+}
+>>>>>>> branch 'dev' of https://github.com/Kh-033-Java/travelbook-web
