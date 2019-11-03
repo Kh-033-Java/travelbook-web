@@ -1,27 +1,28 @@
 package com.Kh033Java.travelbook.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.Kh033Java.travelbook.entity.City;
+import com.Kh033Java.travelbook.entity.Transport;
+import com.Kh033Java.travelbook.service.CityService;
+import com.Kh033Java.travelbook.service.TransportService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Kh033Java.travelbook.entity.City;
-import com.Kh033Java.travelbook.entity.Transport;
-import com.Kh033Java.travelbook.service.CityService;
-import com.Kh033Java.travelbook.service.TransportService;
+import java.util.List;
 
 @RestController
 public class PropertiesOfPlannedTripController {
 
-	@Autowired
-	CityService cityService;
+	private final CityService cityService;
 
-	@Autowired
-	TransportService transportService;
+	private final TransportService transportService;
+
+	public PropertiesOfPlannedTripController(CityService cityService, TransportService transportService) {
+		this.cityService = cityService;
+		this.transportService = transportService;
+	}
 
 	@RequestMapping(value = "/country/{countryName}/cities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<City> getCountryCities(@PathVariable String countryName) {

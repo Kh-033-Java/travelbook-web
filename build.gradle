@@ -2,7 +2,6 @@ plugins {
     id 'org.springframework.boot' version '2.2.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
-//    id 'checkstyle'
 }
 
 group = 'Kh-033-Java'
@@ -55,16 +54,3 @@ bootRun {
 test {
     environment "GOOGLE_APPLICATION_CREDENTIALS", "src/main/resources/Bachelor-bc0312b7b74b.json"
 }
-
-//tasks.withType(Checkstyle) {
-//    reports {
-//        xml.enabled false
-//        html.enabled true
-//        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
-//    }
-//}
-//
-//checkstyle {
-//    toolVersion = '8.1'
-//    checkstyleTest.enabled = false
-//}
