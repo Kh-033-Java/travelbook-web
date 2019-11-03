@@ -17,8 +17,6 @@ public class CountryGeneralInfoDTO {
 		this.name = name;
 		this.description = description;
 		this.weather = weather;
-	}
-	
-	
+	}	
 
 }
