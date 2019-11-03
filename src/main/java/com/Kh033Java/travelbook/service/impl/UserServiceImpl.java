@@ -28,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final String ADMIN = "Admin";
+    private final String USER = "User";
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
@@ -49,6 +51,34 @@ public class UserServiceImpl implements UserService {
         log.info("IN getAll - {} users found", listUsers.size());
         return resultList;
     }
+
+    @Override
+    @Transactional
+    public List<User> getAllUsers() {
+        List<User> result = (List<User>) userRepository.findAll();
+        for (User user : result) {
+            List<Role> roleNames = roleRepository.findRolesByUsersId(user.getId());
+            user.setRoles(roleNames);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public User getUser(final String login) {
+        return userRepository.getUserByLogin(login);
+    }
+
+    @Override
+    public User setRole(String login, Role role) {
+        List<Role> roleList = new ArrayList<>();
+        Role roleResult = roleRepository.findByType(role.getType());
+        roleList.add(roleResult);
+        User user = userRepository.getUserByLogin(login);
+        user.setRoles(roleList);
+        return userRepository.save(user);
+    }
+
 
     @Override
     public Optional<User> findByUsername(String username) {
@@ -98,6 +128,12 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(currentUser.get());
 
         return userRepository.save(result);
+    }
+
+    @Override
+    @Transactional
+    public void addVisitedCountry(String login, String countryName){
+        userRepository.creatRelationshipBetweenUserAndCountry(login, countryName);
     }
 
     @Override

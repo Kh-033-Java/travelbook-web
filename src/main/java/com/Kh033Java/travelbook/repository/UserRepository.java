@@ -12,6 +12,8 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     Optional<User> findByLogin(String name);
 
+    User getUserByLogin(@Param("login") String login);
+
     @Query("MATCH (u:User),(c:Country) WHERE u.login={login} AND c.name={country} CREATE (u)-[:VISITED]->(c)")
     void creatRelationshipBetweenUserAndCountry(@Param("login") String login, @Param("country") String name);
 
