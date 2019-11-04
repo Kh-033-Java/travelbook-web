@@ -2,9 +2,9 @@ package com.Kh033Java.travelbook.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
-
 public class NoteDTO {
+
+    private Integer id;
 
     private String title;
 
@@ -13,7 +13,7 @@ public class NoteDTO {
 
     private String description;
 
-    private Date dateOfVisiting;
+    private String dateOfVisiting;
 
     private Integer peopleEstimate;
 
@@ -23,18 +23,17 @@ public class NoteDTO {
 
     private Integer commonImpression;
 
-    private String name;
-
     private String login;
 
-    private String link;
+    private String photoLink;
 
-    private String anotherLogin;
+    private String describedCity;
 
     public NoteDTO() {
     }
 
-    public NoteDTO(String title, boolean isPublic, String description, Date dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, String name, String login, String link, String anotherLogin) {
+    public NoteDTO(Integer id, String title, boolean isPublic, String description, String dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, String login, String photoLink, String describedCity) {
+        this.id = id;
         this.title = title;
         this.isPublic = isPublic;
         this.description = description;
@@ -43,10 +42,17 @@ public class NoteDTO {
         this.pricesEstimate = pricesEstimate;
         this.cuisineEstimate = cuisineEstimate;
         this.commonImpression = commonImpression;
-        this.name = name;
         this.login = login;
-        this.link = link;
-        this.anotherLogin = anotherLogin;
+        this.photoLink = photoLink;
+        this.describedCity = describedCity;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -65,7 +71,7 @@ public class NoteDTO {
         return description;
     }
 
-    public Date getDateOfVisiting() {
+    public String getDateOfVisiting() {
         return dateOfVisiting;
     }
 
@@ -85,19 +91,56 @@ public class NoteDTO {
         return commonImpression;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getLogin() {
         return login;
     }
 
-    public String getLink() {
-        return link;
+    public String getPhotoLink() {
+        return photoLink;
     }
 
-    public String getAnotherLogin() {
-        return anotherLogin;
+    public void setPhotoLink(String photoLink) {
+        this.photoLink = photoLink;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDateOfVisiting(String dateOfVisiting) {
+        this.dateOfVisiting = dateOfVisiting;
+    }
+
+    public void setPeopleEstimate(Integer peopleEstimate) {
+        this.peopleEstimate = peopleEstimate;
+    }
+
+    public void setPricesEstimate(Integer pricesEstimate) {
+        this.pricesEstimate = pricesEstimate;
+    }
+
+    public void setCuisineEstimate(Integer cuisineEstimate) {
+        this.cuisineEstimate = cuisineEstimate;
+    }
+
+    public void setCommonImpression(Integer commonImpression) {
+        this.commonImpression = commonImpression;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+
+    public String getDescribedCity() {
+        return describedCity;
+    }
+
+    public void setDescribedCity(String describedCity) {
+        this.describedCity = describedCity;
     }
 }
