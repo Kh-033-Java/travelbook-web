@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseForm> getAll() {
         List<User> listUsers = (List<User>) userRepository.findAll();
         List<UserResponseForm> resultList = new ArrayList<>();
-        for(User user: listUsers){
+        for (User user : listUsers) {
             UserResponseForm result = new UserResponseForm();
             result.setLogin(user.getLogin());
             result.setAvatar(user.getAvatar());
@@ -60,9 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findById(Long id) {
-        Optional<User>result = userRepository.findById(id);
+        Optional<User> result = userRepository.findById(id);
 
-        ValidationUtil.checkBeforeGet(result,  User.class);
+        ValidationUtil.checkBeforeGet(result, User.class);
 
         log.info("IN findById - user: {} found by id: {}", result, id);
         return result;
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
         ValidationUtil.checkBeforeGet(currentUser, User.class);
 
-        if(user.getPassword() != null){
+        if (user.getPassword() != null) {
             result.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
@@ -112,5 +112,17 @@ public class UserServiceImpl implements UserService {
 
         log.info("IN register - user: {} successfully registered", user);
         return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void addVisitedCountry(String login, String countryName) {
+        userRepository.creatRelationshipBetweenUserAndCountry(login, countryName);
+    }
+
+    @Override
+    @Transactional
+    public void deleteVisitedCountry(String login, String countryName) {
+        userRepository.deleteRelationshipBetweenUserAndCountry(login, countryName);
     }
 }
