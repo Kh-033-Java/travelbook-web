@@ -9,7 +9,6 @@ public class CountryGeneralInfoDTO {
 	private final Weather weather;
 	
 	public CountryGeneralInfoDTO(String name, Description description, Weather weather) {
-		super();
 		this.name = name;
 		this.description = description;
 		this.weather = weather;

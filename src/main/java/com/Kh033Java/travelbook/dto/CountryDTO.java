@@ -13,7 +13,6 @@ public class CountryDTO {
     private final List<Country> countriesPlannedToVisit;
     
 	public CountryDTO(List<Country> visitedCountries, List<Country> countriesPlannedToVisit) {		
-		super();
 		this.visitedCountries = visitedCountries;
 		this.countriesPlannedToVisit = countriesPlannedToVisit;
 	}
