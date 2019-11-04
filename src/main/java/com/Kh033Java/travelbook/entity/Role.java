@@ -26,3 +26,4 @@ public class Role {
         this.type = type;
     }
 }
+
