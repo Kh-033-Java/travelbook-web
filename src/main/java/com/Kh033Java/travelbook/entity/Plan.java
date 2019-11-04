@@ -1,11 +1,12 @@
 package com.Kh033Java.travelbook.entity;
+
+import java.util.Date;
+
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.typeconversion.DateString;
-
-import java.util.Date;
 
 @NodeEntity
 public class Plan {

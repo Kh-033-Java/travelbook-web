@@ -1,10 +1,11 @@
 package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.dto.PlanDTO;
-import com.Kh033Java.travelbook.entity.Plan;
-
 import java.util.List;
 import java.util.Set;
+
+import com.Kh033Java.travelbook.dto.PlanDTO;
+import com.Kh033Java.travelbook.dto.PlanSearchDTO;
+import com.Kh033Java.travelbook.entity.Plan;
 
 public interface PlanService {
 
@@ -15,6 +16,10 @@ public interface PlanService {
     PlanDTO getPlanById(Long id);
 
     List<PlanDTO> getPublicAndPrivateUserPlansConnectedToCountry(String countryName, String login);
+
+    List<PlanDTO> getPlansWithFilter(PlanSearchDTO planSearchDTO);
+
+    List<PlanDTO> getPlansByBudget(int minBudget, int maxBudget);
 
     Plan updatePlan(PlanDTO plan, long id);
 

@@ -1,23 +1,24 @@
 package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.exception.NotFoundException;
-import com.Kh033Java.travelbook.entity.Role;
-import com.Kh033Java.travelbook.entity.User;
-import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;
-
 import java.util.List;
+import java.util.Optional;
+
+import com.Kh033Java.travelbook.dto.UserDto;
+import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.responseForm.UserResponseForm;
 
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<UserResponseForm> getAll();
 
-    User setRole(String login, Role role);
+    Optional<User> findByUsername(String username);
 
-    User getUser(String login) throws NotFoundException;
+    Optional<User> findById(Long id);
+
+    void delete(String login);
+
+    User updateUser(String login , UserDto user);
 
     User saveUser(User user);
-
-    User updateUser(String login, RequestDetail user) throws NotFoundException;
-
-    void deleteUser(String login) throws NotFoundException;
 }
+

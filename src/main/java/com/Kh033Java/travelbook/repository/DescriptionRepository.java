@@ -15,6 +15,6 @@ public interface DescriptionRepository extends Neo4jRepository<Description, Long
     List<Description> findAll();
 
     @Query("MATCH (country:Country)-[has:HAS_DESCRIPTION]->(desc:Description) WHERE country.name={countryName} RETURN desc")
-	Description getDesccriptionByCountryName(@Param("countryName") String countryName);
+	Description getDescriptionByCountryName(@Param("countryName") String countryName);
     
 }

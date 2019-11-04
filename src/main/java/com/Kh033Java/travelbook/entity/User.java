@@ -1,14 +1,18 @@
 package com.Kh033Java.travelbook.entity;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.neo4j.ogm.annotation.*;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.Index;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @NodeEntity
-public class User {
+public class User  {
 
     @Id
     @GeneratedValue
@@ -49,8 +53,8 @@ public class User {
     @Relationship(type = "HAS_ROLE")
     private List<Role> roles;
 
+
     public User() {
-    	
     }
 
     public User(final String login, final String password) {
@@ -58,18 +62,27 @@ public class User {
         this.password = password;
     }
 
-    public User(String login, String password, String lastName, String firstName, String email, String description, Photo avatar) {
+    public User(String login,
+                String password,
+                String lastName,
+                String firstName,
+                String email,
+                String description,
+                List<Role> roles
+                ,Photo avatar
+    ) {
         this.login = login;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
+        this.roles = roles;
         this.avatar = avatar;
     }
 
-    public User(String login, String email, String password, String firstName, String lastName, String description, String role, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans) {
-        this(login, password, lastName, firstName, email, description, avatar);
+    public User(String login, String email, String password, String firstName, String lastName, String description, List<Role> roles, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans) {
+        this(login, password, lastName, firstName, email, description, roles, avatar);
         this.visitedCountries = visitedCountries;
         this.likedNotes = likedNotes;
         this.createdNotes = createdNotes;
@@ -214,4 +227,6 @@ public class User {
         }
         createdPlans.add(plan);
     }
+
+
 }

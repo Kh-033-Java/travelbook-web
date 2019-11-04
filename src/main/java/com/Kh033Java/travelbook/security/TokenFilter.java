@@ -1,7 +1,8 @@
-package com.Kh033Java.travelbook.userDetails;
+package com.Kh033Java.travelbook.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -11,26 +12,30 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+
 public class TokenFilter extends GenericFilterBean {
 
-    private final TokenProvider tokenProvider;
+    private TokenProvider tokenProvider;
 
     public TokenFilter(TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
     }
 
-
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String token = tokenProvider.resolveToken((HttpServletRequest) request);
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
+            throws IOException, ServletException {
+
+        String token = tokenProvider.resolveToken((HttpServletRequest) req);
 
         if (token != null && tokenProvider.validateToken(token)) {
-            Authentication authentication = tokenProvider.getAuthentication(token);
+            Authentication auth = tokenProvider.getAuthentication(token);
 
-            if (authentication != null) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (auth != null) {
+                SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
-        chain.doFilter(request, response);
+
+        filterChain.doFilter(req, res);
     }
+
 }
