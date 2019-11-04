@@ -47,4 +47,9 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
     @Query("MATCH (u:User),(n:Note) WHERE u.login={login} AND ID(n)={noteId} SET n.likes = (n.likes + 1)" +
             "CREATE (u)-[:LIKED]->(n)")
     void findNoteForLike(@Param("login") String login, @Param("noteId") int noteId);
+
+    List<Note> findAll();
+
+    @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note) where p.login ={userLogin}  and c.name={countryName} return n")
+    List<Note> findAllUsersNotesInCountry(@Param("countryName") String countryName, @Param("userLogin") String userLogin);
 }
