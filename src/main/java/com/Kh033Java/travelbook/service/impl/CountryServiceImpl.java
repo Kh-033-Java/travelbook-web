@@ -50,7 +50,8 @@ public class CountryServiceImpl implements CountryService {
         return photoRepository.findAllUsersPhotosInCountry(countryName, login);
     }
 
+
     public List<Note> getNotesByCountryByUser(String countryName, String login) {
-        return noteRepository.findAllUsersNotesInCountry(countryName,login).stream().filter(Note::isPublic).collect(Collectors.toList());
+        return noteRepository.findAllUsersNotesInCountry(countryName,login).stream().filter(Note::getIsPublic).collect(Collectors.toList());
     }
 }
