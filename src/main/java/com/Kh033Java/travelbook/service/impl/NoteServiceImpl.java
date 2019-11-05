@@ -1,11 +1,13 @@
-package com.Kh033Java.travelbook.service;
+package com.Kh033Java.travelbook.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Kh033Java.travelbook.dto.NoteDTO;
 import com.Kh033Java.travelbook.entity.Note;
 import com.Kh033Java.travelbook.repository.NoteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.Kh033Java.travelbook.service.NoteService;
 
 @Service
 @Transactional
