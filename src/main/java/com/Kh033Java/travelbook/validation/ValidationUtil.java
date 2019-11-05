@@ -23,7 +23,7 @@ public class ValidationUtil {
     }
 
     public static <T> T checkBeforeGet(final Optional<T> obj, final Class clazz) {
-        if (obj.isEmpty()) {
+        if (!obj.isPresent()) {
             throw new NotFoundException(String.format(secondTemplate, clazz.getSimpleName()));
         }
         return obj.get();
