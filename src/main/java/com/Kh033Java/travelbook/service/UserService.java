@@ -20,5 +20,9 @@ public interface UserService {
     User updateUser(String login , UserDto user);
 
     User saveUser(User user);
+
+    void addVisitedCountry(String login, String countryName);
+
+    void deleteVisitedCountry(String login, String countryName);
 }
 

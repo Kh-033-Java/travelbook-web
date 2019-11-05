@@ -1,41 +1,44 @@
 package com.Kh033Java.travelbook.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.typeconversion.DateString;
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @NodeEntity
 public class Note {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     private String title;
+
+    @JsonProperty
     private boolean isPublic;
+
     private String description;
-    @DateString("yyyy-MM-dd")
-    private Date dateOfVisiting;
+
+    private String dateOfVisiting;
+
     private Integer peopleEstimate;
+
     private Integer pricesEstimate;
+
     private Integer cuisineEstimate;
+
     private Integer commonImpression;
 
     @Relationship(type = "DESCRIBES")
-    private City describedCity;
-
+    private String describedCity;
     @Relationship(type = "HAS_PHOTO")
-    private Set<Photo> photos;
+    private String photoLink;
 
     public Note() {
     }
 
-    public Note(String title, boolean isPublic, String description, Date dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, City describedCity, Set<Photo> photos) {
+    public Note(Integer id, String title, boolean isPublic, String description, String dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, String describedCity, String photoLink) {
+        this.id = id;
         this.title = title;
         this.isPublic = isPublic;
         this.description = description;
@@ -45,14 +48,15 @@ public class Note {
         this.cuisineEstimate = cuisineEstimate;
         this.commonImpression = commonImpression;
         this.describedCity = describedCity;
-        this.photos = photos;
+        this.photoLink = photoLink;
     }
 
-    public Long getId() {
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,8 +72,8 @@ public class Note {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     public String getDescription() {
@@ -80,11 +84,11 @@ public class Note {
         this.description = description;
     }
 
-    public Date getDateOfVisiting() {
+    public String getDateOfVisiting() {
         return dateOfVisiting;
     }
 
-    public void setDateOfVisiting(Date dateOfVisiting) {
+    public void setDateOfVisiting(String dateOfVisiting) {
         this.dateOfVisiting = dateOfVisiting;
     }
 
@@ -120,34 +124,19 @@ public class Note {
         this.commonImpression = commonImpression;
     }
 
-    public City getDescribedCity() {
+    public String getDescribedCity() {
         return describedCity;
     }
 
-    public void setDescribedCity(City describedCity) {
+    public void setDescribedCity(String describedCity) {
         this.describedCity = describedCity;
     }
 
-    public Set<Photo> getPhotos() {
-        return photos;
+    public void setPhotoLink(String photoLink) {
+        this.photoLink = photoLink;
     }
 
-    public void setPhotos(Set<Photo> photos) {
-        this.photos = photos;
+    public String getPhotoLink() {
+        return photoLink;
     }
-
-    public void describeCity(City city) {
-        if (describedCity == null) {
-            describedCity = new City();
-        }
-        describedCity = city;
-    }
-
-    public void hasPhoto(Photo photo) {
-        if (photos == null) {
-            photos = new HashSet<>();
-        }
-        photos.add(photo);
-    }
-
 }
