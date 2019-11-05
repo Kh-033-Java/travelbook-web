@@ -20,7 +20,7 @@ public class PlansController {
         this.planService = planService;
     }
 
-    @GetMapping(value = "country/{name}/plans")
+    @GetMapping(value = "/country/{name}/plans")
     @ResponseStatus(HttpStatus.OK)
     public List<PlanDTO> getAllCountryPlansWithDTO(@PathVariable String name) {
         return planService.getPlansConnectedToCountryForUnauthorizedUser(name);
@@ -32,29 +32,29 @@ public class PlansController {
         return planService.getCountryPlansAndUserPrivatePlans(name, login);
     }
 
-    @GetMapping(value = "country/plans/{id}")
+    @GetMapping(value = "/country/plans/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PlanDTO getPlanWithDTO(@PathVariable Long id) {
         return planService.getPlanById(id);
     }
 
-    @GetMapping(value = "country/{name}/plans/private")
+    @GetMapping(value = "/country/{name}/plans/private")
     @ResponseStatus(HttpStatus.OK)
     public List<PlanDTO> getAllUsersPlans(@PathVariable String name, @RequestParam String user) {
         return planService.getPublicAndPrivateUserPlansConnectedToCountry(name, user);
     }
 
-    @PostMapping(value = "plans")
+    @PostMapping(value = "/plans")
     public Plan savePlan(@RequestBody PlanDTO planDTO) {
         return planService.save(planDTO);
     }
 
-    @DeleteMapping(value = "plans/{id}")
+    @DeleteMapping(value = "/plans/{id}")
     public void deletePlan(@PathVariable Long id) {
         planService.deletePlan(id);
     }
 
-    @PutMapping(value = "plans/{id}")
+    @PutMapping(value = "/plans/{id}")
     public Plan editPlan(@RequestBody PlanDTO planDTO, @PathVariable Long id) {
         return planService.updatePlan(planDTO, id);
     }

@@ -70,7 +70,7 @@ public class AnonymousController {
     }
 
     @PostMapping(value = "registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public User createUser(@RequestBody final UserDto user) {
         LOG.info("Create user {}", user);
         return userService.saveUser(user);

@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
         result.setPassword(passwordEncoder.encode(user.getPassword()));
         result.setRoles(userRoles);
 
-        log.info("IN register - user: {} successfully registered", user);
+        log.info("IN register - user: {} successfully registered", result.getLogin());
         return userRepository.save(result);
     }
 
