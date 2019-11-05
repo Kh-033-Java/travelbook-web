@@ -1,55 +1,75 @@
 package com.Kh033Java.travelbook.controller;
 
+import com.Kh033Java.travelbook.security.TokenProvider;
+import com.Kh033Java.travelbook.dto.AuthenticationRequestDto;
 import com.Kh033Java.travelbook.entity.User;
-import com.Kh033Java.travelbook.exception.NotFoundException;
-import com.Kh033Java.travelbook.repository.UserRepository;
-import com.Kh033Java.travelbook.userDetails.TokenProvider;
-import com.Kh033Java.travelbook.userDetails.requestUserDetails.RequestDetail;
+import com.Kh033Java.travelbook.service.UserService;
+import com.Kh033Java.travelbook.validation.ValidationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 
 @RestController
-@RequestMapping("/anonymous")
+@RequestMapping(value = "/anonymous/")
 public class AnonymousController {
 
-    private final UserRepository userRepository;
-    private final TokenProvider tokenProvider;
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
+
     private final AuthenticationManager authenticationManager;
 
+    private final TokenProvider tokenProvider;
+
+    private final UserService userService;
+
     @Autowired
-    public AnonymousController(UserRepository userRepository, TokenProvider tokenProvider, AuthenticationManager authenticationManager) {
-        this.tokenProvider = tokenProvider;
+    public AnonymousController(AuthenticationManager authenticationManager, TokenProvider tokenProvider, UserService userService) {
         this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
+        this.tokenProvider = tokenProvider;
+        this.userService = userService;
     }
 
-    @PostMapping("/authentication")
-    public ResponseEntity login(@RequestBody final RequestDetail requestDetail) {
-        String username = requestDetail.getLogin();
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDetail.getLogin(), requestDetail.getPassword()));
-        User user = userRepository.getUserByLogin(requestDetail.getLogin());
-// Rewrite with Optional
-        if (user == null) {
-            throw new NotFoundException("User not found");
+    @PostMapping("login")
+    public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
+        try {
+            String username = requestDto.getLogin();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
+            Optional<User> user = userService.findByUsername(username);
+
+            ValidationUtil.checkBeforeGet(user, User.class);
+
+            String token = tokenProvider.createToken(username, user.get().getRoles());
+
+            Map<Object, Object> response = new HashMap<>();
+            response.put("login", username);
+            response.put("token", token);
+
+            return ResponseEntity.ok(response);
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Invalid username or password");
         }
+    }
 
-        String token = tokenProvider.createToken(username, user.getRoles());
-//to method
-        Map<Object, Object> response = new HashMap<>();
-        response.put("username", username);
-        response.put("token", token);
-        response.put("passwordInDB", user.getPassword());
-
-        return ResponseEntity.ok(response);
+    @PostMapping(value = "registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public User createUser(@RequestBody final User user) {
+        LOG.info("Create user {}", user);
+        System.out.println("create user " + user);
+        return userService.saveUser(user);
     }
 
 }

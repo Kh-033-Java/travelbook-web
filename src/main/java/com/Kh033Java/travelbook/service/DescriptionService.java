@@ -9,13 +9,8 @@ import com.Kh033Java.travelbook.repository.CountryRepository;
 import com.Kh033Java.travelbook.repository.DescriptionRepository;
 
 @Service
-public class DescriptionService {
-	
-    @Autowired
-    DescriptionRepository descriptionRepository;
+public interface DescriptionService {
 
-    public Description getDesccriptionByCountryName(String name) {
-        return descriptionRepository.getDesccriptionByCountryName(name);
-    }
+    public Description getDescriptionByCountryName(String name);
 
 }
