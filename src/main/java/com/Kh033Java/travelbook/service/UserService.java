@@ -20,5 +20,5 @@ public interface UserService {
 
     User updateUser(String login , UserDto user);
 
-    User saveUser(User user);
+    User saveUser(UserDto user);
 }

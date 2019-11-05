@@ -18,4 +18,9 @@ public interface PhotoRepository extends Neo4jRepository<Photo, Long> {
 
     @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where p.login ={userLogin}  and c.name={countryName} return ph")
     List<Photo> findAllUsersPhotosInCountry(@Param("countryName") String countryName, @Param("userLogin") String userLogin);
+
+    Photo findPhotoByLink(@Param("link")String link);
+
+    @Query("Match (n:Photo{link:{link}})<-[r:HAS_AVATAR]-(u:User{login:{login}}) delete r delete n")
+    void deletePhoto(@Param("link") String link, @Param("login") String login);
 }
