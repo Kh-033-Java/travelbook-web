@@ -65,16 +65,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        Optional<User> result = userRepository.findById(id);
-
-        ValidationUtil.checkBeforeGet(result, User.class);
-
-        log.info("IN findById - user: {} found by id: {}", result, id);
-        return result;
-    }
-
-    @Override
     public void delete(String login) {
         Optional<User> user = userRepository.findByLogin(login);
         ValidationUtil.checkBeforeGet(user, User.class);

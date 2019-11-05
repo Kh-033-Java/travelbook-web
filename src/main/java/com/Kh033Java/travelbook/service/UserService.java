@@ -13,7 +13,7 @@ public interface UserService {
     List<UserResponseForm> getAll();
 
     Optional<User> findByUsername(String username);
-    
+
     void delete(String login);
 
     User updateUser(String login, UserDto user);
