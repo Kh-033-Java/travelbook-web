@@ -54,8 +54,8 @@ public class WeatherProvider {
 	}	
 
 	private static String convertToCelcium(Object object) {
-		Integer value = (int) Math.round(((Double) object - 273));
-		return value.toString();
+		int value = (int) Math.round(((Double) object - 273));
+		return Integer.toString(value);
 	}
 
 	private static String convertToUTC(Object object) {
