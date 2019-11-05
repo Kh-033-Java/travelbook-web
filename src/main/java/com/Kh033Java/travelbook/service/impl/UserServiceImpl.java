@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if(user.getAvatar() == null){
+
             if(!currentUser.get().getAvatar().equals(defaultPhoto)){
                 photoRepository.deletePhoto(currentUser.get().getAvatar().getLink(), user.getLogin());
             }
@@ -106,7 +107,6 @@ public class UserServiceImpl implements UserService {
         }else{
             result.setAvatar(defaultPhoto);
         }
-
         result.setLogin(user.getLogin());
         result.setVisitedCountries(currentUser.get().getVisitedCountries());
         result.setLikedNotes(currentUser.get().getLikedNotes());
