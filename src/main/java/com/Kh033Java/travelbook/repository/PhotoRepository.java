@@ -10,13 +10,13 @@ import java.util.List;
 
 @Repository
 public interface PhotoRepository extends Neo4jRepository<Photo, Long> {
-    @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where n.isPublic=true  and c.name={countryName} return ph")
+    @Query("Match (c:Country{name:{countryName}})-[v:CONTAINS]->(city:City)<-[cr:DESCRIBES]-(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where n.isPublic=true return ph")
     List<Photo> findAllPublicPhotosForUnauthorized(@Param("countryName") String countryName);
 
-    @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where n.isPublic=true or (p.login ={userLogin} and c.name={countryName} and n.isPublic=false ) return ph")
+    @Query("Match(p:User)-[vis:VISITED]->(c:Country)-[v:CONTAINS]->(city:City)<-[cr:DESCRIBES]-(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where c.name={countryName} and(n.isPublic=true or (p.login ={userLogin} and n.isPublic=false) ) return ph")
     List<Photo> findAllPublicPhotosForAuthorized(@Param("countryName") String countryName, @Param("userLogin") String userLogin);
 
-    @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where p.login ={userLogin}  and c.name={countryName} return ph")
+    @Query("Match(p:User)-[vis:VISITED]->(c:Country)-[v:CONTAINS]->(city:City)<-[cr:DESCRIBES]-(n:Note)-[h:HAS_PHOTO]->(ph:Photo) where c.name={countryName} and p.login ={userLogin} return ph")
     List<Photo> findAllUsersPhotosInCountry(@Param("countryName") String countryName, @Param("userLogin") String userLogin);
 
     Photo findPhotoByLink(@Param("link")String link);

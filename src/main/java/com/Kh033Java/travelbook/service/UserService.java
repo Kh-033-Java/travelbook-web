@@ -18,7 +18,11 @@ public interface UserService {
 
     void delete(String login);
 
-    User updateUser(String login , UserDto user);
+    User updateUser(String login, UserDto user);
+
+    void addVisitedCountry(String login, String countryName);
+
+    void deleteVisitedCountry(String login, String countryName);
 
     User saveUser(UserDto user);
 }

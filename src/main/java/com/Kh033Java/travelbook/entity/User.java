@@ -48,6 +48,7 @@ public class User  {
     @Relationship(type = "HAS_ROLE")
     private List<Role> roles;
 
+
     public User() {
     }
 
@@ -221,4 +222,6 @@ public class User  {
         }
         createdPlans.add(plan);
     }
+
+
 }

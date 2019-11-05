@@ -11,13 +11,8 @@ import com.Kh033Java.travelbook.repository.CountryRepository;
 import com.Kh033Java.travelbook.repository.TransportRepository;
 
 @Service
-public class TransportService {
-	
-    @Autowired
-    TransportRepository transportRepository;
+public interface TransportService {
 
-    public List<Transport> getAllTransport() {
-        return transportRepository.findAll();
-    }
+    public List<Transport> getAllTransport();
 
 }
