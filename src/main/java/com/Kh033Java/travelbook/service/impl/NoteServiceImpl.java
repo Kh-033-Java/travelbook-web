@@ -108,7 +108,8 @@ public class NoteServiceImpl implements NoteService {
 		note.setPeopleEstimate(noteDTO.getPeopleEstimate());
 		note.setPricesEstimate(noteDTO.getPricesEstimate());
 		note.setTitle(noteDTO.getTitle());
-		note.setPhotoLink(photoService.findAllPhotosByLinks(noteDTO.getPhotoLink()));
+		if (noteDTO.getPhotoLink() != null)
+			note.setPhotoLink(photoService.findAllPhotosByLinks(noteDTO.getPhotoLink()));
 	}
 
 	private NoteDTO createNoteDTO(Note note) {
