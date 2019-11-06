@@ -93,10 +93,10 @@ public class UserServiceImpl implements UserService {
             }
             result.setAvatar(defaultPhoto);
             log.info("Users avatar: {}", result.getAvatar());
-        }else if(!user.getAvatar().getLink().equals(currentUser.get().getAvatar().getLink())){
-            result.setAvatar(user.getAvatar());
+        }else if(user.getAvatar().getLink().equals(currentUser.get().getAvatar().getLink())){
+            result.setAvatar(currentUser.get().getAvatar());
         }else{
-            result.setAvatar(defaultPhoto);
+            result.setAvatar(user.getAvatar());
         }
         result.setLogin(user.getLogin());
         result.setVisitedCountries(currentUser.get().getVisitedCountries());
