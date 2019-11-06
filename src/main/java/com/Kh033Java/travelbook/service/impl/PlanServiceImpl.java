@@ -67,13 +67,14 @@ public class PlanServiceImpl implements PlanService {
         return allPlans;
     }
 
+
     @Override
     public List<PlanDTO> getPlansWithFilter(PlanSearchDTO planSearchDTO) {
         List<PlanDTO> planDTOS = new ArrayList<>();
-        for (Plan plan : planRepository.findAll()){//(planSearchDTO.getBudgetMin(), planSearchDTO.getBudgetMax(), planSearchDTO.getMinDate(), planSearchDTO.getMaxDate(), planSearchDTO.getAmountOfPeopleMin(), planSearchDTO.getAmountOfPeopleMax(), planSearchDTO.getTransportType(), planSearchDTO.getCityFrom(), planSearchDTO.getCityGoTo())) {
+        for (Plan plan : planRepository.findAll()){
 
             if(isPlanValid(plan)) {
-                if(filter(plan, planSearchDTO) != null)
+                if(filterPlanBySearchDTO(plan, planSearchDTO) != null)
                     planDTOS.add(createPlanDTO(plan));
             }
 
@@ -82,7 +83,7 @@ public class PlanServiceImpl implements PlanService {
         return planDTOS;
     }
 
-    private Plan filter(Plan plan, PlanSearchDTO planSearchDTO){
+    private Plan filterPlanBySearchDTO(Plan plan, PlanSearchDTO planSearchDTO){
 
         if(planSearchDTO.getBudgetMin() != -1){
             if(plan.getBudgetMin() > planSearchDTO.getBudgetMin()) {
@@ -140,15 +141,6 @@ public class PlanServiceImpl implements PlanService {
         }
 
         return plan;
-    }
-
-    @Override
-    public List<PlanDTO> getPlansByBudget(int minBudget, int maxBudget) {
-        List<PlanDTO> planDTOS = new ArrayList<>();
-        for (Plan plan : planRepository.findPlansByBudget(minBudget, maxBudget)) {
-            planDTOS.add(createPlanDTO(plan));
-        }
-        return planDTOS;
     }
 
 
