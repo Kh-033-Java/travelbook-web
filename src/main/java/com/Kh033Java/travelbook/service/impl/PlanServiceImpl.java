@@ -70,11 +70,76 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public List<PlanDTO> getPlansWithFilter(PlanSearchDTO planSearchDTO) {
         List<PlanDTO> planDTOS = new ArrayList<>();
-        for (Plan plan : planRepository.findPlansWithFilter(planSearchDTO.getBudgetMin(), planSearchDTO.getBudgetMax(), planSearchDTO.getMinDate(), planSearchDTO.getMaxDate(), planSearchDTO.getAmountOfPeopleMin(), planSearchDTO.getAmountOfPeopleMax(), planSearchDTO.getTransportType(), planSearchDTO.getCityFrom(), planSearchDTO.getCityGoTo())) {
-            planDTOS.add(createPlanDTO(plan));
+        for (Plan plan : planRepository.findAll()){//(planSearchDTO.getBudgetMin(), planSearchDTO.getBudgetMax(), planSearchDTO.getMinDate(), planSearchDTO.getMaxDate(), planSearchDTO.getAmountOfPeopleMin(), planSearchDTO.getAmountOfPeopleMax(), planSearchDTO.getTransportType(), planSearchDTO.getCityFrom(), planSearchDTO.getCityGoTo())) {
+
+            if(isPlanValid(plan)) {
+                if(filter(plan, planSearchDTO) != null)
+                    planDTOS.add(createPlanDTO(plan));
+            }
+
+        }
+        System.out.println(planDTOS.toString());
+        return planDTOS;
+    }
+
+    private Plan filter(Plan plan, PlanSearchDTO planSearchDTO){
+
+        if(planSearchDTO.getBudgetMin() != -1){
+            if(plan.getBudgetMin() > planSearchDTO.getBudgetMin()) {
+                return null;
+            }
+        }
+        if(planSearchDTO.getBudgetMax() != -1){
+            if(plan.getBudgetMax() > planSearchDTO.getBudgetMax()){
+                return null;
+            }
         }
 
-        return planDTOS;
+        if(planSearchDTO.getMinDate() != null){
+            if(plan.getDate().compareTo(planSearchDTO.getMinDate()) < 0 || plan.getDate().compareTo(planSearchDTO.getMinDate()) == 0 ) {
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getMaxDate() != null){
+            if(plan.getDate().compareTo(planSearchDTO.getMaxDate()) > 0 || plan.getDate().compareTo(planSearchDTO.getMinDate()) == 0 ){
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getAmountOfPeopleMin() != -1){
+            if(plan.getAmountOfPeople() < planSearchDTO.getAmountOfPeopleMin())
+            {
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getAmountOfPeopleMax() != -1){
+            if(plan.getAmountOfPeople() > planSearchDTO.getAmountOfPeopleMax())
+            {
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getTransportType() != null){
+            if(!plan.getTransport().getType().equals(planSearchDTO.getTransportType())){
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getCityFrom() != null){
+            if(!plan.getCityFrom().getName().equals(planSearchDTO.getCityFrom())){
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getCityGoTo() != null){
+            if(!plan.getCityToGo().getName().equals(planSearchDTO.getCityGoTo())){
+                return null;
+            }
+        }
+
+        return plan;
     }
 
     @Override
@@ -133,6 +198,16 @@ public class PlanServiceImpl implements PlanService {
         plan.setIsPublic(planDTO.getIsPublic());
         plan.setTitle(planDTO.getTitle());
         plan.chooseTransport(transportRepository.findByType(planDTO.getTransportType()));
+    }
+
+    private boolean isPlanValid(Plan plan){
+        return plan.getDate() != null &&
+                plan.getDescription() != null &&
+                plan.getTransport().getType() != null &&
+                plan.getCityFrom() != null &&
+                plan.getCityToGo() != null &&
+                plan.getTitle() != null
+                ? true : false;
     }
 
     private PlanDTO createPlanDTO(Plan plan) {
