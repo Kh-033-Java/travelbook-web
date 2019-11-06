@@ -126,6 +126,7 @@ public class NoteServiceImpl implements NoteService {
 		noteDTO.setTitle(noteToDTO.getTitle());
 		noteDTO.setPricesEstimate(noteToDTO.getPricesEstimate());
 		noteDTO.setDescription(noteToDTO.getDescription());
+		noteDTO.setLinkToUserAvatar(photoService.findUserAvatarByUserLogin(userRepository.findUserByNoteId(noteToDTO.getId()).getLogin()).getLink());
 
 		return noteDTO;
 	}

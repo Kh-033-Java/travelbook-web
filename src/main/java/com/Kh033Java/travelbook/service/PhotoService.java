@@ -12,4 +12,6 @@ public interface PhotoService {
     List<Photo> findAllUsersPhotosInCountry(String name, String userLogin);
 
     List<Photo> findAllPhotosByLinks(List<String> links);
+
+    Photo findUserAvatarByUserLogin(String userLogin);
 }
