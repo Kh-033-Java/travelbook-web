@@ -1,5 +1,6 @@
 package com.Kh033Java.travelbook.controller;
 
+import com.Kh033Java.travelbook.dto.UserDto;
 import com.Kh033Java.travelbook.security.TokenProvider;
 import com.Kh033Java.travelbook.dto.AuthenticationRequestDto;
 import com.Kh033Java.travelbook.entity.User;
@@ -15,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;

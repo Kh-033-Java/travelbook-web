@@ -6,6 +6,7 @@ import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.typeconversion.DateString;
+import sun.jvm.hotspot.opto.PhiNode;
 
 import java.util.Date;
 import java.util.List;
@@ -42,7 +43,7 @@ public class Note {
     public Note() {
     }
 
-    public Note(Integer id, String title, boolean isPublic, String description, String dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, String describedCity, String photoLink) {
+    public Note(Long id, String title, boolean isPublic, String description, Date dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, City describedCity, List<Photo> photoLink) {
         this.id = id;
         this.title = title;
         this.isPublic = isPublic;
@@ -145,7 +146,4 @@ public class Note {
         this.photoLink = photoLink;
     }
 
-    public String getPhotoLink() {
-        return photoLink;
-    }
 }
