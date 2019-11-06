@@ -122,7 +122,10 @@ public class NoteServiceImpl implements NoteService {
 		noteDTO.setDescribedCity(noteToDTO.getDescribedCity().getName());
 		noteDTO.setLogin(userRepository.findUserByNoteId(noteToDTO.getId()).getLogin());
 		noteDTO.setPeopleEstimate(noteToDTO.getPeopleEstimate());
-		noteDTO.setPhotoLink(transformList(noteToDTO.getPhotoLink()));
+		if (noteToDTO.getPhotoLink() != null)
+			noteDTO.setPhotoLink(transformList(noteToDTO.getPhotoLink()));
+		else
+			noteDTO.setPhotoLink(new ArrayList<String>());
 		noteDTO.setPublic(noteToDTO.getIsPublic());
 		noteDTO.setTitle(noteToDTO.getTitle());
 		noteDTO.setPricesEstimate(noteToDTO.getPricesEstimate());
