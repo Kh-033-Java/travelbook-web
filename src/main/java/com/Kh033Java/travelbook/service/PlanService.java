@@ -19,8 +19,6 @@ public interface PlanService {
 
     List<PlanDTO> getPlansWithFilter(PlanSearchDTO planSearchDTO);
 
-    List<PlanDTO> getPlansByBudget(int minBudget, int maxBudget);
-
     Plan updatePlan(PlanDTO plan, long id);
 
     void deletePlan(long id);
