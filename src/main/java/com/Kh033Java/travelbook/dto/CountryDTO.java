@@ -9,11 +9,10 @@ import com.Kh033Java.travelbook.entity.Country;
 @ComponentScan
 public class CountryDTO {
 	
-	private final List<Country> visitedCountries;
-    private final List<Country> countriesPlannedToVisit;
+	private List<Country> visitedCountries;
+    private List<Country> countriesPlannedToVisit;
     
-	public CountryDTO(List<Country> visitedCountries, List<Country> countriesPlannedToVisit) {		
-		super();
+	public CountryDTO(List<Country> visitedCountries, List<Country> countriesPlannedToVisit) {
 		this.visitedCountries = visitedCountries;
 		this.countriesPlannedToVisit = countriesPlannedToVisit;
 	}
