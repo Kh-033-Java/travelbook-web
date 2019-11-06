@@ -1,13 +1,16 @@
 package com.Kh033Java.travelbook.dto;
 
-
-public class Weather {
+/**
+ * 
+ * @author Anatolii Melchenko
+ *
+ */
+public class WeatherDTO {
 	
 	private final String temperature;
     private final String description;
     
-	public Weather(String temperature, String description) {
-		super();
+	public WeatherDTO(String temperature, String description) {
 		this.temperature = temperature;
 		this.description = description;
 	}

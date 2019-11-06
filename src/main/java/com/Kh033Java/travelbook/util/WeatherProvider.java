@@ -3,6 +3,7 @@ package com.Kh033Java.travelbook.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -12,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author Anatolii Melchenko
  *
  */
@@ -24,7 +25,7 @@ public class WeatherProvider {
 	private Map<String, Object> weatherData;
 	private static final Logger LOGGER = LoggerFactory.getLogger(WeatherProvider.class);
 
-	public WeatherProvider(String location) {		
+	public WeatherProvider(String location) {
 		weatherData = generateWeatherData(location);
 	}
 
@@ -57,7 +58,7 @@ public class WeatherProvider {
 		} catch (IOException e) {
 			LOGGER.error("Could not parse result info from weather API");
 		}
-		return JsonConverter.convertJsonToMap(result.toString());	
+		return JsonConverter.convertJsonToMap(result.toString());
 	}
 
 	private static String convertToCelcium(Object object) {

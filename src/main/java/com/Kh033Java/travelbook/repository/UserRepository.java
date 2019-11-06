@@ -1,11 +1,12 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.User;
+import java.util.Optional;
+
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Optional;
+import com.Kh033Java.travelbook.entity.User;
 
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
@@ -24,3 +25,4 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (u:User)-[r:VISITED]->(c:Country) WHERE u.login={login} AND c.name={country} DELETE r")
     void deleteRelationshipBetweenUserAndCountry(@Param("login") String login, @Param("country") String name);
 }
+

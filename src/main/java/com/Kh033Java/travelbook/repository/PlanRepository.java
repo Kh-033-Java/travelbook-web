@@ -39,6 +39,7 @@ public interface PlanRepository extends Neo4jRepository<Plan, Long> {
     @Query("MATCH (plan:Plan) WHERE plan.budgetMin >= {minBudget} AND plan.budgetMax <= {maxBudget} return plan")
     List<Plan> findPlansByBudget(@Param("minBudget") int minBudget, @Param("maxBudget") int maxBudget);
 
+
     @Query("MATCH (n:Plan) WHERE n.isPublic=true RETURN n")
     List<Plan> getPublicPlans();
 

@@ -1,11 +1,8 @@
 package com.Kh033Java.travelbook.dto;
 
-import com.Kh033Java.travelbook.entity.Country;
-import com.Kh033Java.travelbook.entity.Plan;
-import org.neo4j.ogm.annotation.Relationship;
-
-import java.util.HashSet;
 import java.util.Set;
+
+import com.Kh033Java.travelbook.entity.Country;
 
 public class Map {
 
