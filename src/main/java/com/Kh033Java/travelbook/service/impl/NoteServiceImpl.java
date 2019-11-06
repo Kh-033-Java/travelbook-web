@@ -108,7 +108,8 @@ public class NoteServiceImpl implements NoteService {
 		note.setPeopleEstimate(noteDTO.getPeopleEstimate());
 		note.setPricesEstimate(noteDTO.getPricesEstimate());
 		note.setTitle(noteDTO.getTitle());
-		note.setPhotoLink(photoService.findAllPhotosByLinks(noteDTO.getPhotoLink()));
+		if (noteDTO.getPhotoLink() != null)
+			note.setPhotoLink(photoService.findAllPhotosByLinks(noteDTO.getPhotoLink()));
 	}
 
 	private NoteDTO createNoteDTO(Note note) {
@@ -121,11 +122,15 @@ public class NoteServiceImpl implements NoteService {
 		noteDTO.setDescribedCity(noteToDTO.getDescribedCity().getName());
 		noteDTO.setLogin(userRepository.findUserByNoteId(noteToDTO.getId()).getLogin());
 		noteDTO.setPeopleEstimate(noteToDTO.getPeopleEstimate());
-		noteDTO.setPhotoLink(transformList(noteToDTO.getPhotoLink()));
+		if (noteToDTO.getPhotoLink() != null)
+			noteDTO.setPhotoLink(transformList(noteToDTO.getPhotoLink()));
+		else
+			noteDTO.setPhotoLink(new ArrayList<String>());
 		noteDTO.setPublic(noteToDTO.getIsPublic());
 		noteDTO.setTitle(noteToDTO.getTitle());
 		noteDTO.setPricesEstimate(noteToDTO.getPricesEstimate());
 		noteDTO.setDescription(noteToDTO.getDescription());
+		noteDTO.setLinkToUserAvatar(photoService.findUserAvatarByUserLogin(userRepository.findUserByNoteId(noteToDTO.getId()).getLogin()).getLink());
 
 		return noteDTO;
 	}

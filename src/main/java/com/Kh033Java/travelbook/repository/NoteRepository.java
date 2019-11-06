@@ -21,7 +21,7 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
             "WHERE c.name={country} AND u.login={login} AND plan.isPublic=true return note")
     List<Note> findAllUserPublicNotesByCountry(@Param("country") String name, @Param("login") String login);
 
-    @Query("MATCH (u:User),(n:Note) WHERE u.login={login} AND ID(p)={id} CREATE (u)-[r:CREATED_NOTE]->(n)")
+    @Query("MATCH (u:User),(n:Note) WHERE u.login={login} AND ID(n)={id} CREATE (u)-[r:CREATED_NOTE]->(n)")
     void creatRelationshipBetweenUserAndNote(@Param("login") String login, @Param("id") long noteId);
 
     @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note) where p.login ={userLogin}  and c.name={countryName} return n")

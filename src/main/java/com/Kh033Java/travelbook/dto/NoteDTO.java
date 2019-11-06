@@ -17,6 +17,7 @@ public class NoteDTO {
     private String login;
     private List<String> photoLink;
     private String describedCity;
+    private String linkToUserAvatar;
 
     public NoteDTO() {
     }
@@ -115,5 +116,13 @@ public class NoteDTO {
 
     public void setDescribedCity(String describedCity) {
         this.describedCity = describedCity;
+    }
+
+    public String getLinkToUserAvatar() {
+        return linkToUserAvatar;
+    }
+
+    public void setLinkToUserAvatar(String linkToUserAvatar) {
+        this.linkToUserAvatar = linkToUserAvatar;
     }
 }

@@ -43,4 +43,8 @@ public class PhotoServiceImpl implements PhotoService {
 
         return allPhotos;
     }
+
+    public Photo findUserAvatarByUserLogin(String login) {
+        return photoRepository.findUserAvatarByUserId(login);
+    }
 }
