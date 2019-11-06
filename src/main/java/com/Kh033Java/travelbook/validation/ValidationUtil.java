@@ -1,8 +1,8 @@
 package com.Kh033Java.travelbook.validation;
 
-import java.util.Optional;
-
 import com.Kh033Java.travelbook.exception.NotFoundException;
+
+import java.util.Optional;
 
 public class ValidationUtil {
 
@@ -10,7 +10,7 @@ public class ValidationUtil {
     private static String secondTemplate = "Such %s not found";
 
     public static <T> T checkBeforeGet(final Optional<T> obj, final Long id, final Class clazz) {
-        if (obj.isEmpty()) {
+        if (!obj.isPresent()) {
             throw new NotFoundException(String.format(template, clazz.getSimpleName(), id));
         }
         return obj.get();
@@ -23,10 +23,9 @@ public class ValidationUtil {
     }
 
     public static <T> T checkBeforeGet(final Optional<T> obj, final Class clazz) {
-        if (obj.isEmpty()) {
+        if (!obj.isPresent()) {
             throw new NotFoundException(String.format(secondTemplate, clazz.getSimpleName()));
         }
         return obj.get();
     }
 }
-

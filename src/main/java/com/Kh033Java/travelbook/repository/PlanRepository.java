@@ -1,14 +1,13 @@
 package com.Kh033Java.travelbook.repository;
 
-import java.util.Date;
-import java.util.List;
-
+import com.Kh033Java.travelbook.entity.Plan;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.Kh033Java.travelbook.entity.Plan;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface PlanRepository extends Neo4jRepository<Plan, Long> {
@@ -37,7 +36,7 @@ public interface PlanRepository extends Neo4jRepository<Plan, Long> {
             "return plan")
     List<Plan> findPlansWithFilter(@Param("minBudget") int minBudget, @Param("maxBudget") int maxBudget, @Param("minDate") Date minDate, @Param("maxDate") Date maxDate, @Param("minAmountOfPeople") int minAmountOfPeople, @Param("maxAmountOfPeople") int maxAmountOfPeople, @Param("transportType") String transportType, @Param("startCity") String startCity, @Param("endCity") String endCity);
 
-    @Query("MATCH (plan:Plan) WHERE plan.budgetMin >= {minBudget} AND plan.budgetMax <= {maxBudget}")
+    @Query("MATCH (plan:Plan) WHERE plan.budgetMin >= {minBudget} AND plan.budgetMax <= {maxBudget} return plan")
     List<Plan> findPlansByBudget(@Param("minBudget") int minBudget, @Param("maxBudget") int maxBudget);
 
 
