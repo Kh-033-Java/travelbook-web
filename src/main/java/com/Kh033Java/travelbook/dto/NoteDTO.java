@@ -1,62 +1,41 @@
 package com.Kh033Java.travelbook.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
+import java.util.List;
 
 public class NoteDTO {
 
-    private Integer id;
-
+    private Long id;
     private String title;
-
-    @JsonProperty
     private boolean isPublic;
-
     private String description;
-
-    private String dateOfVisiting;
-
+    private Date dateOfVisiting;
     private Integer peopleEstimate;
-
     private Integer pricesEstimate;
-
     private Integer cuisineEstimate;
-
     private Integer commonImpression;
-
     private String login;
-
-    private String photoLink;
-
+    private List<String> photoLink;
     private String describedCity;
+    private String linkToUserAvatar;
 
     public NoteDTO() {
     }
 
-    public NoteDTO(Integer id, String title, boolean isPublic, String description, String dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, String login, String photoLink, String describedCity) {
-        this.id = id;
-        this.title = title;
-        this.isPublic = isPublic;
-        this.description = description;
-        this.dateOfVisiting = dateOfVisiting;
-        this.peopleEstimate = peopleEstimate;
-        this.pricesEstimate = pricesEstimate;
-        this.cuisineEstimate = cuisineEstimate;
-        this.commonImpression = commonImpression;
-        this.login = login;
-        this.photoLink = photoLink;
-        this.describedCity = describedCity;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public boolean isPublic() {
@@ -71,70 +50,65 @@ public class NoteDTO {
         return description;
     }
 
-    public String getDateOfVisiting() {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDateOfVisiting() {
         return dateOfVisiting;
+    }
+
+    public void setDateOfVisiting(Date dateOfVisiting) {
+        this.dateOfVisiting = dateOfVisiting;
     }
 
     public Integer getPeopleEstimate() {
         return peopleEstimate;
     }
 
-    public Integer getPricesEstimate() {
-        return pricesEstimate;
-    }
-
-    public Integer getCuisineEstimate() {
-        return cuisineEstimate;
-    }
-
-    public Integer getCommonImpression() {
-        return commonImpression;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPhotoLink() {
-        return photoLink;
-    }
-
-    public void setPhotoLink(String photoLink) {
-        this.photoLink = photoLink;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setDateOfVisiting(String dateOfVisiting) {
-        this.dateOfVisiting = dateOfVisiting;
-    }
-
     public void setPeopleEstimate(Integer peopleEstimate) {
         this.peopleEstimate = peopleEstimate;
+    }
+
+    public Integer getPricesEstimate() {
+        return pricesEstimate;
     }
 
     public void setPricesEstimate(Integer pricesEstimate) {
         this.pricesEstimate = pricesEstimate;
     }
 
+    public Integer getCuisineEstimate() {
+        return cuisineEstimate;
+    }
+
     public void setCuisineEstimate(Integer cuisineEstimate) {
         this.cuisineEstimate = cuisineEstimate;
+    }
+
+    public Integer getCommonImpression() {
+        return commonImpression;
     }
 
     public void setCommonImpression(Integer commonImpression) {
         this.commonImpression = commonImpression;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
     public void setLogin(String login) {
         this.login = login;
     }
 
+    public List<String> getPhotoLink() {
+        return photoLink;
+    }
+
+    public void setPhotoLink(List<String> photoLink) {
+        this.photoLink = photoLink;
+    }
 
     public String getDescribedCity() {
         return describedCity;
@@ -142,5 +116,13 @@ public class NoteDTO {
 
     public void setDescribedCity(String describedCity) {
         this.describedCity = describedCity;
+    }
+
+    public String getLinkToUserAvatar() {
+        return linkToUserAvatar;
+    }
+
+    public void setLinkToUserAvatar(String linkToUserAvatar) {
+        this.linkToUserAvatar = linkToUserAvatar;
     }
 }

@@ -5,9 +5,11 @@ import com.Kh033Java.travelbook.entity.Note;
 import com.Kh033Java.travelbook.repository.NoteRepository;
 import com.Kh033Java.travelbook.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class NoteController {
@@ -22,50 +24,48 @@ public class NoteController {
     }
 
     @GetMapping("/country/{name}/notes")
-    public @ResponseBody
-    List<Note> getAllPublicNotes(@PathVariable String name) {
-        return noteRepository.findAllPublicNotesForUnauthorizedUser(name);
+    public List<NoteDTO> getAllPublicNotes(@PathVariable String name) {
+        return noteService.getNotesConnectedToCountryForUnauthorizedUser(name);
     }
 
     @GetMapping("/country/{name}/notes/{login}")
     public @ResponseBody
-    List<Note> getAllPrivateAndPublicNotes(@PathVariable String name, @PathVariable String login) {
-        return noteRepository.findAllNotesForAuthorizedUser(name, login);
+    Set<NoteDTO> getAllPrivateAndPublicNotes(@PathVariable String name, @PathVariable String login) {
+        return noteService.getCountryNotesAndUserPrivateNotes(name, login);
     }
 
-    @GetMapping("/notes/{id}")
+    @GetMapping("country/notes/{id}")
     public @ResponseBody
-    Note getPublicNoteById(@PathVariable int id) {
-        return noteRepository.findPublicNoteById(id);
+    NoteDTO getNoteById(@PathVariable long id) {
+        return noteService.getNoteById(id);
     }
 
-    @GetMapping("/notes/{id}/user/{login}")
-    public @ResponseBody
-    List<Note> getPrivateNoteById(@PathVariable int id, @PathVariable String login) {
-        return noteRepository.findNotesByIdByUser(id, login);
+
+    @GetMapping(value = "country/{name}/notes/private")
+    @ResponseStatus(HttpStatus.OK)
+    public List<NoteDTO> getAllUsersPlans(@PathVariable String name, @RequestParam String user) {
+        return noteService.getPublicAndPrivateUserNotesConnectedToCountry(name, user);
     }
 
-    @PostMapping("/country/{countryName}/notes")
-    public @ResponseBody
-    void createNote(@PathVariable String countryName, @RequestBody NoteDTO noteDTO) {
-       noteService.save(noteDTO, countryName);
+
+    @PostMapping(value = "notes")
+    public Note saveNote(@RequestBody NoteDTO noteDTO) {
+        return noteService.save(noteDTO);
     }
 
-    @DeleteMapping("/notes/{id}/user/{login}")
-    public @ResponseBody
-    void getDeleteNoteById(@PathVariable int id, @PathVariable String login) {
-        noteRepository.findNoteForDelete(id, login);
+    @DeleteMapping(value = "notes/{id}")
+    public void deleteNote(@PathVariable Long id) {
+        noteService.deleteNote(id);
     }
 
-    @PatchMapping("/notes/{id}")
-    public @ResponseBody
-    Note getNoteForEdit(@PathVariable int id, @RequestBody NoteDTO noteDTO) {
-       return noteService.findNoteForEditNote(noteDTO, id);
+    @PutMapping(value = "notes/{id}")
+    public Note editPlan(@RequestBody NoteDTO noteDTO, @PathVariable Long id) {
+        return noteService.updateNote(noteDTO, id);
     }
 
-    @PutMapping("/notes/{id}/like")
-    public @ResponseBody
-    void likeNoteByUser(@PathVariable int id, @RequestBody NoteDTO noteDTO) {
-        noteRepository.findNoteForLike(noteDTO.getLogin(), id);
-    }
+//    @PutMapping("/notes/{id}/like")
+//    public @ResponseBody
+//    void likeNoteByUser(@PathVariable int id, @RequestBody NoteDTO noteDTO) {
+//        noteRepository.findNoteForLike(noteDTO.getLogin(), id);
+//    }
 }

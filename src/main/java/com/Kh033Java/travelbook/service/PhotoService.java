@@ -10,4 +10,8 @@ public interface PhotoService {
     List<Photo> findAllPublicPhotosForAuthorized(String name, String login);
 
     List<Photo> findAllUsersPhotosInCountry(String name, String userLogin);
+
+    List<Photo> findAllPhotosByLinks(List<String> links);
+
+    Photo findUserAvatarByUserLogin(String userLogin);
 }

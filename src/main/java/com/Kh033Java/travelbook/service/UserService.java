@@ -1,12 +1,11 @@
 package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.dto.UserDto;
-import com.Kh033Java.travelbook.entity.User;
-import com.Kh033Java.travelbook.responseForm.UserResponseForm;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.Kh033Java.travelbook.dto.UserDto;
+import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.responseForm.UserResponseForm;
 
 public interface UserService {
 
@@ -14,15 +13,14 @@ public interface UserService {
 
     Optional<User> findByUsername(String username);
 
-    Optional<User> findById(Long id);
-
     void delete(String login);
 
-    User updateUser(String login , UserDto user);
-
-    User saveUser(User user);
+    User updateUser(String login, UserDto user);
 
     void addVisitedCountry(String login, String countryName);
 
     void deleteVisitedCountry(String login, String countryName);
+
+    User saveUser(UserDto user);
 }
+
