@@ -1,8 +1,8 @@
 package com.Kh033Java.travelbook.service;
 
-import com.Kh033Java.travelbook.entity.Photo;
-
 import java.util.List;
+
+import com.Kh033Java.travelbook.entity.Photo;
 
 public interface PhotoService {
     List<Photo> findAllPublicPhotosForUnauthorized(String name);
@@ -14,4 +14,6 @@ public interface PhotoService {
     List<Photo> findAllPhotosByLinks(List<String> links);
 
     Photo findUserAvatarByUserLogin(String userLogin);
+
+	List<Photo> findAllCountryPhotos(String countryName);
 }

@@ -1,13 +1,14 @@
 package com.Kh033Java.travelbook.service.impl;
 
-import com.Kh033Java.travelbook.entity.Photo;
-import com.Kh033Java.travelbook.repository.PhotoRepository;
-import com.Kh033Java.travelbook.service.PhotoService;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.Kh033Java.travelbook.entity.Photo;
+import com.Kh033Java.travelbook.repository.PhotoRepository;
+import com.Kh033Java.travelbook.service.PhotoService;
 
 
 @Service
@@ -47,4 +48,10 @@ public class PhotoServiceImpl implements PhotoService {
     public Photo findUserAvatarByUserLogin(String login) {
         return photoRepository.findUserAvatarByUserId(login);
     }
+
+	@Override
+	public List<Photo> findAllCountryPhotos(String countryName) {
+		return photoRepository.getCountryPhotos(countryName);
+	}
+    
 }

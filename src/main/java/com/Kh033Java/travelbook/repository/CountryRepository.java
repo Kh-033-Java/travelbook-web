@@ -1,13 +1,13 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.Country;
+import java.util.List;
 
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.Kh033Java.travelbook.entity.Country;
 
 @Repository
 public interface CountryRepository extends Neo4jRepository<Country, Long> {
