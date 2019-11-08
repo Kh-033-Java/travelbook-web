@@ -7,6 +7,7 @@ import com.Kh033Java.travelbook.repository.CityRepository;
 import com.Kh033Java.travelbook.repository.PlanRepository;
 import com.Kh033Java.travelbook.repository.TransportRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.travelbook.service.PhotoService;
 import com.Kh033Java.travelbook.service.PlanService;
 import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,15 @@ public class PlanServiceImpl implements PlanService {
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
     private final TransportRepository transportRepository;
+    private final PhotoService photoService;
 
     @Autowired
-    public PlanServiceImpl(PlanRepository planRepository, UserRepository userRepository, CityRepository cityRepository, TransportRepository transportRepository) {
+    public PlanServiceImpl(PlanRepository planRepository, UserRepository userRepository, CityRepository cityRepository, TransportRepository transportRepository, PhotoService photoService) {
         this.planRepository = planRepository;
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.transportRepository = transportRepository;
+        this.photoService = photoService;
     }
 
     @Override
@@ -217,6 +220,7 @@ public class PlanServiceImpl implements PlanService {
         planDTO.setIsPublic(planToDTO.getIsPublic());
         planDTO.setTitle(planToDTO.getTitle());
         planDTO.setUserLoginCreator(userRepository.findUserByPlanId(planToDTO.getId()).getLogin());
+        planDTO.setLinkToUserAvatar(photoService.findUserAvatarByUserLogin(userRepository.findUserByPlanId(planToDTO.getId()).getLogin()).getLink());
 
         return planDTO;
     }
