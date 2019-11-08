@@ -34,6 +34,7 @@ public class GalleryController {
     @GetMapping("/country/{name}/photos/{login}")
     public @ResponseBody
     List<Photo> getAllPhotosForAuthorized(@PathVariable String name, @PathVariable String login) {
+        LOG.info("get photo from country {} by user {}", name, login);
         return photoService.findAllPublicPhotosForAuthorized(name, login);
     }
 
