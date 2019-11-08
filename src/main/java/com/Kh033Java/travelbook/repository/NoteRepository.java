@@ -1,11 +1,12 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.Note;
+import java.util.List;
+
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import com.Kh033Java.travelbook.entity.Note;
 
 public interface NoteRepository extends Neo4jRepository<Note, Long> {
 
@@ -18,7 +19,7 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
     List<Note> findAllUserPrivateNotesByCountry(@Param("country") String name, @Param("login") String login);
 
     @Query("MATCH (c:Country)-[:CONTAINS]-(city:City)-[:DESCRIBES]-(note:Note)-[:CREATED_NOTE]-(u:User) " +
-            "WHERE c.name={country} AND u.login={login} AND plan.isPublic=true return note")
+            "WHERE c.name={country} AND u.login={login} AND note.isPublic=true return note")
     List<Note> findAllUserPublicNotesByCountry(@Param("country") String name, @Param("login") String login);
 
     @Query("MATCH (u:User),(n:Note) WHERE u.login={login} AND ID(n)={id} CREATE (u)-[r:CREATED_NOTE]->(n)")
