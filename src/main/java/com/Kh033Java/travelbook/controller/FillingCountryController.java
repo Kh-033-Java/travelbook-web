@@ -16,12 +16,12 @@ public class FillingCountryController {
         this.userService = userService;
     }
 
-    @PutMapping(value = "/country/{name}/visit/")
+    @PutMapping(value = "/country/{name}/visit")
     public void addVisitedCountryForUser(@PathVariable String name, @RequestParam String user){
         userService.addVisitedCountry(user, name);
     }
 
-    @PutMapping(value = "/country/{name}/notvisit/")
+    @PutMapping(value = "/country/{name}/notvisit")
     public void deleteVisitedCountryForUser(@PathVariable String name, @RequestParam String user){
         userService.deleteVisitedCountry(user, name);
     }
