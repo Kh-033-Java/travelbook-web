@@ -39,9 +39,9 @@ public class GeneralInfoController {
 	public String getGeneralInfo(@PathVariable String countryName) {
 		CountryGeneralInfoDTO countryGeneralInfoDTO = new CountryGeneralInfoDTO(countryName, null, null, null);
 		final Description description = descriptionService.getDescriptionByCountryName(countryName);
-		final WeatherDTO weather = getWeatherInCapital(description);
-		final List<Photo> photos = photoService.findAllCountryPhotos(countryName);
 		if(description != null) {
+			final WeatherDTO weather = getWeatherInCapital(description);
+			final List<Photo> photos = photoService.findAllCountryPhotos(countryName);
 			countryGeneralInfoDTO = new CountryGeneralInfoDTO(countryName, description, weather, photos);
 		}
 		return JsonConverter.convertToJson(countryGeneralInfoDTO);
