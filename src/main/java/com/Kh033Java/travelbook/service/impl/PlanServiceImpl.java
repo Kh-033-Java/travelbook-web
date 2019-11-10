@@ -7,6 +7,7 @@ import com.Kh033Java.travelbook.repository.CityRepository;
 import com.Kh033Java.travelbook.repository.PlanRepository;
 import com.Kh033Java.travelbook.repository.TransportRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.travelbook.service.PhotoService;
 import com.Kh033Java.travelbook.service.PlanService;
 import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,15 @@ public class PlanServiceImpl implements PlanService {
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
     private final TransportRepository transportRepository;
+    private final PhotoService photoService;
 
     @Autowired
-    public PlanServiceImpl(PlanRepository planRepository, UserRepository userRepository, CityRepository cityRepository, TransportRepository transportRepository) {
+    public PlanServiceImpl(PlanRepository planRepository, UserRepository userRepository, CityRepository cityRepository, TransportRepository transportRepository, PhotoService photoService) {
         this.planRepository = planRepository;
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.transportRepository = transportRepository;
+        this.photoService = photoService;
     }
 
     @Override
@@ -67,23 +70,80 @@ public class PlanServiceImpl implements PlanService {
         return allPlans;
     }
 
+
     @Override
     public List<PlanDTO> getPlansWithFilter(PlanSearchDTO planSearchDTO) {
         List<PlanDTO> planDTOS = new ArrayList<>();
-        for (Plan plan : planRepository.findPlansWithFilter(planSearchDTO.getBudgetMin(), planSearchDTO.getBudgetMax(), planSearchDTO.getMinDate(), planSearchDTO.getMaxDate(), planSearchDTO.getAmountOfPeopleMin(), planSearchDTO.getAmountOfPeopleMax(), planSearchDTO.getTransportType(), planSearchDTO.getCityFrom(), planSearchDTO.getCityGoTo())) {
-            planDTOS.add(createPlanDTO(plan));
-        }
+        for (Plan plan : planRepository.findAll()){
 
+            if(isPlanValid(plan)) {
+                if(filterPlanBySearchDTO(plan, planSearchDTO) != null)
+                    planDTOS.add(createPlanDTO(plan));
+            }
+
+        }
+        System.out.println(planDTOS.toString());
         return planDTOS;
     }
 
-    @Override
-    public List<PlanDTO> getPlansByBudget(int minBudget, int maxBudget) {
-        List<PlanDTO> planDTOS = new ArrayList<>();
-        for (Plan plan : planRepository.findPlansByBudget(minBudget, maxBudget)) {
-            planDTOS.add(createPlanDTO(plan));
+    private Plan filterPlanBySearchDTO(Plan plan, PlanSearchDTO planSearchDTO){
+
+        if(planSearchDTO.getBudgetMin() != -1){
+            if(plan.getBudgetMin() > planSearchDTO.getBudgetMin()) {
+                return null;
+            }
         }
-        return planDTOS;
+        if(planSearchDTO.getBudgetMax() != -1){
+            if(plan.getBudgetMax() > planSearchDTO.getBudgetMax()){
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getMinDate() != null){
+            if(plan.getDate().compareTo(planSearchDTO.getMinDate()) < 0 || plan.getDate().compareTo(planSearchDTO.getMinDate()) == 0 ) {
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getMaxDate() != null){
+            if(plan.getDate().compareTo(planSearchDTO.getMaxDate()) > 0 || plan.getDate().compareTo(planSearchDTO.getMinDate()) == 0 ){
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getAmountOfPeopleMin() != -1){
+            if(plan.getAmountOfPeople() < planSearchDTO.getAmountOfPeopleMin())
+            {
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getAmountOfPeopleMax() != -1){
+            if(plan.getAmountOfPeople() > planSearchDTO.getAmountOfPeopleMax())
+            {
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getTransportType() != null){
+            if(!plan.getTransport().getType().equals(planSearchDTO.getTransportType())){
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getCityFrom() != null){
+            if(!plan.getCityFrom().getName().equals(planSearchDTO.getCityFrom())){
+                return null;
+            }
+        }
+
+        if(planSearchDTO.getCityGoTo() != null){
+            if(!plan.getCityToGo().getName().equals(planSearchDTO.getCityGoTo())){
+                return null;
+            }
+        }
+
+        return plan;
     }
 
 
@@ -135,6 +195,16 @@ public class PlanServiceImpl implements PlanService {
         plan.chooseTransport(transportRepository.findByType(planDTO.getTransportType()));
     }
 
+    private boolean isPlanValid(Plan plan){
+        return plan.getDate() != null &&
+                plan.getDescription() != null &&
+                plan.getTransport().getType() != null &&
+                plan.getCityFrom() != null &&
+                plan.getCityToGo() != null &&
+                plan.getTitle() != null
+                ? true : false;
+    }
+
     private PlanDTO createPlanDTO(Plan plan) {
         Plan planToDTO = ValidationUtil.checkBeforeGet(planRepository.findById(plan.getId()), plan.getId(), Plan.class);
         PlanDTO planDTO = new PlanDTO();
@@ -150,6 +220,7 @@ public class PlanServiceImpl implements PlanService {
         planDTO.setIsPublic(planToDTO.getIsPublic());
         planDTO.setTitle(planToDTO.getTitle());
         planDTO.setUserLoginCreator(userRepository.findUserByPlanId(planToDTO.getId()).getLogin());
+        planDTO.setLinkToUserAvatar(photoService.findUserAvatarByUserLogin(userRepository.findUserByPlanId(planToDTO.getId()).getLogin()).getLink());
 
         return planDTO;
     }

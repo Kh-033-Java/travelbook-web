@@ -15,6 +15,7 @@ public class PlanDTO {
     private String nameCityToGo;
     private String nameCityFrom;
     private String transportType;
+    private String linkToUserAvatar;
 
     public PlanDTO() {
     }
@@ -113,5 +114,13 @@ public class PlanDTO {
 
     public void setIsPublic(boolean isPublic) {
         this.isPublic = isPublic;
+    }
+
+    public String getLinkToUserAvatar() {
+        return linkToUserAvatar;
+    }
+
+    public void setLinkToUserAvatar(String linkToUserAvatar) {
+        this.linkToUserAvatar = linkToUserAvatar;
     }
 }

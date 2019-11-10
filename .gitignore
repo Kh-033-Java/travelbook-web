@@ -27,3 +27,10 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+/.gradle/
+
+### Eclipse ###
+*.class
+bin/
+
+

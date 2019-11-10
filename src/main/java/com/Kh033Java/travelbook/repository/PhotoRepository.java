@@ -1,12 +1,13 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.Photo;
+import java.util.List;
+
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.Kh033Java.travelbook.entity.Photo;
 
 @Repository
 public interface PhotoRepository extends Neo4jRepository<Photo, Long> {
@@ -26,4 +27,7 @@ public interface PhotoRepository extends Neo4jRepository<Photo, Long> {
 
     @Query("MATCH (user:User)-[:HAS_AVATAR]-(avatar:Photo) WHERE user.login={login} RETURN avatar")
     Photo findUserAvatarByUserId(@Param("login") String login);
+    
+    @Query("MATCH (c:Country)-[hd:HAS_DESCRIPTION]->(d:Description)<-[dp:DEPICTED]->(ph:Photo) WHERE c.name={countryName} RETURN ph")
+    List<Photo> getCountryPhotos(@Param("countryName") String countryName);
 }

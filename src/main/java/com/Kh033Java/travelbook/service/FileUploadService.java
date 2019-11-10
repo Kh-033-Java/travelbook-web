@@ -1,8 +1,8 @@
 package com.Kh033Java.travelbook.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public interface FileUploadService {
 
@@ -10,3 +10,4 @@ public interface FileUploadService {
 
     void setFile(MultipartFile fileStream);
 }
+

@@ -1,11 +1,12 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.User;
+import java.util.Optional;
+
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Optional;
+import com.Kh033Java.travelbook.entity.User;
 
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
@@ -31,3 +32,4 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "delete hasRole, createdNote, createdPlan, describes, relationships, note, plan")
     void deleteNotesAndPlansByUserLogin(@Param("login") String login);
 }
+

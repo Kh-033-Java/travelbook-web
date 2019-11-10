@@ -1,10 +1,15 @@
 package com.Kh033Java.travelbook.entity;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.neo4j.ogm.annotation.*;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.Index;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @NodeEntity
 public class User  {

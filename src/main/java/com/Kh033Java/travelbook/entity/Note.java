@@ -1,13 +1,13 @@
 package com.Kh033Java.travelbook.entity;
 
+import java.util.Date;
+import java.util.List;
+
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.typeconversion.DateString;
-
-import java.util.Date;
-import java.util.List;
 
 @NodeEntity
 public class Note {
@@ -40,6 +40,21 @@ public class Note {
 
     public Note() {
     }
+
+    public Note(Long id, String title, boolean isPublic, String description, Date dateOfVisiting, Integer peopleEstimate, Integer pricesEstimate, Integer cuisineEstimate, Integer commonImpression, City describedCity, List<Photo> photoLink) {
+        this.id = id;
+        this.title = title;
+        this.isPublic = isPublic;
+        this.description = description;
+        this.dateOfVisiting = dateOfVisiting;
+        this.peopleEstimate = peopleEstimate;
+        this.pricesEstimate = pricesEstimate;
+        this.cuisineEstimate = cuisineEstimate;
+        this.commonImpression = commonImpression;
+        this.describedCity = describedCity;
+        this.photoLink = photoLink;
+    }
+
 
     public Long getId() {
         return id;
@@ -128,4 +143,5 @@ public class Note {
     public void setPhotoLink(List<Photo> photoLink) {
         this.photoLink = photoLink;
     }
+
 }

@@ -1,7 +1,8 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.Role;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+
+import com.Kh033Java.travelbook.entity.Role;
 
 
 
