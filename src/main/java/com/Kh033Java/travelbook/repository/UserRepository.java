@@ -23,4 +23,11 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (u:User)-[r:VISITED]->(c:Country) WHERE u.login={login} AND c.name={country} DELETE r")
     void deleteRelationshipBetweenUserAndCountry(@Param("login") String login, @Param("country") String name);
+
+    @Query("MATCH (u:User)-[createdNote:CREATED_NOTE]->(note:Note)-[describes:DESCRIBES]-()\n" +
+            "match (u:User)-[createdPlan:CREATED_PLAN]->(plan:Plan)-[relationships]-()\n" +
+            "match (u:User)-[hasRole:HAS_ROLE]->()\n" +
+            "where u.login={login}\n" +
+            "delete hasRole, createdNote, createdPlan, describes, relationships, note, plan")
+    void deleteNotesAndPlansByUserLogin(@Param("login") String login);
 }

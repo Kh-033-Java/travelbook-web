@@ -63,9 +63,29 @@ public class NoteController {
         return noteService.updateNote(noteDTO, id);
     }
 
-//    @PutMapping("/notes/{id}/like")
-//    public @ResponseBody
-//    void likeNoteByUser(@PathVariable int id, @RequestBody NoteDTO noteDTO) {
-//        noteRepository.findNoteForLike(noteDTO.getLogin(), id);
-//    }
+    @PutMapping("/notes/{id}/like/{login}")
+    public @ResponseBody
+    void likeNoteByUser(@PathVariable int id, @PathVariable String login) {
+        Note note = noteRepository.checkIfExistLike(login, id);
+        if(note == null){
+            noteRepository.findNoteForLike(login, id);
+        }else{
+            noteRepository.disLikeNote(login, id);
+        }
+    }
+
+    @GetMapping("/notes/{id}/likes")
+    public int getAllLikesbyNote(@PathVariable int id){
+        return noteRepository.findNumberOfLikes(id);
+    }
+
+    @GetMapping("/notes/{id}/liked/{login}")
+    public boolean checkIfLiked(@PathVariable int id, @PathVariable String login){
+        Note note = noteRepository.checkIfExistLike(login, id);
+        if(note == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
