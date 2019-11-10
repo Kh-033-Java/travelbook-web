@@ -1,5 +1,7 @@
 package com.Kh033Java.travelbook.config;
 
+import com.Kh033Java.travelbook.security.Configurer;
+import com.Kh033Java.travelbook.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
