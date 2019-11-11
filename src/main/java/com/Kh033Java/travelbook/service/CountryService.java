@@ -9,6 +9,8 @@ import com.Kh033Java.travelbook.entity.Plan;
 
 public interface CountryService {
 
+    List<Country> getAll();
+
     Country getByName(String name);
 
     List<Country> getVisitedCountries(String userLogin);

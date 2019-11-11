@@ -29,6 +29,13 @@ public class CountryServiceImpl implements CountryService {
         this.noteRepository = noteRepository;
     }
 
+    @Override
+    public List<Country> getAll() {
+        List<Country> countries = (List<Country>) countryRepository.findAll();
+        System.out.println(countries.get(0));
+        return countries;
+    }
+
     public Country getByName(String name) {
         return countryRepository.getCountryByName(name);
     }

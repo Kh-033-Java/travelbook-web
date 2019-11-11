@@ -3,6 +3,7 @@ package com.Kh033Java.travelbook.controller;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import com.Kh033Java.travelbook.dto.CountryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +61,12 @@ public class SearchController {
     @ResponseStatus(HttpStatus.OK)
     public Country findCountryByName(@PathVariable("name") String countryName) {
         return countryService.getByName(countryName);
+    }
+
+    @GetMapping(value = "country/getAllCountries")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Country> getAllCountries(){
+        return countryService.getAll();
     }
 
 
