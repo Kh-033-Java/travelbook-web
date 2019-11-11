@@ -24,4 +24,6 @@ public interface PlanService {
     void deletePlan(long id);
 
     Plan save(PlanDTO planDTO);
+
+    List<PlanDTO> getAllPlans();
 }
