@@ -32,7 +32,6 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public List<Country> getAll() {
         List<Country> countries = (List<Country>) countryRepository.findAll();
-        System.out.println(countries.get(0));
         return countries;
     }
 
