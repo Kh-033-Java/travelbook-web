@@ -6,6 +6,7 @@ public class UserResponseForm {
     private String login;
     private Photo avatar;
 
+
     public String getLogin() {
         return login;
     }

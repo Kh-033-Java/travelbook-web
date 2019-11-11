@@ -27,4 +27,24 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
 
     @Query("Match (c:Country)<-[v:VISITED]-(p:User)-[cr:CREATED]->(n:Note) where p.login ={userLogin}  and c.name={countryName} return n")
     List<Note> findAllUsersNotesInCountry(@Param("countryName") String countryName, @Param("userLogin") String userLogin);
+
+    @Query("match (n:Note), (u:User{login: {login}})\n" +
+            "where id(n)={id}\n" +
+            "create unique (u)-[r:LIKED]->(n)\n" +
+            "return n, r, u")
+    Note findNoteForLike(@Param("login")String login,@Param("id") int id);
+
+    @Query("MATCH (u:User{login:{login}})-[r:LIKED]->(n:Note)\n" +
+            "where id(n)={id}\n" +
+            "delete r")
+    void disLikeNote(@Param("login")String login,@Param("id") int id);
+
+    @Query("match (n:Note)<-[r:LIKED]-() where id(n)={id} return count(r) as count")
+    int findNumberOfLikes(@Param("id")int id);
+
+    @Query("MATCH (u:User{login:{login}})-[r:LIKED]->(n:Note)\n" +
+            "where id(n)={id}\n" +
+            "return n")
+    Note checkIfExistLike(@Param("login") String login, @Param("id") int id);
+
 }
