@@ -115,5 +115,18 @@ public class PlanSearchDTO {
         this.minDate = minDate;
     }
 
-
+    @Override
+    public String toString() {
+        return "PlanSearchDTO{" +
+                "budgetMin=" + budgetMin +
+                ", budgetMax=" + budgetMax +
+                ", minDate=" + minDate +
+                ", maxDate=" + maxDate +
+                ", amountOfPeopleMin=" + amountOfPeopleMin +
+                ", amountOfPeopleMax=" + amountOfPeopleMax +
+                ", transportType='" + transportType + '\'' +
+                ", cityFrom='" + cityFrom + '\'' +
+                ", cityGoTo='" + cityGoTo + '\'' +
+                '}';
+    }
 }

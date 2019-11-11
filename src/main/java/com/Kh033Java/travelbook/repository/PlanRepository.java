@@ -29,7 +29,7 @@ public interface PlanRepository extends Neo4jRepository<Plan, Long> {
     @Query("MATCH (u:User),(p:Plan) WHERE u.login={login} AND ID(p)={id} CREATE (u)-[r:CREATED_PLAN]->(p)")
     void creatRelationshipBetweenUserAndPlan(@Param("login") String login, @Param("id") long planId);
 
-    @Query("MATCH (n:Plan) WHERE n.isPublic=true RETURN n")
+    @Query("MATCH (n:Plan) WHERE n.isPublic RETURN n")
     List<Plan> getPublicPlans();
 
 }
