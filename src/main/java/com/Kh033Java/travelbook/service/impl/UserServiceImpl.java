@@ -3,10 +3,10 @@ package com.Kh033Java.travelbook.service.impl;
 import com.Kh033Java.travelbook.dto.UserDto;
 import com.Kh033Java.travelbook.entity.Photo;
 import com.Kh033Java.travelbook.entity.Role;
+import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.PhotoRepository;
 import com.Kh033Java.travelbook.repository.RoleRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
-import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.responseForm.UserResponseForm;
 import com.Kh033Java.travelbook.service.UserService;
 import com.Kh033Java.travelbook.validation.ValidationUtil;
@@ -17,9 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -141,5 +139,52 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteVisitedCountry(String login, String countryName) {
         userRepository.deleteRelationshipBetweenUserAndCountry(login, countryName);
+    }
+
+    @Override
+    @Transactional
+    public void addFollowing(String loginFriend, String loginOwner){
+        userRepository.createRelationshipBetweenUsers(loginFriend, loginOwner);
+    }
+
+    @Override
+    @Transactional
+    public void deleteFollowing(String loginFriend, String loginOwner){
+        userRepository.deleteRelationshipBetweenUsers(loginFriend, loginOwner);
+    }
+
+    @Override
+    @Transactional
+    public List<UserResponseForm> getFollowings(String login){
+        List<User> listUsers = (List<User>) userRepository.getFollowings(login);
+        List<UserResponseForm> resultSet = doResponseForm(listUsers);
+        return resultSet;
+    }
+
+    @Override
+    @Transactional
+    public List<UserResponseForm> getFollowers(String login){
+        List<User> listUsers = (List<User>) userRepository.getFollowers(login);
+        List<UserResponseForm> resultSet = doResponseForm(listUsers);
+        return resultSet;
+    }
+
+    @Override
+    @Transactional
+    public List<UserResponseForm> getFriends(String login){
+        List<User> listUsers = (List<User>) userRepository.getFriends(login);
+        List<UserResponseForm> resultSet = doResponseForm(listUsers);
+        return resultSet;
+    }
+
+    private List<UserResponseForm> doResponseForm(List<User> users){
+        List<UserResponseForm> resultList = new ArrayList<>();
+        for (User u : users) {
+            UserResponseForm result = new UserResponseForm();
+            result.setLogin(u.getLogin());
+            result.setAvatar(photoRepository.findUserAvatarByUserId(u.getLogin()));
+            resultList.add(result);
+        }
+        return resultList;
     }
 }

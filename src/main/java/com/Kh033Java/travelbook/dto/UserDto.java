@@ -4,6 +4,9 @@ import com.Kh033Java.travelbook.entity.Photo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.Kh033Java.travelbook.entity.User;
 
+import java.util.List;
+import java.util.Set;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
