@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+import com.Kh033Java.travelbook.security.Configurer;
+import com.Kh033Java.travelbook.security.TokenProvider;
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
