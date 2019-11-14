@@ -57,6 +57,8 @@ public class UserServiceImpl implements UserService {
         return resultList;
     }
 
+    
+
     @Override
     public Optional<User> findByUsername(String username) {
         Optional<User> result = userRepository.findByLogin(username);
@@ -67,8 +69,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String login) {
+        Photo defaultPhoto = photoRepository.findPhotoByLink(DEFAULT_PHOTO);
         Optional<User> user = userRepository.findByLogin(login);
         ValidationUtil.checkBeforeGet(user, User.class);
+
+        if(!user.get().getAvatar().equals(defaultPhoto)){
+            photoRepository.delete(user.get().getAvatar());
+        }
+
+        userRepository.deleteNotesAndPlansByUserLogin(login);
         userRepository.delete(user.get());
         log.info("IN delete - user with login: {} successfully deleted", login);
     }
@@ -104,6 +113,7 @@ public class UserServiceImpl implements UserService {
         result.setCreatedNotes(currentUser.get().getCreatedNotes());
         result.setCreatedPlans(currentUser.get().getCreatedPlans());
         result.setRoles(currentUser.get().getRoles());
+        result.setLikedNotes(currentUser.get().getLikedNotes());
 
         userRepository.delete(currentUser.get());
 
