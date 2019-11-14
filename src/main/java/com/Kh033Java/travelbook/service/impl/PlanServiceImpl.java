@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -74,75 +75,58 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public List<PlanDTO> getPlansWithFilter(PlanSearchDTO planSearchDTO) {
         List<PlanDTO> planDTOS = new ArrayList<>();
-        for (Plan plan : planRepository.findAll()){
-
-            if(isPlanValid(plan)) {
-                if(filterPlanBySearchDTO(plan, planSearchDTO) != null)
-                    planDTOS.add(createPlanDTO(plan));
-            }
-
+        for (PlanDTO plan : getAllPlans()) {
+            if (filterPlanBySearchDTO(plan, planSearchDTO) != null)
+                planDTOS.add(plan);
         }
-        System.out.println(planDTOS.toString());
         return planDTOS;
     }
 
-    private Plan filterPlanBySearchDTO(Plan plan, PlanSearchDTO planSearchDTO){
+    private PlanDTO filterPlanBySearchDTO(PlanDTO plan, PlanSearchDTO planSearchDTO) {
 
-        if(planSearchDTO.getBudgetMin() != -1){
-            if(plan.getBudgetMin() > planSearchDTO.getBudgetMin()) {
-                return null;
-            }
+        if (plan.getBudgetMin() > planSearchDTO.getBudgetMin()) {
+            return null;
         }
-        if(planSearchDTO.getBudgetMax() != -1){
-            if(plan.getBudgetMax() > planSearchDTO.getBudgetMax()){
-                return null;
-            }
+        if (plan.getBudgetMax() > planSearchDTO.getBudgetMax()) {
+            return null;
         }
 
-        if(planSearchDTO.getMinDate() != null){
-            if(plan.getDate().compareTo(planSearchDTO.getMinDate()) < 0 || plan.getDate().compareTo(planSearchDTO.getMinDate()) == 0 ) {
+        if (planSearchDTO.getMinDate() != null) {
+            if (plan.getDate().compareTo(planSearchDTO.getMinDate()) < 0 || plan.getDate().compareTo(planSearchDTO.getMinDate()) == 0) {
                 return null;
             }
         }
 
-        if(planSearchDTO.getMaxDate() != null){
-            if(plan.getDate().compareTo(planSearchDTO.getMaxDate()) > 0 || plan.getDate().compareTo(planSearchDTO.getMinDate()) == 0 ){
+        if (planSearchDTO.getMaxDate() != null) {
+            if (plan.getDate().compareTo(planSearchDTO.getMaxDate()) > 0 || plan.getDate().compareTo(planSearchDTO.getMinDate()) == 0) {
                 return null;
             }
         }
 
-        if(planSearchDTO.getAmountOfPeopleMin() != -1){
-            if(plan.getAmountOfPeople() < planSearchDTO.getAmountOfPeopleMin())
-            {
+        if (plan.getAmountOfPeople() < planSearchDTO.getAmountOfPeopleMin()) {
+            return null;
+        }
+
+        if (plan.getAmountOfPeople() > planSearchDTO.getAmountOfPeopleMax()) {
+            return null;
+        }
+
+        if (planSearchDTO.getTransportType() != null && !planSearchDTO.getTransportType().equals("")) {
+            if (!plan.getTransportType().equalsIgnoreCase(planSearchDTO.getTransportType())) {
+                return null;
+            }
+        }
+        if (planSearchDTO.getCityFrom() != null && !planSearchDTO.getCityFrom().equals("")) {
+            if (!plan.getNameCityFrom().equalsIgnoreCase(planSearchDTO.getCityFrom())) {
                 return null;
             }
         }
 
-        if(planSearchDTO.getAmountOfPeopleMax() != -1){
-            if(plan.getAmountOfPeople() > planSearchDTO.getAmountOfPeopleMax())
-            {
+        if (planSearchDTO.getCityGoTo() != null && !planSearchDTO.getCityGoTo().equals("")) {
+            if (!plan.getNameCityToGo().equalsIgnoreCase(planSearchDTO.getCityGoTo())) {
                 return null;
             }
         }
-
-        if(planSearchDTO.getTransportType() != null){
-            if(!plan.getTransport().getType().equals(planSearchDTO.getTransportType())){
-                return null;
-            }
-        }
-
-        if(planSearchDTO.getCityFrom() != null){
-            if(!plan.getCityFrom().getName().equals(planSearchDTO.getCityFrom())){
-                return null;
-            }
-        }
-
-        if(planSearchDTO.getCityGoTo() != null){
-            if(!plan.getCityToGo().getName().equals(planSearchDTO.getCityGoTo())){
-                return null;
-            }
-        }
-
         return plan;
     }
 
@@ -182,6 +166,11 @@ public class PlanServiceImpl implements PlanService {
         return plan;
     }
 
+    @Override
+    public List<PlanDTO> getAllPlans() {
+        return planRepository.getPublicPlans().stream().map(this::createPlanDTO).collect(Collectors.toList());
+    }
+
     private void dtoToPlan(PlanDTO planDTO, Plan plan) {
         plan.setAmountOfPeople(planDTO.getAmountOfPeople());
         plan.setBudgetMax(planDTO.getBudgetMax());
@@ -195,14 +184,13 @@ public class PlanServiceImpl implements PlanService {
         plan.chooseTransport(transportRepository.findByType(planDTO.getTransportType()));
     }
 
-    private boolean isPlanValid(Plan plan){
+    private boolean isPlanValid(Plan plan) {
         return plan.getDate() != null &&
                 plan.getDescription() != null &&
                 plan.getTransport().getType() != null &&
                 plan.getCityFrom() != null &&
                 plan.getCityToGo() != null &&
-                plan.getTitle() != null
-                ? true : false;
+                plan.getTitle() != null;
     }
 
     private PlanDTO createPlanDTO(Plan plan) {
@@ -214,9 +202,9 @@ public class PlanServiceImpl implements PlanService {
         planDTO.setBudgetMin(planToDTO.getBudgetMin());
         planDTO.setDate(planToDTO.getDate());
         planDTO.setDescription(planToDTO.getDescription());
-        planDTO.setNameCityFrom(planToDTO.getCityFrom().getName());
-        planDTO.setNameCityToGo(planToDTO.getCityToGo().getName());
-        planDTO.setTransportType(planToDTO.getTransport().getType());
+        planDTO.setNameCityFrom(planToDTO.getCityFrom() == null ? null : planToDTO.getCityFrom().getName());
+        planDTO.setNameCityToGo(planToDTO.getCityToGo() == null ? null : planToDTO.getCityToGo().getName());
+        planDTO.setTransportType(planToDTO.getTransport() == null ? null : planToDTO.getTransport().getType());
         planDTO.setIsPublic(planToDTO.getIsPublic());
         planDTO.setTitle(planToDTO.getTitle());
         planDTO.setUserLoginCreator(userRepository.findUserByPlanId(planToDTO.getId()).getLogin());

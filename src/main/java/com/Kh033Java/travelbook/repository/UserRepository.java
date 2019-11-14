@@ -39,5 +39,12 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (u:User)<-[:FRIENDS]-(friends:User)<-[:FRIENDS]-(u:User) WHERE u.login={login} RETURN friends")
     List<User> getFriends(@Param("login") String login);
+
+    @Query("MATCH (u:User)-[createdNote:CREATED_NOTE]->(note:Note)-[describes:DESCRIBES]-()\n" +
+            "match (u:User)-[createdPlan:CREATED_PLAN]->(plan:Plan)-[relationships]-()\n" +
+            "match (u:User)-[hasRole:HAS_ROLE]->()\n" +
+            "where u.login={login}\n" +
+            "delete hasRole, createdNote, createdPlan, describes, relationships, note, plan")
+    void deleteNotesAndPlansByUserLogin(@Param("login") String login);
 }
 
