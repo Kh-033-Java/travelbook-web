@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String GET_PLANES_BY_COUNTRY_BY_USER ="/country/**/plans/profile/**";
     private static final String GET_PHOTO_BY_COUNTRY_BY_USER ="/country/**/photos/profile/**";
     private static final String GET_USER_MAP ="/users/**/map";
+    private static final String GET_ALL_COUNTRIES = "/country/getAllCountries";
 
     @Autowired
     public SecurityConfig(TokenProvider tokenProvider) {
@@ -69,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET_PHOTO_BY_COUNTRY_BY_USER).permitAll()
                 .antMatchers(GET_GENERAL_INFORMATION_ENDPOINT).permitAll()
                 .antMatchers(GET_USER_MAP).permitAll()
+                .antMatchers(GET_ALL_COUNTRIES).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new Configurer(tokenProvider));

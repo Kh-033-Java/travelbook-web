@@ -40,6 +40,11 @@ public class CountryServiceImpl implements CountryService {
         return countryRepository.getCountryByName(name);
     }
 
+    @Override
+    public Country getByMapId(String mapId) {
+        return countryRepository.getCoutryByMapId(mapId);
+    }
+
     public List<Country> getVisitedCountries(String userLogin) {
         return countryRepository.getCountriesVisitedByUser(userLogin);
 

@@ -13,6 +13,8 @@ public interface CountryService {
 
     Country getByName(String name);
 
+    Country getByMapId(String mapId);
+
     List<Country> getVisitedCountries(String userLogin);
 
     List<Country> getPlannedCountries(String userLogin);
