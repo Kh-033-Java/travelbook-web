@@ -19,6 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String REGISTRATION_ENDPOINT = "/anonymous/registration";
     private static final String UPLOAD_FILE_ENDPOINT = "/uploadFile";
     private static final String GET_ALL_USERS_ENDPOINT = "/users/allUsers";
+    private static final String GET_ALL_USERS_BY_RATING_ENDPOINT = "/users/rating";
     private static final String GET_ALL_CITIES_BY_COUNTRY_ENDPOINT = "/country/**/cities";
     private static final String GET_ALL_TRANSPORT_ENDPOINT = "/transport";
     private static final String GET_ALL_COUNTRY_PLANS_ENDPOINT = "/country/**/plans";
@@ -28,10 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String GET_ALL_NOTES_FOR_USER_ENDPOINT = "/country/**/notes/**";
     private static final String GET_GENERAL_INFORMATION_ENDPOINT = "/country/**/description";
     private static final String GET_ALL_PUBLIC_PHOTOS = "/country/**/photos";
-    private static final String GET_PLANES_BY_COUNTRY_BY_USER ="/country/**/plans/profile/**";
-    private static final String GET_PHOTO_BY_COUNTRY_BY_USER ="/country/**/photos/profile/**";
-    private static final String GET_NOTE_BY_ID ="/country/notes/**";
-    private static final String GET_USER_MAP ="/users/**/map";
+    private static final String GET_PLANES_BY_COUNTRY_BY_USER = "/country/**/plans/profile/**";
+    private static final String GET_PHOTO_BY_COUNTRY_BY_USER = "/country/**/photos/profile/**";
+    private static final String GET_NOTE_BY_ID = "/country/notes/**";
+    private static final String GET_USER_MAP = "/users/**/map";
 
     @Autowired
     public SecurityConfig(TokenProvider tokenProvider) {
@@ -55,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
                 .antMatchers(REGISTRATION_ENDPOINT).permitAll()
+                .antMatchers(GET_ALL_USERS_BY_RATING_ENDPOINT).permitAll()
                 .antMatchers(UPLOAD_FILE_ENDPOINT).permitAll()
                 .antMatchers(GET_ALL_USERS_ENDPOINT).permitAll()
                 .antMatchers(GET_ALL_CITIES_BY_COUNTRY_ENDPOINT).permitAll()

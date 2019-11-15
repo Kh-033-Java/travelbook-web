@@ -3,6 +3,7 @@ package com.Kh033Java.travelbook.service.impl;
 import com.Kh033Java.travelbook.dto.UserDto;
 import com.Kh033Java.travelbook.entity.Photo;
 import com.Kh033Java.travelbook.entity.Role;
+import com.Kh033Java.travelbook.repository.NoteRepository;
 import com.Kh033Java.travelbook.repository.PhotoRepository;
 import com.Kh033Java.travelbook.repository.RoleRepository;
 import com.Kh033Java.travelbook.repository.UserRepository;
@@ -17,9 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -34,13 +33,15 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final PhotoRepository photoRepository;
+    private final NoteRepository noteRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, PhotoRepository photoRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, PhotoRepository photoRepository, NoteRepository noteRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.photoRepository = photoRepository;
+        this.noteRepository = noteRepository;
     }
 
     @Override
@@ -49,15 +50,22 @@ public class UserServiceImpl implements UserService {
         List<UserResponseForm> resultList = new ArrayList<>();
         for (User user : listUsers) {
             UserResponseForm result = new UserResponseForm();
+            result.setSumOfPosts(userRepository.sumOfPosts(user.getLogin()));
             result.setLogin(user.getLogin());
             result.setAvatar(user.getAvatar());
+            result.setSumOfLikes(userRepository.sumOfLikes(user.getLogin()));
             resultList.add(result);
         }
         log.info("IN getAll - {} users found", listUsers.size());
         return resultList;
     }
 
-    
+    @Override
+    public List<UserResponseForm> userRating(){
+        List<UserResponseForm> allUsers = getAll();
+        Collections.sort(allUsers, UserResponseForm.COMPARE_BY_SUM_OF_LIKES);
+        return allUsers;
+    }
 
     @Override
     public Optional<User> findByUsername(String username) {

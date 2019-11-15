@@ -22,5 +22,7 @@ public interface UserService {
     void deleteVisitedCountry(String login, String countryName);
 
     User saveUser(UserDto user);
+
+    List<UserResponseForm> userRating();
 }
 
