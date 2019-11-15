@@ -1,7 +1,5 @@
 package com.Kh033Java.travelbook.config;
 
-import com.Kh033Java.travelbook.security.Configurer;
-import com.Kh033Java.travelbook.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +7,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+
+import com.Kh033Java.travelbook.security.Configurer;
+import com.Kh033Java.travelbook.security.TokenProvider;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,10 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String GET_ALL_NOTES_FOR_USER_ENDPOINT = "/country/**/notes/**";
     private static final String GET_GENERAL_INFORMATION_ENDPOINT = "/country/**/description";
     private static final String GET_ALL_PUBLIC_PHOTOS = "/country/**/photos";
-    private static final String GET_PLANES_BY_COUNTRY_BY_USER = "/country/**/plans/profile/**";
-    private static final String GET_PHOTO_BY_COUNTRY_BY_USER = "/country/**/photos/profile/**";
-    private static final String GET_NOTE_BY_ID = "/country/notes/**";
-    private static final String GET_USER_MAP = "/users/**/map";
+    private static final String GET_PLANES_BY_COUNTRY_BY_USER ="/country/**/plans/profile/**";
+    private static final String GET_PHOTO_BY_COUNTRY_BY_USER ="/country/**/photos/profile/**";
+    private static final String GET_NOTE_BY_ID ="/country/notes/**";
+    private static final String GET_USER_MAP ="/users/**/map";
+    private static final String PUT_USER_VISITED ="/country/**/visit";
+    private static final String PUT_USER_NOT_VISITED ="/country/**/notvisit";
 
     @Autowired
     public SecurityConfig(TokenProvider tokenProvider) {
@@ -72,6 +75,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET_GENERAL_INFORMATION_ENDPOINT).permitAll()
                 .antMatchers(GET_USER_MAP).permitAll()
                 .antMatchers(GET_NOTE_BY_ID).permitAll()
+                .antMatchers(PUT_USER_VISITED).permitAll()
+                .antMatchers(PUT_USER_NOT_VISITED).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new Configurer(tokenProvider));
