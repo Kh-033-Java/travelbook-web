@@ -227,6 +227,4 @@ public class User  {
         }
         createdPlans.add(plan);
     }
-
-
 }

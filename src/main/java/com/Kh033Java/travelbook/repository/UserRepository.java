@@ -1,12 +1,12 @@
 package com.Kh033Java.travelbook.repository;
 
-import java.util.Optional;
-
+import com.Kh033Java.travelbook.entity.User;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.Kh033Java.travelbook.entity.User;
+import java.util.List;
+import java.util.Optional;
 
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
@@ -24,6 +24,21 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (u:User)-[r:VISITED]->(c:Country) WHERE u.login={login} AND c.name={country} DELETE r")
     void deleteRelationshipBetweenUserAndCountry(@Param("login") String login, @Param("country") String name);
+
+    @Query("MATCH (u1:User),(u2:User) WHERE u1.login={loginOwner} AND u2.login={loginFriend} CREATE (u1)-[:FRIENDS]->(u2)")
+    void createRelationshipBetweenUsers(@Param("loginOwner") String loginOwner, @Param("loginFriend") String loginFriend);
+
+    @Query("MATCH (u1:User)-[f:FRIENDS]->(u2:User) WHERE u1.login={loginOwner} AND u2.login={loginFriend} DELETE f")
+    void deleteRelationshipBetweenUsers(@Param("loginOwner") String loginOwner, @Param("LoginFriend") String loginFriend);
+
+    @Query("MATCH (u:User)-[:FRIENDS]->(friends:User)-[:HAS_AVATAR]-(a:Photo) WHERE u.login={login} RETURN friends")
+    List<User> getFollowings(@Param("login") String login);
+
+    @Query("MATCH (u:User)<-[:FRIENDS]-(friends:User) WHERE u.login={login} RETURN friends")
+    List<User> getFollowers(@Param("login") String login);
+
+    @Query("MATCH (u:User)<-[:FRIENDS]-(friends:User)<-[:FRIENDS]-(u:User) WHERE u.login={login} RETURN friends")
+    List<User> getFriends(@Param("login") String login);
 
     @Query("MATCH (u:User)-[createdNote:CREATED_NOTE]->(note:Note)-[describes:DESCRIBES]-()\n" +
             "match (u:User)-[createdPlan:CREATED_PLAN]->(plan:Plan)-[relationships]-()\n" +

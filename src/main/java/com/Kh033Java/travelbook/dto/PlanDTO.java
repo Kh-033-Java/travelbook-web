@@ -123,4 +123,23 @@ public class PlanDTO {
     public void setLinkToUserAvatar(String linkToUserAvatar) {
         this.linkToUserAvatar = linkToUserAvatar;
     }
+
+    @Override
+    public String toString() {
+        return "PlanDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", budgetMin=" + budgetMin +
+                ", budgetMax=" + budgetMax +
+                ", amountOfPeople=" + amountOfPeople +
+                ", isPublic=" + isPublic +
+                ", userLoginCreator='" + userLoginCreator + '\'' +
+                ", nameCityToGo='" + nameCityToGo + '\'' +
+                ", nameCityFrom='" + nameCityFrom + '\'' +
+                ", transportType='" + transportType + '\'' +
+                ", linkToUserAvatar='" + linkToUserAvatar + '\'' +
+                '}';
+    }
 }
