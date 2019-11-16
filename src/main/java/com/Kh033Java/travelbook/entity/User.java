@@ -1,4 +1,5 @@
 package com.Kh033Java.travelbook.entity;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +54,11 @@ public class User  {
     @Relationship(type = "HAS_ROLE")
     private List<Role> roles;
 
+    @Relationship(type = "FRIENDS")
+    private List<User> following;
+
+    @Relationship(type = "FRIENDS")
+    private List<User> followers;
 
     public User() {
     }
@@ -81,12 +87,14 @@ public class User  {
         this.avatar = avatar;
     }
 
-    public User(String login, String email, String password, String firstName, String lastName, String description, List<Role> roles, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans) {
+    public User(String login, String email, String password, String firstName, String lastName, String description, List<Role> roles, Set<Country> visitedCountries, Photo avatar, Set<Note> likedNotes, Set<Note> createdNotes, Set<Plan> createdPlans, List<User> following, List<User> followers) {
         this(login, password, lastName, firstName, email, description, roles, avatar);
         this.visitedCountries = visitedCountries;
         this.likedNotes = likedNotes;
         this.createdNotes = createdNotes;
         this.createdPlans = createdPlans;
+        this.following = following;
+        this.followers = followers;
     }
 
     public Long getId() {
@@ -193,6 +201,22 @@ public class User  {
         this.createdPlans = createdPlans;
     }
 
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+
     public void visitCountry(Country country) {
         if (visitedCountries == null) {
             visitedCountries = new HashSet<>();
@@ -226,5 +250,12 @@ public class User  {
             createdPlans = new HashSet<>();
         }
         createdPlans.add(plan);
+    }
+
+    public void addFollowing(User user) {
+        if (following == null){
+            following = new ArrayList<>();
+        }
+        following.add(user);
     }
 }

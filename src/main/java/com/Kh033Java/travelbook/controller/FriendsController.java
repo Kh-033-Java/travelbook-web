@@ -25,7 +25,7 @@ public class FriendsController {
 
     @GetMapping(value = "/following")
     public List<UserResponseForm> getFollowing(@RequestParam final String user){
-        return userService.getFollowings(user);
+        return userService.getFollowing(user);
     }
 
     @GetMapping(value = "/followers")
@@ -38,12 +38,12 @@ public class FriendsController {
         return userService.getFriends(user);
     }
 
-    @PostMapping(value = "/{login}")
+    @PostMapping(value = "/addfollow/{login}")
     public void addToFollowing(@PathVariable final String login, @RequestParam final String user){
         userService.addFollowing(login, user);
     }
 
-    @DeleteMapping(value = "/{login}")
+    @PostMapping(value = "/deletefollow/{login}")
     public void deleteFollowing(@PathVariable final String login, @RequestParam final String user) {
         userService.deleteFollowing(login, user);
     }

@@ -112,6 +112,8 @@ public class UserServiceImpl implements UserService {
         result.setCreatedPlans(currentUser.get().getCreatedPlans());
         result.setRoles(currentUser.get().getRoles());
         result.setLikedNotes(currentUser.get().getLikedNotes());
+        result.setFollowing(currentUser.get().getFollowing());
+        result.setFollowers(currentUser.get().getFollowers());
 
         userRepository.delete(currentUser.get());
 
@@ -165,8 +167,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<UserResponseForm> getFollowings(String login){
-        List<User> listUsers = (List<User>) userRepository.getFollowings(login);
+    public List<UserResponseForm> getFollowing(String login){
+        List<User> listUsers = (List<User>) userRepository.getFollowing(login);
         List<UserResponseForm> resultSet = doResponseForm(listUsers);
         return resultSet;
     }

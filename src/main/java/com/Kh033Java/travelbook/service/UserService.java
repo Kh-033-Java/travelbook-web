@@ -28,7 +28,7 @@ public interface UserService {
 
     void deleteFollowing(String loginFriend, String loginOwner);
 
-    List<UserResponseForm> getFollowings(String loginOwner);
+    List<UserResponseForm> getFollowing(String loginOwner);
 
     List<UserResponseForm> getFollowers(String loginOwner);
 
