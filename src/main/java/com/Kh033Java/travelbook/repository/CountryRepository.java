@@ -12,8 +12,7 @@ import com.Kh033Java.travelbook.entity.Country;
 @Repository
 public interface CountryRepository extends Neo4jRepository<Country, Long> {
 	
-   // List<Country> findAll();
-    
+
     @Query("MATCH (c:Country) WHERE c.name={countryName} RETURN c")
     Country getCountryByName(@Param("countryName") String countryName);
 

@@ -10,11 +10,13 @@ import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.service.PhotoService;
 import com.Kh033Java.travelbook.service.PlanService;
 import com.Kh033Java.travelbook.validation.ValidationUtil;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,7 +77,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public List<PlanDTO> getPlansWithFilter(PlanSearchDTO planSearchDTO) {
         List<PlanDTO> planDTOS = new ArrayList<>();
-        for (PlanDTO plan : getAllPlans()) {
+        for (PlanDTO plan : getAllPlansNoFiltered()) {
             if (filterPlanBySearchDTO(plan, planSearchDTO) != null)
                 planDTOS.add(plan);
         }
@@ -168,6 +170,10 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public List<PlanDTO> getAllPlans() {
+        return planRepository.getPublicPlans().stream().filter(plan -> plan.getDate().after(new Date()) && plan.getDate().before(DateUtils.addMonths(new Date(), 1))).map(this::createPlanDTO).collect(Collectors.toList());
+    }
+
+    private List<PlanDTO> getAllPlansNoFiltered() {
         return planRepository.getPublicPlans().stream().map(this::createPlanDTO).collect(Collectors.toList());
     }
 
