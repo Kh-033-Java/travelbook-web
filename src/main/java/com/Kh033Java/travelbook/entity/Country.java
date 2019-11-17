@@ -14,6 +14,8 @@ public class Country {
     @Index(unique = true)
     private String name;
 
+    private String map_id;
+
     @Relationship(type = "CONTAINS")
     private List<City> cities;
 
@@ -27,8 +29,11 @@ public class Country {
         this.name = name;
     }
 
-    public Country(String name, List<City> cities, Description description) {
+
+
+    public Country(String name, String map_id, List<City> cities, Description description) {
         this.name = name;
+        this.map_id = map_id;
         this.cities = cities;
         this.description = description;
     }
@@ -48,6 +53,10 @@ public class Country {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getMap_id(){ return map_id; }
+
+    public void setMap_id(String map_id){ this.map_id = map_id; }
 
     public List<City> getCities() {
         return cities;
