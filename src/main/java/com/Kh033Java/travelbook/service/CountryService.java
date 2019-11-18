@@ -9,7 +9,11 @@ import com.Kh033Java.travelbook.entity.Plan;
 
 public interface CountryService {
 
+    List<Country> getAll();
+
     Country getByName(String name);
+
+    Country getByMapId(String mapId);
 
     List<Country> getVisitedCountries(String userLogin);
 
