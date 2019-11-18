@@ -69,7 +69,7 @@ public class NoteController {
     }
 
     @PutMapping(value = "notes/{id}")
-    public Note editPlan(@RequestBody NoteDTO noteDTO, @PathVariable Long id) {
+    public Note editNote(@RequestBody NoteDTO noteDTO, @PathVariable Long id) {
         return noteService.updateNote(noteDTO, id);
     }
 
