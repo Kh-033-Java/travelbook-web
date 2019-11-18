@@ -1,8 +1,10 @@
 package com.Kh033Java.travelbook.controller;
 
+import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.responseForm.UserResponseForm;
 import com.Kh033Java.travelbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +18,13 @@ import java.util.List;
 @RequestMapping(value = "/users/")
 public class FriendsController {
 
-    private final UserService userService;
+    private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
-    public FriendsController(UserService userService){
+    public FriendsController(UserService userService, UserRepository userRepository){
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping(value = "/following")
@@ -38,13 +42,14 @@ public class FriendsController {
         return userService.getFriends(user);
     }
 
-    @PostMapping(value = "/addfollow/{login}")
-    public void addToFollowing(@PathVariable final String login, @RequestParam final String user){
-        userService.addFollowing(login, user);
+    @PutMapping(value = "/addfollow/{login}")
+    public ResponseEntity addToFollowing(@PathVariable final String login, @RequestParam final String user){
+//        userRepository.createRelationshipBetweenUsers(login, user);
+        return ResponseEntity.ok(userRepository.createRelationshipBetweenUsers(login, user));
     }
 
-    @PostMapping(value = "/deletefollow/{login}")
+    @PutMapping(value = "/deletefollow/{login}")
     public void deleteFollowing(@PathVariable final String login, @RequestParam final String user) {
-        userService.deleteFollowing(login, user);
+        userRepository.deleteRelationshipBetweenUsers(login, user);
     }
 }

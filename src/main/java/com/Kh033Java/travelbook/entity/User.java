@@ -258,4 +258,11 @@ public class User  {
         }
         following.add(user);
     }
+
+    public void addFollowers(User user) {
+        if (followers == null){
+            followers = new ArrayList<>();
+        }
+        followers.add(user);
+    }
 }

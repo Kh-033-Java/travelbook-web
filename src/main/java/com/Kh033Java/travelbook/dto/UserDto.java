@@ -18,8 +18,6 @@ public class UserDto {
     private String password;
     private String description;
     private Photo avatar;
-    private List<User> following;
-    private List<User> followers;
 
     public User toUser(){
         User user = new User();
@@ -31,8 +29,6 @@ public class UserDto {
         user.setPassword(password);
         user.setDescription(description);
         user.setAvatar(avatar);
-        user.setFollowing(following);
-        user.setFollowers(followers);
 
         return user;
     }
@@ -47,8 +43,6 @@ public class UserDto {
         userDto.setPassword(user.getPassword());
         userDto.setDescription(user.getDescription());
         userDto.setAvatar(user.getAvatar());
-        userDto.setFollowing(user.getFollowing());
-        userDto.setFollowers(user.getFollowers());
 
         return userDto;
     }
@@ -115,21 +109,5 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<User> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(List<User> following) {
-        this.following = following;
-    }
-
-    public List<User> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
     }
 }

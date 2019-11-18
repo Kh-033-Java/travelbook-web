@@ -25,11 +25,11 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (u:User)-[r:VISITED]->(c:Country) WHERE u.login={login} AND c.name={country} DELETE r")
     void deleteRelationshipBetweenUserAndCountry(@Param("login") String login, @Param("country") String name);
 
-    @Query("MATCH (u1:User),(u2:User) WHERE u1.login={loginOwner} AND u2.login={loginFriend} CREATE (u1)-[:FRIENDS]->(u2)")
-    void createRelationshipBetweenUsers(@Param("loginFriend") String loginFriend, @Param("loginOwner") String loginOwner);
+    @Query("MATCH (u1:User),(u2:User{login:{loginFriend}}) WHERE u1.login={loginOwner} CREATE UNIQUE (u1)-[f:FRIENDS]->(u2) RETURN u1")
+    User createRelationshipBetweenUsers(@Param("loginFriend") String loginFriend, @Param("loginOwner") String loginOwner);
 
-    @Query("MATCH (u1:User)-[f:FRIENDS]->(u2:User) WHERE u1.login={loginOwner} AND u2.login={loginFriend} DELETE f")
-    void deleteRelationshipBetweenUsers(@Param("loginFriend") String loginFriend, @Param("loginOwner") String loginOwner);
+    @Query("MATCH (u1:User)-[f:FRIENDS]->(u2:User) WHERE u1.login={loginOwner} AND u2.login={loginFriend} DELETE f RETURN u1")
+    User deleteRelationshipBetweenUsers(@Param("loginFriend") String loginFriend, @Param("loginOwner") String loginOwner);
 
     @Query("MATCH (u:User)-[:FRIENDS]->(friends:User)-[:HAS_AVATAR]-(a:Photo) WHERE u.login={login} RETURN friends")
     List<User> getFollowing(@Param("login") String login);

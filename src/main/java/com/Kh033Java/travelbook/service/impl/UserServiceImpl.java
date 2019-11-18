@@ -155,18 +155,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void addFollowing(String loginFriend, String loginOwner){
-        userRepository.createRelationshipBetweenUsers(loginFriend, loginOwner);
-    }
-
-    @Override
-    @Transactional
-    public void deleteFollowing(String loginFriend, String loginOwner){
-        userRepository.deleteRelationshipBetweenUsers(loginFriend, loginOwner);
-    }
-
-    @Override
-    @Transactional
     public List<UserResponseForm> getFollowing(String login){
         List<User> listUsers = (List<User>) userRepository.getFollowing(login);
         List<UserResponseForm> resultSet = doResponseForm(listUsers);
