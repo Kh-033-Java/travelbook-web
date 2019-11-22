@@ -1,6 +1,7 @@
 package com.Kh033Java.travelbook.entity;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
@@ -226,5 +227,30 @@ public class User  {
             createdPlans = new HashSet<>();
         }
         createdPlans.add(plan);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(description, user.description) &&
+                Objects.equals(visitedCountries, user.visitedCountries) &&
+                Objects.equals(avatar, user.avatar) &&
+                Objects.equals(likedNotes, user.likedNotes) &&
+                Objects.equals(createdNotes, user.createdNotes) &&
+                Objects.equals(createdPlans, user.createdPlans) &&
+                Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, password, lastName, firstName, email, description, visitedCountries, avatar, likedNotes, createdNotes, createdPlans, roles);
     }
 }

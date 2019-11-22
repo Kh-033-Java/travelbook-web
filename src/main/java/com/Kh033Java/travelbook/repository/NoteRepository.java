@@ -1,7 +1,9 @@
 package com.Kh033Java.travelbook.repository;
 
 import java.util.List;
+import java.util.Set;
 
+import com.Kh033Java.travelbook.entity.City;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
@@ -46,5 +48,11 @@ public interface NoteRepository extends Neo4jRepository<Note, Long> {
             "where id(n)={id}\n" +
             "return n")
     Note checkIfExistLike(@Param("login") String login, @Param("id") int id);
+
+    @Query("match(n:Note)-[:LIKED]-(u:User)\n" +
+            "where u.login={login}\n" +
+            "match (n)-[:DESCRIBES]-(c:City)\n" +
+            "return c")
+    Set<City> findCitiesByLikedNotes(@Param("login") String login);
 
 }

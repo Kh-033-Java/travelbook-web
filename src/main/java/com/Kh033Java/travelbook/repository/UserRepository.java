@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
@@ -57,5 +58,9 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "where u.login={login}\n" +
             "return count(n) as count")
     int sumOfPosts(@Param("login")String login);
+
+    @Query("match (u:User)-[:LIKED]-()\n" +
+            "return  u")
+    Set<User> findUsersWhoLikedNotes();
 }
 
