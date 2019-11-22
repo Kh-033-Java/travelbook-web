@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String GET_USER_MAP ="/users/**/map";
     private static final String GET_ALL_COUNTRIES = "/country/getAllCountries";
     private static final String GET_ALL_LIKES_BY_NOTE = "/notes/**/likes";
+    private static final String GET_ALL_CITIES = "/cities";
 
     @Autowired
     public SecurityConfig(TokenProvider tokenProvider) {
@@ -67,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET_ALL_COUNTRIES).permitAll()
                 .antMatchers(GET_NOTE_BY_ID).permitAll()
                 .antMatchers(GET_ALL_LIKES_BY_NOTE).permitAll()
+                .antMatchers(GET_ALL_CITIES).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new Configurer(tokenProvider));
