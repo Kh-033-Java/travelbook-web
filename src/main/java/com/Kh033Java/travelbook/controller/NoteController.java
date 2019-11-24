@@ -53,7 +53,7 @@ public class NoteController {
 
     @GetMapping(value = "country/{name}/notes/private")
     @ResponseStatus(HttpStatus.OK)
-    public List<NoteDTO> getAllUsersPlans(@PathVariable String name, @RequestParam String user) {
+    public List<NoteDTO> getAllUsersNotes(@PathVariable String name, @RequestParam String user) {
         return noteService.getPublicAndPrivateUserNotesConnectedToCountry(name, user);
     }
 
@@ -69,7 +69,7 @@ public class NoteController {
     }
 
     @PutMapping(value = "notes/{id}")
-    public Note editPlan(@RequestBody NoteDTO noteDTO, @PathVariable Long id) {
+    public Note editNote(@RequestBody NoteDTO noteDTO, @PathVariable Long id) {
         return noteService.updateNote(noteDTO, id);
     }
 

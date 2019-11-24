@@ -1,19 +1,23 @@
 package com.Kh033Java.travelbook.service.impl;
 
-import com.Kh033Java.travelbook.dto.NoteDTO;
-import com.Kh033Java.travelbook.entity.Note;
-import com.Kh033Java.travelbook.entity.Photo;
-import com.Kh033Java.travelbook.repository.*;
-import com.Kh033Java.travelbook.service.NoteService;
-import com.Kh033Java.travelbook.service.PhotoService;
-import com.Kh033Java.travelbook.validation.ValidationUtil;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.Kh033Java.travelbook.dto.NoteDTO;
+import com.Kh033Java.travelbook.entity.Note;
+import com.Kh033Java.travelbook.entity.Photo;
+import com.Kh033Java.travelbook.repository.CityRepository;
+import com.Kh033Java.travelbook.repository.NoteRepository;
+import com.Kh033Java.travelbook.repository.PhotoRepository;
+import com.Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.travelbook.service.NoteService;
+import com.Kh033Java.travelbook.service.PhotoService;
+import com.Kh033Java.travelbook.validation.ValidationUtil;
 
 @Service
 @Transactional
@@ -23,8 +27,11 @@ public class NoteServiceImpl implements NoteService {
 	private final UserRepository userRepository;
 	private final CityRepository cityRepository;
 	private final PhotoService photoService;
+	private final PhotoRepository photoRepository;
 
-	public NoteServiceImpl(NoteRepository noteRepository, UserRepository userRepository, CityRepository cityRepository, PhotoService photoService) {
+	public NoteServiceImpl(NoteRepository noteRepository, UserRepository userRepository, CityRepository cityRepository,
+			PhotoService photoService, PhotoRepository photoRepositoty) {
+		this.photoRepository = photoRepositoty;
 		this.noteRepository = noteRepository;
 		this.userRepository = userRepository;
 		this.cityRepository = cityRepository;
@@ -76,6 +83,9 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public Note updateNote(NoteDTO noteDTO, long id) {
+		
+		createPhotoIfPhotoDoesNotExist(noteDTO.getPhotoLink());
+		
 		Note note = ValidationUtil.checkBeforeGet(noteRepository.findById(id), id, Note.class);
 		dtoToNote(noteDTO, note);
 		noteRepository.save(note);
@@ -90,6 +100,9 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public Note save(NoteDTO noteDTO) {
+		
+		createPhotoIfPhotoDoesNotExist(noteDTO.getPhotoLink());
+
 		Note note = new Note();
 		dtoToNote(noteDTO, note);
 		noteRepository.save(note);
@@ -104,7 +117,7 @@ public class NoteServiceImpl implements NoteService {
 		note.setDateOfVisiting(noteDTO.getDateOfVisiting());
 		note.setDescribedCity(cityRepository.findByName(noteDTO.getDescribedCity()));
 		note.setDescription(noteDTO.getDescription());
-		note.setIsPublic(noteDTO.isPublic());
+		note.setIsPublic(noteDTO.getIsPublic());
 		note.setPeopleEstimate(noteDTO.getPeopleEstimate());
 		note.setPricesEstimate(noteDTO.getPricesEstimate());
 		note.setTitle(noteDTO.getTitle());
@@ -126,11 +139,12 @@ public class NoteServiceImpl implements NoteService {
 			noteDTO.setPhotoLink(transformList(noteToDTO.getPhotoLink()));
 		else
 			noteDTO.setPhotoLink(new ArrayList<String>());
-		noteDTO.setPublic(noteToDTO.getIsPublic());
+		noteDTO.setIsPublic(noteToDTO.getIsPublic());
 		noteDTO.setTitle(noteToDTO.getTitle());
 		noteDTO.setPricesEstimate(noteToDTO.getPricesEstimate());
 		noteDTO.setDescription(noteToDTO.getDescription());
-		noteDTO.setLinkToUserAvatar(photoService.findUserAvatarByUserLogin(userRepository.findUserByNoteId(noteToDTO.getId()).getLogin()).getLink());
+		noteDTO.setLinkToUserAvatar(photoService
+				.findUserAvatarByUserLogin(userRepository.findUserByNoteId(noteToDTO.getId()).getLogin()).getLink());
 
 		return noteDTO;
 	}
@@ -143,4 +157,14 @@ public class NoteServiceImpl implements NoteService {
 
 		return links;
 	}
+	
+	private void createPhotoIfPhotoDoesNotExist(List<String> photoLinks) {
+		for (String photoLink : photoLinks) {
+			Photo photo = new Photo(photoLink);
+			if (photoService.isPhotoExists(photoLink) == false) {
+				photoService.createPhoto(photo);
+			}
+		}
+	}
+	
 }
