@@ -1,5 +1,6 @@
 package com.Kh033Java.travelbook.responseForm;
 
+import com.Kh033Java.travelbook.entity.Country;
 import com.Kh033Java.travelbook.entity.Photo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ public class UserResponseForm {
     private Photo avatar;
     private int sumOfLikes;
     private int sumOfPosts;
+    private Country homeland;
 
     private static Logger log = LoggerFactory.getLogger(UserResponseForm.class);
 
@@ -44,6 +46,14 @@ public class UserResponseForm {
 
     public void setAvatar(Photo avatar) {
         this.avatar = avatar;
+    }
+
+    public Country getHomeland() {
+        return homeland;
+    }
+
+    public void setHomeland(Country homeland) {
+        this.homeland = homeland;
     }
 
     public static final Comparator<UserResponseForm> COMPARE_BY_SUM_OF_LIKES = new Comparator<UserResponseForm>() {
