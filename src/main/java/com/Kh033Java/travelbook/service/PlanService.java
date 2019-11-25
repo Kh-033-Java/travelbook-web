@@ -25,5 +25,5 @@ public interface PlanService {
 
     Plan save(PlanDTO planDTO);
 
-    List<PlanDTO> getAllPlans(String login);
+    List<PlanDTO> getAllFilteredPlans(String login);
 }

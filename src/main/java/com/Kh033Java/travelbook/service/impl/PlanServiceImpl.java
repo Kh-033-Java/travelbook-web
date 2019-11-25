@@ -19,7 +19,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -88,6 +95,7 @@ public class PlanServiceImpl implements PlanService {
             if (filterPlanBySearchDTO(plan, planSearchDTO) != null)
                 planDTOS.add(plan);
         }
+        planDTOS.sort(Comparator.comparing(PlanDTO::getDate));
         return planDTOS;
     }
 
@@ -176,7 +184,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public List<PlanDTO> getAllPlans(String login) {
+    public List<PlanDTO> getAllFilteredPlans(String login) {
         List<PlanDTO> result = new LinkedList<>();
         List<PlanDTO> anotherPlans = new LinkedList<>();
         List<PlanDTO> plans = planRepository.getPublicPlans()
@@ -205,6 +213,7 @@ public class PlanServiceImpl implements PlanService {
         result.addAll(anotherPlans);
         return result;
     }
+
 
     private List<PlanDTO> getAllPlansNoFiltered() {
         return planRepository.getPublicPlans().stream().map(this::createPlanDTO).collect(Collectors.toList());
@@ -251,4 +260,5 @@ public class PlanServiceImpl implements PlanService {
 
         return planDTO;
     }
+
 }

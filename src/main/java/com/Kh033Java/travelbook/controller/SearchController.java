@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,17 +45,10 @@ public class SearchController {
     HTTP Request Example: /plans/search?searchDTO={"budgetMin": 600,"budgetMax": 30000,"minDate":"2019-01-01","maxDate":"2019-03-01","amountOfPeopleMin":1,"amountOfPeopleMax":3,"transportType":"Car","cityFrom":"Nice","cityGoTo":"Krakow"}
      */
 
-    @GetMapping(value = "plans/search")
+    @PutMapping(value = "plans/search")
     @ResponseStatus(HttpStatus.OK)
-    public List<PlanDTO> findPlanWithFilters(@RequestParam(value = "searchDTO") String searchDTO){//(@RequestParam int budget_min, @RequestParam int budget_max, @RequestParam String date_min, @RequestParam String date_max, @RequestParam int amount_of_people_min, @RequestParam int amount_of_people_max, @RequestParam String transport, @RequestParam String start_city, @RequestParam String end_city) {
-        PlanSearchDTO planSearchDto = new PlanSearchDTO();
-        try {
-          planSearchDto = new ObjectMapper().setDateFormat(new SimpleDateFormat("yyyy-MM-dd")).readValue(searchDTO, PlanSearchDTO.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-         return planService.getPlansWithFilter(planSearchDto);
+    public List<PlanDTO> findPlanWithFilters(@RequestBody PlanSearchDTO searchDTO){//(@RequestParam int budget_min, @RequestParam int budget_max, @RequestParam String date_min, @RequestParam String date_max, @RequestParam int amount_of_people_min, @RequestParam int amount_of_people_max, @RequestParam String transport, @RequestParam String start_city, @RequestParam String end_city) {
+         return planService.getPlansWithFilter(searchDTO);
     }
 
     @GetMapping(value = "country/{name}")

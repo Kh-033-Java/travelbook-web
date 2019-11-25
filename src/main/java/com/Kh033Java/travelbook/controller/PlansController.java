@@ -75,6 +75,6 @@ public class PlansController {
     @ResponseStatus(HttpStatus.OK)
     public List<PlanDTO> getAllPlans(@PathVariable String login) {
         LOG.info("get all plans by user {}", login);
-        return planService.getAllPlans(login);
+        return planService.getAllFilteredPlans(login);
     }
 }
