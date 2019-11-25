@@ -2,7 +2,10 @@ package com.Kh033Java.travelbook.service.impl;
 
 import com.Kh033Java.travelbook.dto.PlanDTO;
 import com.Kh033Java.travelbook.dto.PlanSearchDTO;
+import com.Kh033Java.travelbook.entity.City;
 import com.Kh033Java.travelbook.entity.Plan;
+import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.recommendations.UserLikedNotesFirstAlgorithm;
 import com.Kh033Java.travelbook.repository.CityRepository;
 import com.Kh033Java.travelbook.repository.PlanRepository;
 import com.Kh033Java.travelbook.repository.TransportRepository;
@@ -20,7 +23,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -179,9 +184,36 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public List<PlanDTO> getAllFilteredPlans() {
-        return planRepository.getPublicPlans().stream().filter(plan -> plan.getDate().after(new Date()) && plan.getDate().before(DateUtils.addMonths(new Date(), 1))).sorted(Comparator.comparing(Plan::getDate)).map(this::createPlanDTO).collect(Collectors.toList());
+    public List<PlanDTO> getAllFilteredPlans(String login) {
+        List<PlanDTO> result = new LinkedList<>();
+        List<PlanDTO> anotherPlans = new LinkedList<>();
+        List<PlanDTO> plans = planRepository.getPublicPlans()
+                .stream()
+                .filter(plan -> plan.getDate()
+                        .after(new Date()) && plan.getDate()
+                        .before(DateUtils.addMonths(new Date(), 1)))
+                .map(this::createPlanDTO).collect(Collectors.toList());
+        Map<User, Set<City>> users = algorithm.getAlgorithm(login);
+        for (Map.Entry<User, Set<City>> entry : users.entrySet()) {
+            for (City city : entry.getValue()) {
+                for (PlanDTO plan : plans) {
+                    if (plan.getNameCityToGo().equals(city.getName())) {
+                        result.add(plan);
+                        logger.info("added to result, {}", plan.getNameCityToGo());
+                    }
+                }
+            }
+        }
+        for(PlanDTO plan: plans){
+            if(!result.contains(plan) && !anotherPlans.contains(plan)){
+                anotherPlans.add(plan);
+                logger.info("added to another, {}", plan.getNameCityToGo());
+            }
+        }
+        result.addAll(anotherPlans);
+        return result;
     }
+
 
     private List<PlanDTO> getAllPlansNoFiltered() {
         return planRepository.getPublicPlans().stream().map(this::createPlanDTO).collect(Collectors.toList());
@@ -228,4 +260,5 @@ public class PlanServiceImpl implements PlanService {
 
         return planDTO;
     }
+
 }
