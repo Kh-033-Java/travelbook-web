@@ -1,4 +1,5 @@
 package com.Kh033Java.travelbook.entity;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +55,12 @@ public class User  {
     @Relationship(type = "HAS_ROLE")
     private List<Role> roles;
 
+    @Relationship(type = "FRIENDS")
+    private List<User> following;
+
+    @Relationship(type = "FRIENDS")
+    private List<User> followers;
+
     @Relationship(type = "HOMELAND")
     private Country homeland;
 
@@ -98,12 +105,16 @@ public class User  {
                 Country homeland,
                 Set<Note> likedNotes,
                 Set<Note> createdNotes,
-                Set<Plan> createdPlans) {
+                Set<Plan> createdPlans,
+                List<User> following,
+                List<User> followers) {
         this(login, password, lastName, firstName, email, description, roles, avatar, homeland);
         this.visitedCountries = visitedCountries;
         this.likedNotes = likedNotes;
         this.createdNotes = createdNotes;
         this.createdPlans = createdPlans;
+        this.following = following;
+        this.followers = followers;
     }
 
     public Country getHomeland() {
@@ -218,6 +229,22 @@ public class User  {
         this.createdPlans = createdPlans;
     }
 
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+
     public void visitCountry(Country country) {
         if (visitedCountries == null) {
             visitedCountries = new HashSet<>();
@@ -253,29 +280,45 @@ public class User  {
         createdPlans.add(plan);
     }
 
+    public void addFollowing(User user) {
+        if (following == null){
+            following = new ArrayList<>();
+        }
+        following.add(user);
+    }
+
+    public void addFollowers(User user) {
+        if (followers == null) {
+            followers = new ArrayList<>();
+        }
+        followers.add(user);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(email, user.email) &&
+        return id.equals(user.id) &&
+                login.equals(user.login) &&
+                password.equals(user.password) &&
+                lastName.equals(user.lastName) &&
+                firstName.equals(user.firstName) &&
+                email.equals(user.email) &&
                 Objects.equals(description, user.description) &&
                 Objects.equals(visitedCountries, user.visitedCountries) &&
-                Objects.equals(avatar, user.avatar) &&
+                avatar.equals(user.avatar) &&
                 Objects.equals(likedNotes, user.likedNotes) &&
                 Objects.equals(createdNotes, user.createdNotes) &&
                 Objects.equals(createdPlans, user.createdPlans) &&
-                Objects.equals(roles, user.roles) &&
-                Objects.equals(homeland, user.homeland);
+                roles.equals(user.roles) &&
+                Objects.equals(following, user.following) &&
+                Objects.equals(followers, user.followers) &&
+                homeland.equals(user.homeland);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, lastName, firstName, email, description, visitedCountries, avatar, likedNotes, createdNotes, createdPlans, roles, homeland);
+        return Objects.hash(id, login, password, lastName, firstName, email, description, visitedCountries, avatar, likedNotes, createdNotes, createdPlans, roles, homeland, following, followers);
     }
 }
