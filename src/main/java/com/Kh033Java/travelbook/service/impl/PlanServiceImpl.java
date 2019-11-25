@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -81,6 +82,7 @@ public class PlanServiceImpl implements PlanService {
             if (filterPlanBySearchDTO(plan, planSearchDTO) != null)
                 planDTOS.add(plan);
         }
+        planDTOS.sort(Comparator.comparing(PlanDTO::getDate));
         return planDTOS;
     }
 
@@ -169,8 +171,8 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public List<PlanDTO> getAllPlans() {
-        return planRepository.getPublicPlans().stream().filter(plan -> plan.getDate().after(new Date()) && plan.getDate().before(DateUtils.addMonths(new Date(), 1))).map(this::createPlanDTO).collect(Collectors.toList());
+    public List<PlanDTO> getAllFilteredPlans() {
+        return planRepository.getPublicPlans().stream().filter(plan -> plan.getDate().after(new Date()) && plan.getDate().before(DateUtils.addMonths(new Date(), 1))).sorted(Comparator.comparing(Plan::getDate)).map(this::createPlanDTO).collect(Collectors.toList());
     }
 
     private List<PlanDTO> getAllPlansNoFiltered() {
