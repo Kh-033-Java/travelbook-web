@@ -44,7 +44,6 @@ public class FriendsController {
 
     @PutMapping(value = "/addfollow/{login}")
     public ResponseEntity addToFollowing(@PathVariable final String login, @RequestParam final String user){
-//        userRepository.createRelationshipBetweenUsers(login, user);
         return ResponseEntity.ok(userRepository.createRelationshipBetweenUsers(login, user));
     }
 
