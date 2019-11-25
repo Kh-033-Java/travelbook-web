@@ -19,26 +19,24 @@ import java.util.List;
 public class FriendsController {
 
     private UserService userService;
-    private UserRepository userRepository;
 
     @Autowired
-    public FriendsController(UserService userService, UserRepository userRepository){
+    public FriendsController(UserService userService){
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping(value = "/following")
-    public List<UserResponseForm> getFollowing(@RequestParam final String user){
+    public Iterable<UserResponseForm> getFollowing(@RequestParam final String user){
         return userService.getFollowing(user);
     }
 
     @GetMapping(value = "/followers")
-    public List<UserResponseForm> getFollowers(@RequestParam final String user){
+    public Iterable<UserResponseForm> getFollowers(@RequestParam final String user){
         return userService.getFollowers(user);
     }
 
     @GetMapping(value = "/friends")
-    public List<UserResponseForm> getFriends(@RequestParam final String user){
+    public Iterable<UserResponseForm> getFriends(@RequestParam final String user){
         return userService.getFriends(user);
     }
 
@@ -48,7 +46,7 @@ public class FriendsController {
     }
 
     @PutMapping(value = "/deletefollow/{login}")
-    public void deleteFollowing(@PathVariable final String login, @RequestParam final String user) {
-        userRepository.deleteRelationshipBetweenUsers(login, user);
+    public ResponseEntity deleteFollowing(@PathVariable final String login, @RequestParam final String user) {
+        return ResponseEntity.ok(userRepository.deleteRelationshipBetweenUsers(login, user));
     }
 }

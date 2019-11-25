@@ -1,6 +1,7 @@
 package com.Kh033Java.travelbook.service.impl;
 
 import com.Kh033Java.travelbook.service.DescriptionService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.Kh033Java.travelbook.entity.Description;
@@ -15,6 +16,7 @@ public class DescriptionServiceImpl implements DescriptionService {
     }
 
     @Override
+    @Cacheable("Description")
     public Description getDescriptionByCountryName(String name) {
         return descriptionRepository.getDescriptionByCountryName(name);
     }

@@ -174,6 +174,8 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteRelationshipBetweenUserAndCountry(login, countryName);
     }
 
+
+
     @Override
     @Transactional
     public List<UserResponseForm> getFollowing(String login) {

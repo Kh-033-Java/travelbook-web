@@ -116,7 +116,6 @@ public class UserDto {
     }
 
     public Country getHomeland() {
-
         return homeland;
     }
 

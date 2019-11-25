@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.Kh033Java.travelbook.entity.Photo;
@@ -21,16 +23,19 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
+	@Cacheable("Photo")
 	public List<Photo> findAllPublicPhotosForUnauthorized(String name) {
 		return photoRepository.findAllPublicPhotosForUnauthorized(name);
 	}
 
 	@Override
+	@Cacheable("Photo")
 	public List<Photo> findAllPublicPhotosForAuthorized(String name, String login) {
 		return photoRepository.findAllPublicPhotosForAuthorized(name, login);
 	}
 
 	@Override
+	@Cacheable("Photo")
 	public List<Photo> findAllUsersPhotosInCountry(String name, String userLogin) {
 		return photoRepository.findAllUsersPhotosInCountry(name, userLogin);
 	}
@@ -49,6 +54,7 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
+	@Cacheable("Photo")
 	public List<Photo> findAllCountryPhotos(String countryName) {
 		return photoRepository.getCountryPhotos(countryName);
 	}
@@ -63,6 +69,7 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
+	@CachePut("Photo")
 	public Photo createPhoto(Photo photo) {
 		return photoRepository.save(photo);
 	}
