@@ -72,7 +72,6 @@ public class AnonymousController {
     @ResponseStatus(HttpStatus.OK)
     public User createUser(@RequestBody final UserDto user) {
         LOG.info("Create user {}", user);
-        System.out.println("create user " + user);
         return userService.saveUser(user);
     }
 

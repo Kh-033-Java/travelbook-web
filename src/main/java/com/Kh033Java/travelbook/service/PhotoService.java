@@ -16,4 +16,8 @@ public interface PhotoService {
     Photo findUserAvatarByUserLogin(String userLogin);
 
 	List<Photo> findAllCountryPhotos(String countryName);
+
+	boolean isPhotoExists(String photoLink);
+
+	Photo createPhoto(Photo photo);
 }

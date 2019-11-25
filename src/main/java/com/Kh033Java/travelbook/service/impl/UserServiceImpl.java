@@ -1,12 +1,9 @@
 package com.Kh033Java.travelbook.service.impl;
 
 import com.Kh033Java.travelbook.dto.UserDto;
-import com.Kh033Java.travelbook.entity.Photo;
-import com.Kh033Java.travelbook.entity.Role;
-import com.Kh033Java.travelbook.entity.User;
-import com.Kh033Java.travelbook.repository.PhotoRepository;
-import com.Kh033Java.travelbook.repository.RoleRepository;
-import com.Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.travelbook.entity.*;
+import com.Kh033Java.travelbook.exception.NotFoundException;
+import com.Kh033Java.travelbook.repository.*;
 import com.Kh033Java.travelbook.responseForm.UserResponseForm;
 import com.Kh033Java.travelbook.service.UserService;
 import com.Kh033Java.travelbook.validation.ValidationUtil;
@@ -32,13 +29,17 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final PhotoRepository photoRepository;
+    private final NoteRepository noteRepository;
+    private final CountryRepository countryRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, PhotoRepository photoRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, PhotoRepository photoRepository, NoteRepository noteRepository, CountryRepository countryRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.photoRepository = photoRepository;
+        this.noteRepository = noteRepository;
+        this.countryRepository = countryRepository;
     }
 
     @Override
@@ -47,15 +48,23 @@ public class UserServiceImpl implements UserService {
         List<UserResponseForm> resultList = new ArrayList<>();
         for (User user : listUsers) {
             UserResponseForm result = new UserResponseForm();
+            result.setSumOfPosts(userRepository.sumOfPosts(user.getLogin()));
             result.setLogin(user.getLogin());
             result.setAvatar(user.getAvatar());
+            result.setSumOfLikes(userRepository.sumOfLikes(user.getLogin()));
+            result.setHomeland(user.getHomeland());
             resultList.add(result);
         }
         log.info("IN getAll - {} users found", listUsers.size());
         return resultList;
     }
 
-    
+    @Override
+    public List<UserResponseForm> userRating() {
+        List<UserResponseForm> allUsers = getAll();
+        Collections.sort(allUsers, UserResponseForm.COMPARE_BY_SUM_OF_LIKES);
+        return allUsers;
+    }
 
     @Override
     public Optional<User> findByUsername(String username) {
@@ -71,7 +80,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.findByLogin(login);
         ValidationUtil.checkBeforeGet(user, User.class);
 
-        if(!user.get().getAvatar().equals(defaultPhoto)){
+        if (!user.get().getAvatar().equals(defaultPhoto)) {
             photoRepository.delete(user.get().getAvatar());
         }
 
@@ -86,23 +95,26 @@ public class UserServiceImpl implements UserService {
         Optional<User> currentUser = userRepository.findByLogin(login);
         User result = user.toUser();
         Photo defaultPhoto = photoRepository.findPhotoByLink(DEFAULT_PHOTO);
-
+        Country homeland = countryRepository.getCountryByName(user.getHomeland().getName());
+        if(homeland == null){
+            throw new NotFoundException("Country not found");
+        }
         ValidationUtil.checkBeforeGet(currentUser, User.class);
 
         if (user.getPassword() != null) {
             result.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        if(user.getAvatar() == null){
+        if (user.getAvatar() == null) {
 
-            if(!currentUser.get().getAvatar().equals(defaultPhoto)){
+            if (!currentUser.get().getAvatar().equals(defaultPhoto)) {
                 photoRepository.deletePhoto(currentUser.get().getAvatar().getLink(), user.getLogin());
             }
             result.setAvatar(defaultPhoto);
             log.info("Users avatar: {}", result.getAvatar());
-        }else if(user.getAvatar().getLink().equals(currentUser.get().getAvatar().getLink())){
+        } else if (user.getAvatar().getLink().equals(currentUser.get().getAvatar().getLink())) {
             result.setAvatar(currentUser.get().getAvatar());
-        }else{
+        } else {
             result.setAvatar(user.getAvatar());
         }
         result.setLogin(user.getLogin());
@@ -112,6 +124,7 @@ public class UserServiceImpl implements UserService {
         result.setCreatedPlans(currentUser.get().getCreatedPlans());
         result.setRoles(currentUser.get().getRoles());
         result.setLikedNotes(currentUser.get().getLikedNotes());
+        result.setHomeland(currentUser.get().getHomeland());
 
         userRepository.delete(currentUser.get());
 
@@ -124,19 +137,27 @@ public class UserServiceImpl implements UserService {
         Role roleUser = roleRepository.findByType("USER");
         List<Role> userRoles = new ArrayList<>();
         userRoles.add(roleUser);
+        Country homeland = countryRepository.getCountryByName(user.getHomeland().getName());
 
         User result = user.toUser();
 
-         if(user.getAvatar() == null){
-             Photo defaultAvatar = photoRepository.findPhotoByLink(DEFAULT_PHOTO);
-             result.setAvatar(defaultAvatar);
-         }
+        if (user.getAvatar() == null) {
+            Photo defaultAvatar = photoRepository.findPhotoByLink(DEFAULT_PHOTO);
+            result.setAvatar(defaultAvatar);
+        }
 
+        result.setHomeland(homeland);
         result.setPassword(passwordEncoder.encode(user.getPassword()));
         result.setRoles(userRoles);
 
         log.info("IN register - user: {} successfully registered", result.getLogin());
-        return userRepository.save(result);
+        userRepository.save(result);
+
+        if(homeland != null){
+            addVisitedCountry(result.getLogin(), homeland.getName());
+        }
+
+        return result;
     }
 
     @Override
@@ -153,41 +174,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void addFollowing(String loginFriend, String loginOwner){
+    public void addFollowing(String loginFriend, String loginOwner) {
         userRepository.createRelationshipBetweenUsers(loginFriend, loginOwner);
     }
 
     @Override
     @Transactional
-    public void deleteFollowing(String loginFriend, String loginOwner){
+    public void deleteFollowing(String loginFriend, String loginOwner) {
         userRepository.deleteRelationshipBetweenUsers(loginFriend, loginOwner);
     }
 
     @Override
     @Transactional
-    public List<UserResponseForm> getFollowings(String login){
-        List<User> listUsers = (List<User>) userRepository.getFollowings(login);
-        List<UserResponseForm> resultSet = doResponseForm(listUsers);
-        return resultSet;
+    public List<UserResponseForm> getFollowings(String login) {
+        List<User> listUsers = userRepository.getFollowings(login);
+        return doResponseForm(listUsers);
     }
 
     @Override
     @Transactional
-    public List<UserResponseForm> getFollowers(String login){
-        List<User> listUsers = (List<User>) userRepository.getFollowers(login);
-        List<UserResponseForm> resultSet = doResponseForm(listUsers);
-        return resultSet;
+    public List<UserResponseForm> getFollowers(String login) {
+        List<User> listUsers = userRepository.getFollowers(login);
+        return doResponseForm(listUsers);
     }
 
     @Override
     @Transactional
-    public List<UserResponseForm> getFriends(String login){
-        List<User> listUsers = (List<User>) userRepository.getFriends(login);
-        List<UserResponseForm> resultSet = doResponseForm(listUsers);
-        return resultSet;
+    public List<UserResponseForm> getFriends(String login) {
+        List<User> listUsers = userRepository.getFriends(login);
+        return doResponseForm(listUsers);
     }
 
-    private List<UserResponseForm> doResponseForm(List<User> users){
+    private List<UserResponseForm> doResponseForm(List<User> users) {
         List<UserResponseForm> resultList = new ArrayList<>();
         for (User u : users) {
             UserResponseForm result = new UserResponseForm();

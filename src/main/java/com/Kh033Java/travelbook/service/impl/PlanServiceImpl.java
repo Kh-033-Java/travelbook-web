@@ -11,7 +11,8 @@ import com.Kh033Java.travelbook.service.PhotoService;
 import com.Kh033Java.travelbook.service.PlanService;
 import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +33,21 @@ public class PlanServiceImpl implements PlanService {
     private final CityRepository cityRepository;
     private final TransportRepository transportRepository;
     private final PhotoService photoService;
+    private final UserLikedNotesFirstAlgorithm algorithm;
+    private Logger logger = LoggerFactory.getLogger(PlanServiceImpl.class);
 
-    @Autowired
-    public PlanServiceImpl(PlanRepository planRepository, UserRepository userRepository, CityRepository cityRepository, TransportRepository transportRepository, PhotoService photoService) {
+    public PlanServiceImpl(PlanRepository planRepository,
+                           UserRepository userRepository,
+                           CityRepository cityRepository,
+                           TransportRepository transportRepository,
+                           PhotoService photoService,
+                           UserLikedNotesFirstAlgorithm algorithm) {
         this.planRepository = planRepository;
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.transportRepository = transportRepository;
         this.photoService = photoService;
+        this.algorithm = algorithm;
     }
 
     @Override

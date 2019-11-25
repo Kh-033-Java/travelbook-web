@@ -33,5 +33,7 @@ public interface UserService {
     List<UserResponseForm> getFollowers(String loginOwner);
 
     List<UserResponseForm> getFriends(String loginOwner);
+
+    List<UserResponseForm> userRating();
 }
 
