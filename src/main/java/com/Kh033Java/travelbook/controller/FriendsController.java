@@ -1,13 +1,10 @@
 package com.Kh033Java.travelbook.controller;
 
-import com.Kh033Java.travelbook.repository.UserRepository;
 import com.Kh033Java.travelbook.responseForm.UserResponseForm;
 import com.Kh033Java.travelbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  *
@@ -42,11 +39,11 @@ public class FriendsController {
 
     @PutMapping(value = "/addfollow/{login}")
     public ResponseEntity addToFollowing(@PathVariable final String login, @RequestParam final String user){
-        return ResponseEntity.ok(userRepository.createRelationshipBetweenUsers(login, user));
+        return ResponseEntity.ok(userService.addFollowing(login, user));
     }
 
     @PutMapping(value = "/deletefollow/{login}")
     public ResponseEntity deleteFollowing(@PathVariable final String login, @RequestParam final String user) {
-        return ResponseEntity.ok(userRepository.deleteRelationshipBetweenUsers(login, user));
+        return ResponseEntity.ok(userService.deleteFollowing(login, user));
     }
 }

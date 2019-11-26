@@ -24,6 +24,10 @@ public interface UserService {
 
     User saveUser(UserDto user);
 
+    User addFollowing(String loginFriend, String loginOwner);
+
+    User deleteFollowing(String loginFriend, String loginOwner);
+
     List<UserResponseForm> getFollowing(String loginOwner);
 
     List<UserResponseForm> getFollowers(String loginOwner);
