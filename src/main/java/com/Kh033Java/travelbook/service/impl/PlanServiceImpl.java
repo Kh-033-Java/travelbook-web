@@ -173,6 +173,11 @@ public class PlanServiceImpl implements PlanService {
         return planRepository.getPublicPlans().stream().filter(plan -> plan.getDate().after(new Date()) && plan.getDate().before(DateUtils.addMonths(new Date(), 1))).map(this::createPlanDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<PlanDTO> getAllUserPlans(String login) {
+        return planRepository.getAllUserPlans(login).stream().map(this::createPlanDTO).collect(Collectors.toList());
+    }
+
     private List<PlanDTO> getAllPlansNoFiltered() {
         return planRepository.getPublicPlans().stream().map(this::createPlanDTO).collect(Collectors.toList());
     }

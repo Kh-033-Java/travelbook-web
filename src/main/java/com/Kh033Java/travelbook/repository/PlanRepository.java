@@ -32,4 +32,8 @@ public interface PlanRepository extends Neo4jRepository<Plan, Long> {
     @Query("MATCH (n:Plan) WHERE n.isPublic RETURN n")
     List<Plan> getPublicPlans();
 
+    @Query("MATCH (p:Plan)<-[:CREATED_PLAN]-(u:User) WHERE u.login={login} RETURN p")
+    List<Plan> getAllUserPlans(@Param("login")String login);
+
+
 }
