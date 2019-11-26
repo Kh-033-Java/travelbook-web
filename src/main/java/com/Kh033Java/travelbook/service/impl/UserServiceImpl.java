@@ -10,6 +10,7 @@ import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable("User")
     public List<UserResponseForm> getAll() {
         List<User> listUsers = (List<User>) userRepository.findAll();
         List<UserResponseForm> resultList = new ArrayList<>();
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable("User")
     public List<UserResponseForm> userRating() {
         List<UserResponseForm> allUsers = getAll();
         Collections.sort(allUsers, UserResponseForm.COMPARE_BY_SUM_OF_LIKES);
