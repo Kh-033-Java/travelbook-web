@@ -43,6 +43,13 @@ public class UserController {
         return userService.getAll();
     }
 
+    @GetMapping(value = "/rating", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<UserResponseForm> getUsersByRating() {
+        LOG.info("get all users by rating");
+        return userService.userRating();
+    }
+
     @GetMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public UserDto getUser(@PathVariable("login") final String login) {

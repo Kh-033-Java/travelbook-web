@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,10 @@ public class WeatherProvider {
 
 	public String getWeatherDescription() {
 		List<Map<String, Object>> weatherGeneralInfo = (List<Map<String, Object>>) weatherData.get("weather");
-		return weatherGeneralInfo.get(0).get("description").toString();
+		List<String> result = new ArrayList<>();
+//		result.add(weatherGeneralInfo.get(0).get("description").toString());
+		result.add(weatherGeneralInfo.get(0).get("icon").toString());
+		return result.get(0);
 	}
 
 	public String getTemperature() {

@@ -2,7 +2,10 @@ package com.Kh033Java.travelbook.service.impl;
 
 import com.Kh033Java.travelbook.dto.PlanDTO;
 import com.Kh033Java.travelbook.dto.PlanSearchDTO;
+import com.Kh033Java.travelbook.entity.City;
 import com.Kh033Java.travelbook.entity.Plan;
+import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.recommendations.UserLikedNotesFirstAlgorithm;
 import com.Kh033Java.travelbook.repository.CityRepository;
 import com.Kh033Java.travelbook.repository.PlanRepository;
 import com.Kh033Java.travelbook.repository.TransportRepository;
@@ -11,14 +14,18 @@ import com.Kh033Java.travelbook.service.PhotoService;
 import com.Kh033Java.travelbook.service.PlanService;
 import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,14 +38,21 @@ public class PlanServiceImpl implements PlanService {
     private final CityRepository cityRepository;
     private final TransportRepository transportRepository;
     private final PhotoService photoService;
+    private final UserLikedNotesFirstAlgorithm algorithm;
+    private Logger logger = LoggerFactory.getLogger(PlanServiceImpl.class);
 
-    @Autowired
-    public PlanServiceImpl(PlanRepository planRepository, UserRepository userRepository, CityRepository cityRepository, TransportRepository transportRepository, PhotoService photoService) {
+    public PlanServiceImpl(PlanRepository planRepository,
+                           UserRepository userRepository,
+                           CityRepository cityRepository,
+                           TransportRepository transportRepository,
+                           PhotoService photoService,
+                           UserLikedNotesFirstAlgorithm algorithm) {
         this.planRepository = planRepository;
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.transportRepository = transportRepository;
         this.photoService = photoService;
+        this.algorithm = algorithm;
     }
 
     @Override
@@ -81,15 +95,16 @@ public class PlanServiceImpl implements PlanService {
             if (filterPlanBySearchDTO(plan, planSearchDTO) != null)
                 planDTOS.add(plan);
         }
+        planDTOS.sort(Comparator.comparing(PlanDTO::getDate));
         return planDTOS;
     }
 
     private PlanDTO filterPlanBySearchDTO(PlanDTO plan, PlanSearchDTO planSearchDTO) {
 
-        if (plan.getBudgetMin() > planSearchDTO.getBudgetMin()) {
+        if (plan.getBudgetMin() <= planSearchDTO.getBudgetMin()) {
             return null;
         }
-        if (plan.getBudgetMax() > planSearchDTO.getBudgetMax()) {
+        if (plan.getBudgetMax() >= planSearchDTO.getBudgetMax()) {
             return null;
         }
 
@@ -169,9 +184,36 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public List<PlanDTO> getAllPlans() {
-        return planRepository.getPublicPlans().stream().filter(plan -> plan.getDate().after(new Date()) && plan.getDate().before(DateUtils.addMonths(new Date(), 1))).map(this::createPlanDTO).collect(Collectors.toList());
+    public List<PlanDTO> getAllFilteredPlans(String login) {
+        List<PlanDTO> result = new LinkedList<>();
+        List<PlanDTO> anotherPlans = new LinkedList<>();
+        List<PlanDTO> plans = planRepository.getPublicPlans()
+                .stream()
+                .filter(plan -> plan.getDate()
+                        .after(new Date()) && plan.getDate()
+                        .before(DateUtils.addMonths(new Date(), 1)))
+                .map(this::createPlanDTO).collect(Collectors.toList());
+        Map<User, Set<City>> users = algorithm.getAlgorithm(login);
+        for (Map.Entry<User, Set<City>> entry : users.entrySet()) {
+            for (City city : entry.getValue()) {
+                for (PlanDTO plan : plans) {
+                    if (plan.getNameCityToGo().equals(city.getName())) {
+                        result.add(plan);
+                        logger.info("added to result, {}", plan.getNameCityToGo());
+                    }
+                }
+            }
+        }
+        for(PlanDTO plan: plans){
+            if(!result.contains(plan) && !anotherPlans.contains(plan)){
+                anotherPlans.add(plan);
+                logger.info("added to another, {}", plan.getNameCityToGo());
+            }
+        }
+        result.addAll(anotherPlans);
+        return result;
     }
+
 
     @Override
     public List<PlanDTO> getAllUserPlans(String login) {
@@ -223,4 +265,5 @@ public class PlanServiceImpl implements PlanService {
 
         return planDTO;
     }
+
 }

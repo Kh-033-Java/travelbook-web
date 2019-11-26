@@ -24,14 +24,12 @@ public interface UserService {
 
     User saveUser(UserDto user);
 
-    void addFollowing(String loginFriend, String loginOwner);
-
-    void deleteFollowing(String loginFriend, String loginOwner);
-
-    List<UserResponseForm> getFollowings(String loginOwner);
+    List<UserResponseForm> getFollowing(String loginOwner);
 
     List<UserResponseForm> getFollowers(String loginOwner);
 
     List<UserResponseForm> getFriends(String loginOwner);
+
+    List<UserResponseForm> userRating();
 }
 

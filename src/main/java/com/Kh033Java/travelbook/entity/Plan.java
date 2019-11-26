@@ -1,6 +1,7 @@
 package com.Kh033Java.travelbook.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
@@ -161,5 +162,28 @@ public class Plan {
             this.transport = new Transport();
         }
         this.transport = transport;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plan plan = (Plan) o;
+        return budgetMin == plan.budgetMin &&
+                budgetMax == plan.budgetMax &&
+                amountOfPeople == plan.amountOfPeople &&
+                isPublic == plan.isPublic &&
+                Objects.equals(id, plan.id) &&
+                Objects.equals(title, plan.title) &&
+                Objects.equals(description, plan.description) &&
+                Objects.equals(date, plan.date) &&
+                Objects.equals(cityToGo, plan.cityToGo) &&
+                Objects.equals(cityFrom, plan.cityFrom) &&
+                Objects.equals(transport, plan.transport);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, date, budgetMin, budgetMax, amountOfPeople, isPublic, cityToGo, cityFrom, transport);
     }
 }
