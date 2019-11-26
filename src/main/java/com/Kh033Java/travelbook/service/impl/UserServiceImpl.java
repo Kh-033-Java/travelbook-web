@@ -124,6 +124,8 @@ public class UserServiceImpl implements UserService {
         result.setCreatedPlans(currentUser.get().getCreatedPlans());
         result.setRoles(currentUser.get().getRoles());
         result.setLikedNotes(currentUser.get().getLikedNotes());
+        result.setFollowing(currentUser.get().getFollowing());
+        result.setFollowers(currentUser.get().getFollowers());
         result.setHomeland(currentUser.get().getHomeland());
 
         userRepository.delete(currentUser.get());
@@ -174,20 +176,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void addFollowing(String loginFriend, String loginOwner) {
-        userRepository.createRelationshipBetweenUsers(loginFriend, loginOwner);
-    }
-
-    @Override
-    @Transactional
-    public void deleteFollowing(String loginFriend, String loginOwner) {
-        userRepository.deleteRelationshipBetweenUsers(loginFriend, loginOwner);
-    }
-
-    @Override
-    @Transactional
-    public List<UserResponseForm> getFollowings(String login) {
-        List<User> listUsers = userRepository.getFollowings(login);
+    public List<UserResponseForm> getFollowing(String login) {
+        List<User> listUsers = userRepository.getFollowing(login);
         return doResponseForm(listUsers);
     }
 
