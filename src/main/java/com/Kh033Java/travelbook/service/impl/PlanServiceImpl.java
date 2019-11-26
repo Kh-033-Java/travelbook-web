@@ -101,10 +101,10 @@ public class PlanServiceImpl implements PlanService {
 
     private PlanDTO filterPlanBySearchDTO(PlanDTO plan, PlanSearchDTO planSearchDTO) {
 
-        if (plan.getBudgetMin() > planSearchDTO.getBudgetMin()) {
+        if (plan.getBudgetMin() <= planSearchDTO.getBudgetMin()) {
             return null;
         }
-        if (plan.getBudgetMax() > planSearchDTO.getBudgetMax()) {
+        if (plan.getBudgetMax() >= planSearchDTO.getBudgetMax()) {
             return null;
         }
 
