@@ -217,6 +217,11 @@ public class PlanServiceImpl implements PlanService {
     }
 
 
+    @Override
+    public List<PlanDTO> getAllUserPlans(String login) {
+        return planRepository.getAllUserPlans(login).stream().map(this::createPlanDTO).collect(Collectors.toList());
+    }
+
     private List<PlanDTO> getAllPlansNoFiltered() {
         return planRepository.getPublicPlans().stream().map(this::createPlanDTO).collect(Collectors.toList());
     }
