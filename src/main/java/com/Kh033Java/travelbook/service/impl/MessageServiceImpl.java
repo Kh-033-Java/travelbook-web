@@ -22,11 +22,10 @@ public class MessageServiceImpl implements MessageService {
 		this.messageRepository = messageRepository;
 	}
 
-
-
+	// TODO handle if don't send successfully
 	@Override
 	public String sendMessage(String sender, String receiver, Message message) {
-		messageRepository.saveMessage();
+//		messageRepository.saveMessage();
 		return SENDED_SUCCESSFUL + message.getText();
 	}
 }
