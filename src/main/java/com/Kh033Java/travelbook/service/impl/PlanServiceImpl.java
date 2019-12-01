@@ -16,6 +16,8 @@ import com.Kh033Java.travelbook.validation.ValidationUtil;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,10 +103,10 @@ public class PlanServiceImpl implements PlanService {
 
     private PlanDTO filterPlanBySearchDTO(PlanDTO plan, PlanSearchDTO planSearchDTO) {
 
-        if (plan.getBudgetMin() > planSearchDTO.getBudgetMin()) {
+        if (plan.getBudgetMin() <= planSearchDTO.getBudgetMin()) {
             return null;
         }
-        if (plan.getBudgetMax() > planSearchDTO.getBudgetMax()) {
+        if (plan.getBudgetMax() >= planSearchDTO.getBudgetMax()) {
             return null;
         }
 
@@ -214,6 +216,11 @@ public class PlanServiceImpl implements PlanService {
         return result;
     }
 
+
+    @Override
+    public List<PlanDTO> getAllUserPlans(String login) {
+        return planRepository.getAllUserPlans(login).stream().map(this::createPlanDTO).collect(Collectors.toList());
+    }
 
     private List<PlanDTO> getAllPlansNoFiltered() {
         return planRepository.getPublicPlans().stream().map(this::createPlanDTO).collect(Collectors.toList());

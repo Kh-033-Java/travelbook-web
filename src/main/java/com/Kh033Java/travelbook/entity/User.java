@@ -307,7 +307,7 @@ public class User  {
                 email.equals(user.email) &&
                 Objects.equals(description, user.description) &&
                 Objects.equals(visitedCountries, user.visitedCountries) &&
-                avatar.equals(user.avatar) &&
+                Objects.equals(avatar,user.avatar) &&
                 Objects.equals(likedNotes, user.likedNotes) &&
                 Objects.equals(createdNotes, user.createdNotes) &&
                 Objects.equals(createdPlans, user.createdPlans) &&
