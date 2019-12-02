@@ -34,6 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String GET_ALL_CITIES = "/cities";
     private static final String MAKE_VISIT = "/country/**/visit";
     private static final String MAKE_NOT_VISIT = "/country/**/notvisit";
+    private static final String SEND_MESSAGE = "/messages/sendMessage";
+    private static final String GET_USER_CONTACTS = "/messages/**/contacts";
+    private static final String GET_MESSAGE_HISTORY = "/messages/**/history/**";
 
     @Autowired
     public SecurityConfig(TokenProvider tokenProvider) {
@@ -73,6 +76,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET_ALL_CITIES).permitAll()
                 .antMatchers(MAKE_VISIT).permitAll()
                 .antMatchers(MAKE_NOT_VISIT).permitAll()
+                .antMatchers(SEND_MESSAGE).permitAll()
+                .antMatchers(GET_USER_CONTACTS).permitAll()
+                .antMatchers(GET_MESSAGE_HISTORY).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new Configurer(tokenProvider));

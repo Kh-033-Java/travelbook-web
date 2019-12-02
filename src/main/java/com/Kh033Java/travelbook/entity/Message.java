@@ -24,9 +24,20 @@ public class Message {
     @DateString("yyyy-MM-dd")
     private Date sendingTime;
     
+    private boolean isRead;
+    
     public Message() {
     	
-    }
+    }    
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Message(String text) {
 		this.text = text;
@@ -38,6 +49,22 @@ public class Message {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public Date getSendingTime() {
+		return sendingTime;
+	}
+
+	public void setSendingTime(Date sendingTime) {
+		this.sendingTime = sendingTime;
+	}
+
+	public boolean getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(boolean isRead) {
+		this.isRead = isRead;
 	}
 
 }

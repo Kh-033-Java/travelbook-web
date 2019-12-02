@@ -1,22 +1,32 @@
 package com.Kh033Java.travelbook.service.impl;
 
-import com.Kh033Java.travelbook.dto.UserDto;
-import com.Kh033Java.travelbook.entity.*;
-import com.Kh033Java.travelbook.exception.NotFoundException;
-import com.Kh033Java.travelbook.repository.*;
-import com.Kh033Java.travelbook.responseForm.UserResponseForm;
-import com.Kh033Java.travelbook.service.UserService;
-import com.Kh033Java.travelbook.validation.ValidationUtil;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import com.Kh033Java.travelbook.dto.UserDto;
+import com.Kh033Java.travelbook.entity.Country;
+import com.Kh033Java.travelbook.entity.Photo;
+import com.Kh033Java.travelbook.entity.Role;
+import com.Kh033Java.travelbook.entity.User;
+import com.Kh033Java.travelbook.exception.NotFoundException;
+import com.Kh033Java.travelbook.repository.CountryRepository;
+import com.Kh033Java.travelbook.repository.NoteRepository;
+import com.Kh033Java.travelbook.repository.PhotoRepository;
+import com.Kh033Java.travelbook.repository.RoleRepository;
+import com.Kh033Java.travelbook.repository.UserRepository;
+import com.Kh033Java.travelbook.responseForm.UserResponseForm;
+import com.Kh033Java.travelbook.service.UserService;
+import com.Kh033Java.travelbook.validation.ValidationUtil;
 
 
 @Service

@@ -1,13 +1,14 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.User;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import com.Kh033Java.travelbook.entity.User;
 
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
@@ -62,5 +63,12 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("match (u:User)-[:LIKED]-()\n" +
             "return  u")
     Set<User> findUsersWhoLikedNotes();
+
+    @Query("MATCH (receiver:User)-[r1:RECEIVED]->(sm:Message)<-[s1:SENDED]-(u:User)\n" + 
+    		"-[r2:RECEIVED]->(rm:Message)<-[s2:SENDED]-(sender:User)\n" + 
+    		"WHERE u.login = {login}\n" + 
+    		"RETURN sender,receiver")
+	List<User> getUserIntercolutors(String login);
+	
 }
 

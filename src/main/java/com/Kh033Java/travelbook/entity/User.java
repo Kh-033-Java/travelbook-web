@@ -63,6 +63,12 @@ public class User  {
 
     @Relationship(type = "HOMELAND")
     private Country homeland;
+    
+    @Relationship(type = "SENDED")
+    private List<Message> sendedMessages;
+    
+    @Relationship(type = "RECEIVED")
+    private List<Message> receivedMessages;
 
     public User() {
     }
