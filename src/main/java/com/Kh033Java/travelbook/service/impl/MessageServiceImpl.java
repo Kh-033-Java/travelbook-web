@@ -1,7 +1,9 @@
 package com.Kh033Java.travelbook.service.impl;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,12 +49,16 @@ public class MessageServiceImpl implements MessageService {
 
 	// TODO test on more users
 	@Override
-	public List<User> getUserIntercolutors(String login) {
-		List<User> foundUsers = userRepository.getUserIntercolutors(login);
-		for (User user : foundUsers) {
+	public Set<User> getUserIntercolutors(String login) {
+		List<User> receivers = userRepository.getThoseToWhomUserSentMessage(login);
+		List<User> senders = userRepository.getThoseFromWhichUserReceivedMessage(login);
+		Set<User> intercolutors = new HashSet<User>();
+		intercolutors.addAll(receivers);
+		intercolutors.addAll(senders);
+		for (User user : intercolutors) {
 			user.setAvatar(photoRepository.findUserAvatarByUserId(user.getLogin()));
 		}
-		return foundUsers;
+		return intercolutors;
 	}
 
 	@Override

@@ -29,11 +29,11 @@ public interface MessageRepository extends Neo4jRepository<Message, Long> {
 	@Query("MATCH (us:User)-[s:SENDED]->(m:Message)<-[r:RECEIVED]-(ur:User)" + 
 			"WHERE us.login = {login} AND ur.login = {interlocutor}" + 
 			"RETURN m")
-	List<Message> getUserSendedMessages(String login, String interlocutor);	
+	List<Message> getUserSendedMessages(@Param("login") String login, @Param("interlocutor") String interlocutor);	
 	
 	@Query("MATCH (us:User)-[s:SENDED]->(m:Message)<-[r:RECEIVED]-(ur:User)" + 
 			"WHERE us.login = {interlocutor} AND ur.login = {login}" + 
 			"RETURN m")
-	List<Message> getUserReceivedMessages(String login, String interlocutor);	
+	List<Message> getUserReceivedMessages(@Param("login") String login, @Param("interlocutor") String interlocutor);	
 	
 }

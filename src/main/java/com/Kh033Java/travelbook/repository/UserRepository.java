@@ -64,11 +64,15 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "return  u")
     Set<User> findUsersWhoLikedNotes();
 
-    @Query("MATCH (receiver:User)-[r1:RECEIVED]->(sm:Message)<-[s1:SENDED]-(u:User)\n" + 
-    		"-[r2:RECEIVED]->(rm:Message)<-[s2:SENDED]-(sender:User)\n" + 
-    		"WHERE u.login = {login}\n" + 
-    		"RETURN sender,receiver")
-	List<User> getUserIntercolutors(String login);
+    @Query("MATCH (us:User)-[s:SENDED]->(m:Message)<-[r:RECEIVED]-(ur:User)\n" + 
+    		"WHERE us.login = {login}\n" + 
+    		"RETURN ur")
+	List<User> getThoseToWhomUserSentMessage(@Param("login") String login);
+    
+    @Query("MATCH (us:User)-[s:SENDED]->(m:Message)<-[r:RECEIVED]-(ur:User)\n" + 
+    		"WHERE ur.login = {login}\n" + 
+    		"RETURN us")
+	List<User> getThoseFromWhichUserReceivedMessage(@Param("login") String login);
 	
 }
 

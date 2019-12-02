@@ -1,6 +1,6 @@
 package com.Kh033Java.travelbook.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +35,7 @@ public class MessageController {
     }
     
     @GetMapping(value = "messages/{login}/contacts")
-    public List<User> getUserConversations(@PathVariable String login) {
+    public Set<User> getUserConversations(@PathVariable String login) {
     	return messageService.getUserIntercolutors(login);
     }
     
