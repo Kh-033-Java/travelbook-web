@@ -9,6 +9,7 @@ import com.Kh033Java.travelbook.repository.NoteRepository;
 import com.Kh033Java.travelbook.repository.PhotoRepository;
 import com.Kh033Java.travelbook.repository.PlanRepository;
 import com.Kh033Java.travelbook.service.CountryService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
+    @Cacheable("Country")
     public List<Country> getAll() {
         List<Country> countries = (List<Country>) countryRepository.findAll();
         return countries;
@@ -40,6 +42,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
+    @Cacheable("Country")
     public Country getByMapId(String mapId) {
         return countryRepository.getCoutryByMapId(mapId);
     }

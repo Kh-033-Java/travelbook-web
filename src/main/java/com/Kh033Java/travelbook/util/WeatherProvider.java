@@ -3,7 +3,6 @@ package com.Kh033Java.travelbook.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import org.slf4j.LoggerFactory;
 public class WeatherProvider {
 
 	private static final String API_KEY = "3939f49317f69e576a49d2c1ef25356b";
+	private static final String API_KEY_2 = "fe4b94525811d82ae36640c30dcc8826";
 	private static final String API_VERSION = "2.5";
 	private Map<String, Object> weatherData;
 	private static final Logger LOGGER = LoggerFactory.getLogger(WeatherProvider.class);
@@ -31,16 +31,23 @@ public class WeatherProvider {
 	}
 
 	public String getWeatherDescription() {
-		List<Map<String, Object>> weatherGeneralInfo = (List<Map<String, Object>>) weatherData.get("weather");
-		List<String> result = new ArrayList<>();
-//		result.add(weatherGeneralInfo.get(0).get("description").toString());
-		result.add(weatherGeneralInfo.get(0).get("icon").toString());
-		return result.get(0);
+		if (weatherData != null) {
+			List<Map<String, Object>> weatherGeneralInfo = (List<Map<String, Object>>) weatherData.get("weather");
+			List<String> result = new ArrayList<>();
+			result.add(weatherGeneralInfo.get(0).get("icon").toString());
+			return result.get(0);
+		} else {
+			return "no info";
+		}
 	}
 
 	public String getTemperature() {
-		Map<String, Object> weatherMain = JsonConverter.convertJsonToMap(weatherData.get("main").toString());
-		return (convertToCelcium(weatherMain.get("temp")) + " \u00b0" + "C");
+		if (weatherData != null) {
+			Map<String, Object> weatherMain = JsonConverter.convertJsonToMap(weatherData.get("main").toString());
+			return (convertToCelcium(weatherMain.get("temp")) + " \u00b0" + "C");
+		} else {
+			return "no info";
+		}
 	}
 
 	public String getTimeZone() {
@@ -48,7 +55,8 @@ public class WeatherProvider {
 	}
 
 	private Map<String, Object> generateWeatherData(String location) {
-		final String URL_STRING = "http://api.openweathermap.org/data/" + API_VERSION + "/weather?q=" + location + "&APPID=" + API_KEY;
+		final String URL_STRING = "http://api.openweathermap.org/data/" + API_VERSION + "/weather?q=" + location
+				+ "&APPID=" + API_KEY;
 		StringBuilder result = new StringBuilder();
 		try {
 			URL url = new URL(URL_STRING);
