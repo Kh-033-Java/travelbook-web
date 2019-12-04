@@ -1,20 +1,20 @@
 package com.Kh033Java.travelbook.entity;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @NodeEntity
-public class User  {
+public class User {
 
     @Id
     @GeneratedValue
@@ -287,7 +287,7 @@ public class User  {
     }
 
     public void addFollowing(User user) {
-        if (following == null){
+        if (following == null) {
             following = new ArrayList<>();
         }
         following.add(user);
@@ -306,21 +306,21 @@ public class User  {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id.equals(user.id) &&
-                login.equals(user.login) &&
-                password.equals(user.password) &&
-                lastName.equals(user.lastName) &&
-                firstName.equals(user.firstName) &&
-                email.equals(user.email) &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(email, user.email) &&
                 Objects.equals(description, user.description) &&
                 Objects.equals(visitedCountries, user.visitedCountries) &&
-                Objects.equals(avatar,user.avatar) &&
+                Objects.equals(avatar, user.avatar) &&
                 Objects.equals(likedNotes, user.likedNotes) &&
                 Objects.equals(createdNotes, user.createdNotes) &&
                 Objects.equals(createdPlans, user.createdPlans) &&
-                roles.equals(user.roles) &&
+                Objects.equals(roles, user.roles) &&
                 Objects.equals(following, user.following) &&
                 Objects.equals(followers, user.followers) &&
-                homeland.equals(user.homeland);
+                Objects.equals(homeland, user.homeland);
     }
 
     @Override
