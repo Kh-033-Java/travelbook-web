@@ -1,13 +1,14 @@
 package com.Kh033Java.travelbook.repository;
 
-import com.Kh033Java.travelbook.entity.User;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import com.Kh033Java.travelbook.entity.User;
 
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
@@ -62,5 +63,16 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("match (u:User)-[:LIKED]-()\n" +
             "return  u")
     Set<User> findUsersWhoLikedNotes();
+
+    @Query("MATCH (us:User)-[s:SENDED]->(m:Message)<-[r:RECEIVED]-(ur:User)\n" + 
+    		"WHERE us.login = {login}\n" + 
+    		"RETURN ur")
+	List<User> getThoseToWhomUserSentMessage(@Param("login") String login);
+    
+    @Query("MATCH (us:User)-[s:SENDED]->(m:Message)<-[r:RECEIVED]-(ur:User)\n" + 
+    		"WHERE ur.login = {login}\n" + 
+    		"RETURN us")
+	List<User> getThoseFromWhichUserReceivedMessage(@Param("login") String login);
+	
 }
 
