@@ -1,5 +1,8 @@
 package com.Kh033Java.travelbook.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -8,7 +11,6 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Kh033Java.travelbook.dto.MessageDTO;
 import com.Kh033Java.travelbook.entity.Message;
 import com.Kh033Java.travelbook.entity.User;
 import com.Kh033Java.travelbook.repository.MessageRepository;
@@ -41,13 +43,13 @@ public class MessageServiceImpl implements MessageService {
 	public String sendMessage(String sender, String receiver, Message message) {
 		message.setSendingTime(new Date());
 		message.setIsRead(false);
+		message.setSender(sender);
 		messageRepository.save(message);
 		messageRepository.creatRelationshipBetweenSenderAndMessage(sender, message.getId());
 		messageRepository.creatRelationshipBetweenReceiverAndMessage(receiver, message.getId());
 		return SENDED_SUCCESSFUL + message.getText();
 	}
 
-	// TODO test on more users
 	@Override
 	public Set<User> getUserIntercolutors(String login) {
 		List<User> receivers = userRepository.getThoseToWhomUserSentMessage(login);
@@ -65,8 +67,18 @@ public class MessageServiceImpl implements MessageService {
 	public String getCorrespondenceBetweenUsers(String login, String interlocutor) {
 		List<Message> sendedMessages = messageRepository.getUserSendedMessages(login, interlocutor);
 		List<Message> receivedMessages = messageRepository.getUserReceivedMessages(login, interlocutor);
-		MessageDTO messageDTO = new MessageDTO(sendedMessages, receivedMessages);
-		return JsonConverter.convertToJson(messageDTO);
+		Collections.reverse(sendedMessages);
+		Collections.reverse(receivedMessages);
+		List<Message> correspondence = new ArrayList<Message>();
+		correspondence.addAll(sendedMessages);
+		correspondence.addAll(receivedMessages);
+		Comparator<Message> messageComparator = new Comparator<Message>() {
+			@Override
+			public int compare(Message message1, Message message2) {
+				return message1.getSendingTime().compareTo(message2.getSendingTime());
+			}};
+		Collections.sort(correspondence, messageComparator);
+		return JsonConverter.convertToJson(correspondence);
 	}	
 	
 }
