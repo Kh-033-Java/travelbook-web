@@ -5,7 +5,6 @@ import java.util.Date;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.typeconversion.DateString;
 
 /**
  * 
@@ -21,10 +20,11 @@ public class Message {
 
     private String text;
     
-    @DateString("yyyy-MM-dd")
     private Date sendingTime;
     
     private boolean isRead;
+    
+    private String sender;
     
     public Message() {
     	
@@ -65,6 +65,14 @@ public class Message {
 
 	public void setIsRead(boolean isRead) {
 		this.isRead = isRead;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 
 }
