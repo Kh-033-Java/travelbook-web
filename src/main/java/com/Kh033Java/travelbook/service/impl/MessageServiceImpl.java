@@ -72,11 +72,7 @@ public class MessageServiceImpl implements MessageService {
 		List<Message> correspondence = new ArrayList<Message>();
 		correspondence.addAll(sendedMessages);
 		correspondence.addAll(receivedMessages);
-		Comparator<Message> messageComparator = new Comparator<Message>() {
-			@Override
-			public int compare(Message message1, Message message2) {
-				return message1.getSendingTime().compareTo(message2.getSendingTime());
-			}};
+		Comparator<Message> messageComparator = Comparator.comparing(Message::getSendingTime);
 		Collections.sort(correspondence, messageComparator);
 		return JsonConverter.convertToJson(correspondence);
 	}	
