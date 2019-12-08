@@ -54,7 +54,7 @@ public class MessageServiceImpl implements MessageService {
 	public Set<User> getUserIntercolutors(String login) {
 		List<User> receivers = userRepository.getThoseToWhomUserSentMessage(login);
 		List<User> senders = userRepository.getThoseFromWhichUserReceivedMessage(login);
-		Set<User> intercolutors = new HashSet<User>();
+		Set<User> intercolutors = new HashSet<>();
 		intercolutors.addAll(receivers);
 		intercolutors.addAll(senders);
 		for (User user : intercolutors) {
@@ -69,15 +69,11 @@ public class MessageServiceImpl implements MessageService {
 		List<Message> receivedMessages = messageRepository.getUserReceivedMessages(login, interlocutor);
 		Collections.reverse(sendedMessages);
 		Collections.reverse(receivedMessages);
-		List<Message> correspondence = new ArrayList<Message>();
+		List<Message> correspondence = new ArrayList<>();
 		correspondence.addAll(sendedMessages);
 		correspondence.addAll(receivedMessages);
-		Comparator<Message> messageComparator = new Comparator<Message>() {
-			@Override
-			public int compare(Message message1, Message message2) {
-				return message1.getSendingTime().compareTo(message2.getSendingTime());
-			}};
-		Collections.sort(correspondence, messageComparator);
+		Comparator<Message> messageComparator = Comparator.comparing(Message::getSendingTime);
+		correspondence.sort(messageComparator);
 		return JsonConverter.convertToJson(correspondence);
 	}	
 	
