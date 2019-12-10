@@ -55,9 +55,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable("User")
     public List<UserResponseForm> getAll() {
         List<User> listUsers = (List<User>) userRepository.findAll();
+        for(User user: listUsers){
+            log.info(user.getLogin());
+        }
         List<UserResponseForm> resultList = new ArrayList<>();
         for (User user : listUsers) {
             UserResponseForm result = new UserResponseForm();
@@ -73,10 +75,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable("User")
     public List<UserResponseForm> userRating() {
         List<UserResponseForm> allUsers = getAll();
-        Collections.sort(allUsers, UserResponseForm.COMPARE_BY_SUM_OF_LIKES);
+        allUsers.sort(UserResponseForm.COMPARE_BY_SUM_OF_LIKES);
         return allUsers;
     }
 
@@ -106,14 +107,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User updateUser(final String login, final UserDto user) {
-        Optional<User> currentUser = userRepository.findByLogin(login);
+        User currentUser = userRepository.findByLogin(login).orElseThrow(()-> new RuntimeException("User not found"));
         User result = user.toUser();
         Photo defaultPhoto = photoRepository.findPhotoByLink(DEFAULT_PHOTO);
-        Country homeland = countryRepository.getCountryByName(user.getHomeland().getName());
+        Country homeland = countryRepository.getCountryByName(currentUser.getHomeland().getName());
         if(homeland == null){
             throw new NotFoundException("Country not found");
         }
-        ValidationUtil.checkBeforeGet(currentUser, User.class);
 
         if (user.getPassword() != null) {
             result.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -121,28 +121,28 @@ public class UserServiceImpl implements UserService {
 
         if (user.getAvatar() == null) {
 
-            if (!currentUser.get().getAvatar().equals(defaultPhoto)) {
-                photoRepository.deletePhoto(currentUser.get().getAvatar().getLink(), user.getLogin());
+            if (!currentUser.getAvatar().equals(defaultPhoto)) {
+                photoRepository.deletePhoto(currentUser.getAvatar().getLink(), user.getLogin());
             }
             result.setAvatar(defaultPhoto);
             log.info("Users avatar: {}", result.getAvatar());
-        } else if (user.getAvatar().getLink().equals(currentUser.get().getAvatar().getLink())) {
-            result.setAvatar(currentUser.get().getAvatar());
+        } else if (user.getAvatar().getLink().equals(currentUser.getAvatar().getLink())) {
+            result.setAvatar(currentUser.getAvatar());
         } else {
             result.setAvatar(user.getAvatar());
         }
         result.setLogin(user.getLogin());
-        result.setVisitedCountries(currentUser.get().getVisitedCountries());
-        result.setLikedNotes(currentUser.get().getLikedNotes());
-        result.setCreatedNotes(currentUser.get().getCreatedNotes());
-        result.setCreatedPlans(currentUser.get().getCreatedPlans());
-        result.setRoles(currentUser.get().getRoles());
-        result.setLikedNotes(currentUser.get().getLikedNotes());
+        result.setVisitedCountries(currentUser.getVisitedCountries());
+        result.setLikedNotes(currentUser.getLikedNotes());
+        result.setCreatedNotes(currentUser.getCreatedNotes());
+        result.setCreatedPlans(currentUser.getCreatedPlans());
+        result.setRoles(currentUser.getRoles());
+        result.setLikedNotes(currentUser.getLikedNotes());
         result.setFollowing(userRepository.getFollowing(user.getLogin()));
         result.setFollowers(userRepository.getFollowers(user.getLogin()));
-        result.setHomeland(currentUser.get().getHomeland());
+        result.setHomeland(currentUser.getHomeland());
 
-        userRepository.delete(currentUser.get());
+        userRepository.delete(currentUser);
 
         return userRepository.save(result);
     }

@@ -14,8 +14,6 @@ public class UserResponseForm {
     private int sumOfPosts;
     private Country homeland;
 
-    private static Logger log = LoggerFactory.getLogger(UserResponseForm.class);
-
     public int getSumOfPosts() {
         return sumOfPosts;
     }
@@ -59,8 +57,6 @@ public class UserResponseForm {
     public static final Comparator<UserResponseForm> COMPARE_BY_SUM_OF_LIKES = new Comparator<UserResponseForm>() {
         @Override
         public int compare(UserResponseForm lhs, UserResponseForm rhs) {
-            log.info( "Sum of likes 1: {}", lhs.getSumOfLikes());
-            log.info( "Sum of likes 2: {}", rhs.getSumOfLikes());
             if (lhs.getSumOfLikes() == rhs.getSumOfLikes()) {
                 int firstSumOfLikedPosts = lhs.getSumOfPosts();
                 int secondSumOfLikedPosts = rhs.getSumOfPosts();

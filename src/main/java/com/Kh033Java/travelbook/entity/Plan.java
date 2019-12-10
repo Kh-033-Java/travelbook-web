@@ -1,6 +1,7 @@
 package com.Kh033Java.travelbook.entity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
@@ -39,11 +40,14 @@ public class Plan {
     @Relationship(type = "CHOSEN")
     private Transport transport;
 
+    @Relationship(type = "COMPANION", direction = Relationship.INCOMING)
+    private List <User> companions;
+
     public Plan() {
     	
     }
 
-    public Plan(String title, String description, Date date, int budgetMin, int budgetMax, int amountOfPeople, City cityToGo, City cityFrom, Transport transport) {
+    public Plan(String title, String description, Date date, int budgetMin, int budgetMax, int amountOfPeople, City cityToGo, City cityFrom, Transport transport, List<User>companions) {
         this.title = title;
         this.description = description;
         this.date = date;
@@ -53,6 +57,15 @@ public class Plan {
         this.cityToGo = cityToGo;
         this.cityFrom = cityFrom;
         this.transport = transport;
+        this.companions = companions;
+    }
+
+    public List<User> getCompanions() {
+        return companions;
+    }
+
+    public void setCompanions(List<User> companions) {
+        this.companions = companions;
     }
 
     public Long getId() {
