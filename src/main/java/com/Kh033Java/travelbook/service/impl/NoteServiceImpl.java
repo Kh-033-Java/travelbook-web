@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +39,6 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	@Cacheable("nonAuthorizedNotes")
 	public List<NoteDTO> getNotesConnectedToCountryForUnauthorizedUser(String name) {
 		List<NoteDTO> notes = new ArrayList<>();
 		for (Note note : noteRepository.findAllPublicNotesByCountry(name)) {
@@ -53,7 +50,6 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	@Cacheable("authorizedNotes")
 	public Set<NoteDTO> getCountryNotesAndUserPrivateNotes(String countryName, String login) {
 		Set<NoteDTO> allNotes = new HashSet<>();
 		List<Note> countryNotes = noteRepository.findAllPublicNotesByCountry(countryName);
@@ -73,7 +69,6 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	@Cacheable("authorizedNotesByCountry")
 	public List<NoteDTO> getPublicAndPrivateUserNotesConnectedToCountry(String countryName, String login) {
 		List<NoteDTO> allNotes = new ArrayList<>();
 		List<Note> publicNotes = noteRepository.findAllUserPublicNotesByCountry(countryName, login);
