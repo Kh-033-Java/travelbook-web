@@ -37,12 +37,12 @@ public class GeneralInfoController {
 
 	@RequestMapping(value = "/country/{countryName}/description", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getGeneralInfo(@PathVariable String countryName) {
-		CountryGeneralInfoDTO countryGeneralInfoDTO = new CountryGeneralInfoDTO(countryName, null, null, null);
+		CountryGeneralInfoDTO countryGeneralInfoDTO = new CountryGeneralInfoDTO(countryName, null, null);
 		final Description description = descriptionService.getDescriptionByCountryName(countryName);
 		if (description != null) {
 			final WeatherDTO weather = getWeatherInCapital(description);
 			final List<Photo> photos = photoService.findAllCountryPhotos(countryName);
-			countryGeneralInfoDTO = new CountryGeneralInfoDTO(countryName, description, weather, photos);
+			countryGeneralInfoDTO = new CountryGeneralInfoDTO(countryName, description, photos);
 		}
 		return JsonConverter.convertToJson(countryGeneralInfoDTO);
 	}

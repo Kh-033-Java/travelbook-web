@@ -35,5 +35,8 @@ public interface PlanRepository extends Neo4jRepository<Plan, Long> {
     @Query("MATCH (p:Plan)<-[:CREATED_PLAN]-(u:User) WHERE u.login={login} RETURN p")
     List<Plan> getAllUserPlans(@Param("login")String login);
 
-
+    @Query("match (u:User), (p:Plan)\n" +
+            "where u.login = {login} AND id(p)={id}\n" +
+            "create (u)-[:COMPANION]->(p)")
+    void createCompanionRelationship(@Param("id") Long planId,@Param("login") String login);
 }

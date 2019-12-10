@@ -58,15 +58,15 @@ public class User {
     @Relationship(type = "FRIENDS")
     private List<User> following;
 
-    @Relationship(type = "FRIENDS")
+    @Relationship(type = "FRIENDS", direction = Relationship.INCOMING)
     private List<User> followers;
 
     @Relationship(type = "HOMELAND")
     private Country homeland;
-    
+
     @Relationship(type = "SENDED")
     private List<Message> sendedMessages;
-    
+
     @Relationship(type = "RECEIVED")
     private List<Message> receivedMessages;
 
@@ -317,14 +317,12 @@ public class User {
                 Objects.equals(likedNotes, user.likedNotes) &&
                 Objects.equals(createdNotes, user.createdNotes) &&
                 Objects.equals(createdPlans, user.createdPlans) &&
-                Objects.equals(roles, user.roles) &&
-                Objects.equals(following, user.following) &&
-                Objects.equals(followers, user.followers) &&
-                Objects.equals(homeland, user.homeland);
+                roles.equals(user.roles) &&
+                homeland.equals(user.homeland);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, lastName, firstName, email, description, visitedCountries, avatar, likedNotes, createdNotes, createdPlans, roles, homeland, following, followers);
+        return Objects.hash(id, login, password, lastName, firstName, email, description, visitedCountries, avatar, likedNotes, createdNotes, createdPlans, roles, homeland);
     }
 }
